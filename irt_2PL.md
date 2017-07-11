@@ -1,7 +1,6 @@
 ---
 title: IRT 2PL
 author: Wan Nor Arifin
-use_math: true
 ---
 # Introduction to IRT Using R (2PL)
 Wan Nor Arifin  
