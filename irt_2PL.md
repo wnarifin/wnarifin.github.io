@@ -2,7 +2,8 @@
 Wan Nor Arifin  
 January 22, 2017  
 
-
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
 # Introduction
 Our focus is on 2PL model only. The formula is given as:
