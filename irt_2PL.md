@@ -8,6 +8,8 @@ Our focus is on 2PL model only. The formula is given as:
 
 $$P(\theta) = { 1\over{1+e^{-a(\theta-b)}} }$$
 
+\\[ P(\theta) = { 1\over{1+e^{-a(\theta-b)}} } \\]
+
 1PL (Rasch), 3PL & 4PL have to learn on your own.
 
 A short introduction and comparison between item analysis and item response theory analysis is presented in Arifin and Yusoff (2017).
