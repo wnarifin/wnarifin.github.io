@@ -1,17 +1,13 @@
----
-title: IRT 2PL
-author: Wan Nor Arifin
----
 # Introduction to IRT Using R (2PL)
 Wan Nor Arifin  
 January 22, 2017  
+
+
 
 # Introduction
 Our focus is on 2PL model only. The formula is given as:
 
 $$P(\theta) = { 1\over{1+e^{-a(\theta-b)}} }$$
-
-\\[ P(\theta) = { 1\over{1+e^{-a(\theta-b)}} } \\]
 
 1PL (Rasch), 3PL & 4PL have to learn on your own.
 
