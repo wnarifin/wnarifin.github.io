@@ -61,7 +61,11 @@ summary(cfa.model, fit.measures = T, standardized = T)
 # All FLs > 0.5
 # and the factor correlation < 0.85.
 # There is no problem with the item quality and the factors are distinct.
-# 
+
+mi = modificationIndices(cfa.model)
+subset(mi, mi.scaled > 3.84) # since we are using MLR, look at 'mi.scaled'
+sr = residuals(cfa.model, type = "standardized")
+sr
 # 2. Localized areas of misfit
 # Modification indices:
 # Four suggested specifications with MIs > 3.84.
