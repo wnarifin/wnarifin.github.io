@@ -7,23 +7,26 @@
 <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
 <script type="text/javascript">
 function doCalculate() {
-    sd = Number(document.SS1Mean.sd.value);
-    precision = Number(document.SS1Mean.precision.value);
-    alpha = Number(document.SS1Mean.alpha.value);
+    sd = document.SS1Mean.sd.value;
+    precision = document.SS1Mean.precision.value;
+    alpha = document.SS1Mean.alpha.value;
     z = jStat.normal.inv(1 - alpha/2, 0, 1)    
-    drop = Number(document.SS1Mean.drop.value);
+    drop = document.SS1Mean.drop.value;
     n = Math.ceil( Math.pow(z * sd / precision, 2) );
     n_drop = Math.ceil( n / ((100 - drop) / 100) );
     document.SS1Mean.n.value = n;
     document.SS1Mean.n_drop.value = n_drop;
+    document.getElementById("drop_").innerHTML = drop;
     return;
 }
 function doReset() {
     document.SS1Mean.sd.value = "";
     document.SS1Mean.precision.value = "";
-    document.SS1Mean.alpha.value = "";
-    document.SS1Mean.drop.value = "";    
+    document.SS1Mean.alpha.value = "0.05";
+    document.SS1Mean.drop.value = "10";    
     document.SS1Mean.n.value = "";
+    document.SS1Mean.n_drop.value = "";
+    document.getElementById("drop_").innerHTML = 10;
     return;
 }
 </script>
@@ -31,25 +34,24 @@ function doReset() {
 
 <body>
 
-<table width="70%" align="center"><tr><td>
+<div style="margin: auto; width: 70%;">
 
-<h1 align="center"><a href="index.html" class="fa fa-home"></a> &raquo; Sample Size Calculator</h1>
+<h1 align="center"><a href="../index.html" class="fa fa-home"></a> &raquo; <a href="../ssc.html">Sample Size Calculator</a></h1>
 
-<h2>Sample Size Calculator (web version)</h2>
+<h2><a href="../ssc_web.html">Sample Size Calculator (web)</a></h2>
 
-<h3>1 mean - Estimation</h3>
-
-<form name="SS1Mean">
-<table class="calc">
-<tr><td>Standard deviation (&sigma;): </td><td><input name="sd" type="text"></td></tr>
-<tr><td>Precision: </td><td><input name="precision" type="text"></td></tr>
-<tr><td>Significance level (&alpha;): </td><td><input name="alpha" type="text" value="0.05"> (two-tailed)</td></tr>
-<tr><td>Drop-out (in percent): </td><td><input name="drop" type="text" value="10"> %</td></tr>
-<tr><td><input type="button" value="Calculate" onClick="doCalculate()">
-<input type="button" value="Reset" onClick="doReset()"></td><td></td></tr>
-<tr><td>Sample size, n = </td><td><input name="n" value="" type="text" readonly></td></tr>
-<tr><td>Sample size (with drop-out), n<sub>drop</sub> = </td><td><input name="n_drop" value="" type="text" readonly></td></tr>
-</table>
+<form name="SS1Mean" class="calc">
+<fieldset>
+<legend><h3>1 mean - Estimation</h3></legend>
+<label>Standard deviation (&sigma;): </label><input name="sd" type="number"></br />
+<label>Precision: </label><input name="precision" type="number"></br />
+<label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05"> (two-tailed)</br />
+<label>Drop-out (in percent): </label><input name="drop" type="number" value="10" onkeyup="updateDrop()"> %</br />
+<label><input type="button" value="Calculate" onClick="doCalculate()">
+<input type="button" value="Reset" onClick="doReset()"></label></br />
+<label>Sample size, n = </label><input name="n" value="" type="number" readonly></br />
+<label>Sample size (with <span id="drop_">10</span>% drop-out), n<sub>drop</sub> = </label><input name="n_drop" value="" type="number" readonly>
+</fieldset>
 </form>
 
 <h3>Formula reference:</h3>
@@ -62,15 +64,14 @@ function doReset() {
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Sample Size Calculator by Wan Nor Arifin is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 <p align="center"><code>&copy; Wan Nor Arifin 2017-<script language="JavaScript" type="text/javascript">
-    now = new Date
-    theYear=now.getYear()
-    if (theYear < 1900)
-    theYear=theYear+1900
-    document.write(theYear)
+    now = new Date;
+    year = now.getYear();
+    if (year < 1900) {year = year + 1900}
+    document.write(year);
 </script>
 </code></p>
 
-</td></tr></table>
+</div>
 
 </body>
 

@@ -7,10 +7,16 @@ TEXT-DECORATION: none;
 }
 
 A:hover {
-//BACKGROUND-COLOR: blue;
 TEXT-DECORATION: underline;
 }
 
-.calc TD {
-    PADDING-BOTTOM: 10px;
+.calc FIELDSET {
+DISPLAY: inline-block;
+width: 95%;
+}
+
+.calc LABEL {
+DISPLAY: inline-block;
+PADDING-BOTTOM: 10px;
+width: 50%;
 }
