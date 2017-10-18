@@ -40,14 +40,16 @@ function doReset() {
 <h3>1 mean - Estimation</h3>
 
 <form name="SS1Mean">
-<p>Standard deviation (&sigma;): <input name="sd" type="text"></p>
-<p>Precision: <input name="precision" type="text"></p>
-<p>Significance level (&alpha;): <input name="alpha" type="text" value="0.05"> (two-tailed)</p>
-<p>Drop-out (in percent): <input name="drop" type="text" value="10"> %</p>
-<input type="button" value="Calculate" onClick="doCalculate()">
-<input type="button" value="Reset" onClick="doReset()">
-<p>Sample size, n = <input name="n" value="" type="text" readonly></p>
-<p>Sample size (with drop-out), n<sub>drop</sub> = <input name="n_drop" value="" type="text" readonly></p>
+<table class="calc">
+<tr><td>Standard deviation (&sigma;): </td><td><input name="sd" type="text"></td></tr>
+<tr><td>Precision: </td><td><input name="precision" type="text"></td></tr>
+<tr><td>Significance level (&alpha;): </td><td><input name="alpha" type="text" value="0.05"> (two-tailed)</td></tr>
+<tr><td>Drop-out (in percent): </td><td><input name="drop" type="text" value="10"> %</td></tr>
+<tr><td><input type="button" value="Calculate" onClick="doCalculate()">
+<input type="button" value="Reset" onClick="doReset()"></td><td></td></tr>
+<tr><td>Sample size, n = </td><td><input name="n" value="" type="text" readonly></td></tr>
+<tr><td>Sample size (with drop-out), n<sub>drop</sub> = </td><td><input name="n_drop" value="" type="text" readonly></td></tr>
+</table>
 </form>
 
 <h3>Formula reference:</h3>

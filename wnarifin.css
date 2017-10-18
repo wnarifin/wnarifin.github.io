@@ -10,3 +10,7 @@ A:hover {
 //BACKGROUND-COLOR: blue;
 TEXT-DECORATION: underline;
 }
+
+.calc TD {
+    PADDING-BOTTOM: 10px;
+}
