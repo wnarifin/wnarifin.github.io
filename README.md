@@ -1,1 +1,1 @@
-wnarifin.github.io will host statistical analysis in R, simplified.
+wnarifin.github.io hosts my lectures, files and R codes.
