@@ -9,7 +9,7 @@
 
 <body>
 
-<table width="70%" align="center"><tr><td>
+<div style="margin: auto; width: 70%;">
 
 <h1 align="center"><a href="index.html" class="fa fa-home"></a> &raquo; Statistical analysis in R, simplified</h1>
 <p>On this page, I share codes for a number of analyses that I am familiar with. In R, there are many ways to come up with the same results. However, my approach here is to share only the simplest codes that make sense.</p>
@@ -23,15 +23,14 @@
 You can also view some more codes [ <a href="https://github.com/wnarifin/medicalstats_in_R">here</a> ] (that I haven't turned into HTML format).
 
 <p align="center"><code>&copy; Wan Nor Arifin 2017-<script language="JavaScript" type="text/javascript">
-    now = new Date
-    theYear=now.getYear()
-    if (theYear < 1900)
-    theYear=theYear+1900
-    document.write(theYear)
+    now = new Date;
+    year = now.getYear();
+    if (year < 1900) {year = year + 1900};
+    document.write(year);
 </script>
 </code></p>
 
-</td></tr></table>
+</div>
 
 </body>
 
