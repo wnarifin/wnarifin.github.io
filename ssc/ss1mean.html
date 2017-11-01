@@ -9,8 +9,8 @@
 function doCalculate() {
     sd = document.SS1Mean.sd.value;
     precision = document.SS1Mean.precision.value;
-    alpha = document.SS1Mean.alpha.value;
-    z = jStat.normal.inv(1 - alpha/2, 0, 1)    
+    ci = document.SS1Mean.ci.value/100;
+    z = jStat.normal.inv(ci + (1 - ci)/2, 0, 1)    
     drop = document.SS1Mean.drop.value;
     n = Math.ceil( Math.pow(z * sd / precision, 2) );
     n_drop = Math.ceil( n / ((100 - drop) / 100) );
@@ -43,10 +43,10 @@ function doReset() {
 <form name="SS1Mean" class="calc">
 <fieldset>
 <legend><h3>1 mean - Estimation</h3></legend>
-<label>Standard deviation (&sigma;): </label><input name="sd" type="number"></br />
-<label>Precision: </label><input name="precision" type="number"></br />
-<label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05"> (two-tailed)</br />
-<label>Drop-out (in percent): </label><input name="drop" type="number" value="10" onkeyup="updateDrop()"> %</br />
+<label>Standard deviation (&sigma;): </label><input name="sd" type="number" min="0"></br />
+<label>Precision: </label><input name="precision" type="number" min="0"></br />
+<label>Confidence level 100(1 - &alpha;): </label><input name="ci" type="number" value="95" min="0" max="100"> %</br />
+<label>Expected drop-out rate: </label><input name="drop" type="number" value="10" min="0" max="100" onkeyup="updateDrop()"> %</br />
 <label><input type="button" value="Calculate" onClick="doCalculate()">
 <input type="button" value="Reset" onClick="doReset()"></label></br />
 <label>Sample size, n = </label><input name="n" value="" type="number" readonly></br />
