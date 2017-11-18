@@ -5,31 +5,7 @@
 <style type="text/css">@import url("../wnarifin.css");</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
-<script type="text/javascript">
-function doCalculate() {
-    sd = document.SS1Mean.sd.value;
-    precision = document.SS1Mean.precision.value;
-    ci = document.SS1Mean.ci.value/100;
-    z = jStat.normal.inv(ci + (1 - ci)/2, 0, 1)    
-    drop = document.SS1Mean.drop.value;
-    n = Math.ceil( Math.pow(z * sd / precision, 2) );
-    n_drop = Math.ceil( n / ((100 - drop) / 100) );
-    document.SS1Mean.n.value = n;
-    document.SS1Mean.n_drop.value = n_drop;
-    document.getElementById("drop_").innerHTML = drop;
-    return;
-}
-function doReset() {
-    document.SS1Mean.sd.value = "";
-    document.SS1Mean.precision.value = "";
-    document.SS1Mean.alpha.value = "0.05";
-    document.SS1Mean.drop.value = "10";    
-    document.SS1Mean.n.value = "";
-    document.SS1Mean.n_drop.value = "";
-    document.getElementById("drop_").innerHTML = 10;
-    return;
-}
-</script>
+<script type="text/javascript" src="ss1mean.js"></script>
 </head>
 
 <body>
@@ -43,12 +19,15 @@ function doReset() {
 <form name="SS1Mean" class="calc">
 <fieldset>
 <legend><h3>1 mean - Estimation</h3></legend>
+<!-- inputs -->
 <label>Standard deviation (&sigma;): </label><input name="sd" type="number" min="0"></br />
 <label>Precision: </label><input name="precision" type="number" min="0"></br />
 <label>Confidence level 100(1 - &alpha;): </label><input name="ci" type="number" value="95" min="0" max="100"> %</br />
-<label>Expected drop-out rate: </label><input name="drop" type="number" value="10" min="0" max="100" onkeyup="updateDrop()"> %</br />
+<label>Expected drop-out rate: </label><input name="drop" type="number" value="10" min="0" max="100"> %</br />
+<!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate()">
 <input type="button" value="Reset" onClick="doReset()"></label></br />
+<!-- results -->
 <label>Sample size, n = </label><input name="n" value="" type="number" readonly></br />
 <label>Sample size (with <span id="drop_">10</span>% drop-out), n<sub>drop</sub> = </label><input name="n_drop" value="" type="number" readonly>
 </fieldset>
@@ -58,17 +37,12 @@ function doReset() {
 <p>Naing, N. N. (2003). Determination of Sample Size. The Malaysian Journal of Medical Sciences: MJMS, 10(2), 84-86.</p>
 
 <h3>Suggested reference:</h3>
-<p>APA: Arifin, W. N. (2017). Sample size calculator (web version) [Javascript]. Available from http://wnarifin.github.io</p>
-<p>Vancouver: Arifin WN. Sample size calculator (web version) [Javascript]. Author: 2017. Available from http://wnarifin.github.io</p>
+<p>APA: Arifin, W. N. (2017). Sample size calculator (web). Retrieved from http://wnarifin.github.io</p>
+<p>Vancouver: Arifin WN. Sample size calculator (web) [Internet]. 2017 [cited <script type="text/javascript" src="../date_now.js"></script>]. Available from: http://wnarifin.github.io</p>
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Sample Size Calculator by Wan Nor Arifin is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
-<p align="center"><code>&copy; Wan Nor Arifin 2017-<script language="JavaScript" type="text/javascript">
-    now = new Date;
-    year = now.getYear();
-    if (year < 1900) {year = year + 1900}
-    document.write(year);
-</script>
+<p align="center"><code>&copy; Wan Nor Arifin 2017-<script type="text/javascript" src="../year_now.js"></script>
 </code></p>
 
 </div>
