@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>wnarifin.github.io > Sample size calculator</title>
+<style type="text/css">@import url("../wnarifin.css");</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script type="text/javascript" src="sscorr.js"></script>
+</head>
+
+<body>
+
+<div style="margin: auto; width: 70%;">
+
+<h1 align="center"><a href="../index.html" class="fa fa-home"></a> &raquo; <a href="../ssc.html">Sample Size Calculator</a></h1>
+
+<h2><a href="../ssc_web.html">Sample Size Calculator (web)</a></h2>
+
+<form name="SSCorr_Hx" class="calc">
+<fieldset>
+<legend><h3>Correlation - Hypothesis Testing</h3></legend>
+<!-- inputs -->
+<label>Expected correlation (<i>r</i>): </label><input name="corr" type="number" value="0.3" min="0.000" max="1.000"><br />
+<label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05" min="0.001" max="1"> Two-tailed<br />
+<label>Power (1 - &beta;): </label><input name="power" type="number" value="80" min="0" max="100"> %<br />
+<label>Expected drop-out rate: </label><input name="drop" type="number" value="10" min="0" max="100"> %</br />
+<!-- buttons -->
+<label><input type="button" value="Calculate" onClick="doCalculate_hx()">
+<input type="button" value="Reset" onClick="doReset_hx()"></label></br />
+<!-- results -->
+<label>Sample size, n = </label><input name="n" value="" type="number" readonly></br />
+<label>Sample size (with <span id="drop_hx_">10</span>% drop-out), n<sub>drop</sub> = </label><input name="n_drop" value="" type="number" readonly>
+</fieldset>
+</form>
+
+<form name="SSCorr_Est" class="calc">
+<fieldset>
+<legend><h3>Correlation - Estimation</h3></legend>
+<!-- inputs -->
+<label>Expected correlation (<i>r</i>: </label><input name="corr" type="number" value="0.3" min="0" max="1"><br />
+<label>Precision (&plusmn; expected): </label><input name="precision" type="number" min="0" max="1"><br />
+<label>Confidence level 100(1 - &alpha;): </label><input name="ci" type="number" value="95" min="0" max="100"> %</br />
+<label>Expected drop-out rate: </label><input name="drop" type="number" value="10" min="0" max="100"> %</br />
+<!-- buttons -->
+<label><input type="button" value="Calculate" onClick="doCalculate_est()">
+<input type="button" value="Reset" onClick="doReset_est()"></label></br />
+<!-- results -->
+<label>Sample size, n = </label><input name="n" value="" type="number" readonly></br />
+<label>Sample size (with <span id="drop_est_">10</span>% drop-out), n<sub>drop</sub> = </label><input name="n_drop" value="" type="number" readonly>
+</fieldset>
+</form>
+
+<h3>Formula reference:</h3>
+<p>Machin, D., Campbell, M. J., Tan, S. B, Tan, S. H. (2009). Sample size tables for clinical studies (3rd eds.). West Sussex, UK: John Wiley & Sons Ltd.</p>
+
+<h3>Suggested reference:</h3>
+<p>APA: Arifin, W. N. (2017). Sample size calculator (web). Retrieved from http://wnarifin.github.io</p>
+<p>Vancouver: Arifin WN. Sample size calculator (web) [Internet]. 2017 [cited <script type="text/javascript" src="../date_now.js"></script>]. Available from: http://wnarifin.github.io</p>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Sample Size Calculator by Wan Nor Arifin is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+<p align="center"><code>&copy; Wan Nor Arifin 2017-<script type="text/javascript" src="../year_now.js"></script>
+</code></p>
+
+</div>
+
+</body>
+
+</html>

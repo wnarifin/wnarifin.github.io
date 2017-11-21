@@ -1,0 +1,39 @@
+---
+title: "Report"
+author: "Wan Nor Arifin"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Using libraries to create nice tables
+```{r}
+library(stargazer)
+library(psych)
+library(epiDisplay)
+library(knitr)
+```
+
+## kable
+```{r, results='asis'}
+kable(mtcars)
+kable(iris[1:24,])
+```
+
+## stargazer
+```{r, results='asis', echo=FALSE}
+stargazer(attitude)
+```
+
+```{r, results='asis', echo=FALSE}
+linear = lm(weight ~ feed, data = chickwts)
+stargazer(linear, title="Results")
+```
+
+## psych
+```{r, results='asis', echo=FALSE}
+fa = fa(Thurstone, nfactors = 3)
+fa2latex(fa, heading="Factor analysis from R in quasi APA style")
+```
