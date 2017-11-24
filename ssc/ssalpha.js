@@ -22,18 +22,6 @@ function doCalculate_hx() {
     document.getElementById("drop_hx_").innerHTML = drop_hx;
     return;
 }
-function doReset_hx() {
-    document.SSAlpha_Hx.cronbach0_hx.value = "0.7";
-    document.SSAlpha_Hx.cronbach1_hx.value = "";
-    document.SSAlpha_Hx.alpha_hx.value = "0.05";
-    document.SSAlpha_Hx.power_hx.value = "80";
-    document.SSAlpha_Hx.item_hx.value = "";
-    document.SSAlpha_Hx.drop_hx.value = "10";
-    document.SSAlpha_Hx.n_hx.value = "";
-    document.SSAlpha_Hx.n_drop_hx.value = "";
-    document.getElementById("drop_hx_").innerHTML = 10;
-    return;
-}
 
 // SSAlpha_Est
 function doCalculate_est() {
@@ -57,16 +45,5 @@ function doCalculate_est() {
     document.SSAlpha_Est.n_est.value = n_est;
     document.SSAlpha_Est.n_drop_est.value = n_drop_est;
     document.getElementById("drop_est_").innerHTML = drop_est;
-    return;
-}
-function doReset_est() {
-    document.SSAlpha_Est.cronbach_est.value = "";
-    document.SSAlpha_Est.precision_est.value = "";
-    document.SSAlpha_Est.ci_est.value = "95";
-    document.SSAlpha_Hx.item_hx.value = "";
-    document.SSAlpha_Hx.drop_hx.value = "10";
-    document.SSAlpha_Hx.n_hx.value = "";
-    document.SSAlpha_Hx.n_drop_hx.value = "";
-    document.getElementById("drop_est_").innerHTML = 10;
     return;
 }

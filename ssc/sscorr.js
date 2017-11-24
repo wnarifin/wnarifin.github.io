@@ -22,16 +22,6 @@ function doCalculate_hx() {
     document.getElementById("drop_hx_").innerHTML = drop;
     return;
 }
-function doReset_hx() {
-    document.SSCorr_Hx.corr.value = "0.3";
-    document.SSCorr_Hx.alpha.value = "0.05";
-    document.SSCorr_Hx.power.value = "80";
-    document.SSCorr_Hx.drop.value = "10";
-    document.SSCorr_Hx.n.value = "";
-    document.SSCorr_Hx.n_drop.value = "";
-    document.getElementById("drop_hx_").innerHTML = 10;
-    return;
-}
 // SSCorr_Est
 function doCalculate_est() {
     // inputs
@@ -47,15 +37,5 @@ function doCalculate_est() {
     document.SSCorr_Est.n.value = n;
     document.SSCorr_Est.n_drop.value = n_drop;
     document.getElementById("drop_est_").innerHTML = drop;
-    return;
-}
-function doReset_est() {
-    document.SSCorr_Est.corr.value = "0.3";
-    document.SSCorr_Est.precision.value = "";
-    document.SSCorr_Est.ci.value = "95";
-    document.SSCorr_Est.drop.value = "10";
-    document.SSCorr_Est.n.value = "";
-    document.SSCorr_Est.n_drop.value = "";
-    document.getElementById("drop_est_").innerHTML = 10;
     return;
 }

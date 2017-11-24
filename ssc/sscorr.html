@@ -20,13 +20,13 @@
 <fieldset>
 <legend><h3>Correlation - Hypothesis Testing</h3></legend>
 <!-- inputs -->
-<label>Expected correlation (<i>r</i>): </label><input name="corr" type="number" value="0.3" min="0.000" max="1.000"><br />
-<label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05" min="0.001" max="1"> Two-tailed<br />
-<label>Power (1 - &beta;): </label><input name="power" type="number" value="80" min="0" max="100"> %<br />
-<label>Expected drop-out rate: </label><input name="drop" type="number" value="10" min="0" max="100"> %</br />
+<label>Expected correlation (<i>r</i>): </label><input name="corr" type="number" value="0.3" min="0" max="1" step="0.05"><br />
+<label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05" min="0" max="1" step="0.01"> Two-tailed<br />
+<label>Power (1 - &beta;): </label><input name="power" type="number" value="80" min="0" max="100" step="5"> %<br />
+<label>Expected drop-out rate: </label><input name="drop" type="number" value="10" min="0" max="100" step="5"> %</br />
 <!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate_hx()">
-<input type="button" value="Reset" onClick="doReset_hx()"></label></br />
+<input type="reset"></label></br />
 <!-- results -->
 <label>Sample size, n = </label><input name="n" value="" type="number" readonly></br />
 <label>Sample size (with <span id="drop_hx_">10</span>% drop-out), n<sub>drop</sub> = </label><input name="n_drop" value="" type="number" readonly>
@@ -37,13 +37,13 @@
 <fieldset>
 <legend><h3>Correlation - Estimation</h3></legend>
 <!-- inputs -->
-<label>Expected correlation (<i>r</i>: </label><input name="corr" type="number" value="0.3" min="0" max="1"><br />
-<label>Precision (&plusmn; expected): </label><input name="precision" type="number" min="0" max="1"><br />
-<label>Confidence level 100(1 - &alpha;): </label><input name="ci" type="number" value="95" min="0" max="100"> %</br />
-<label>Expected drop-out rate: </label><input name="drop" type="number" value="10" min="0" max="100"> %</br />
+<label>Expected correlation (<i>r</i>): </label><input name="corr" type="number" value="0.3" min="0" max="1" step="0.05"><br />
+<label>Precision (&plusmn; expected): </label><input name="precision" type="number" min="0" max="1" step="0.05"><br />
+<label>Confidence level 100(1 - &alpha;): </label><input name="ci" type="number" value="95" min="0" max="100" step="1"> %</br />
+<label>Expected drop-out rate: </label><input name="drop" type="number" value="10" min="0" max="100" step="5"> %</br />
 <!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate_est()">
-<input type="button" value="Reset" onClick="doReset_est()"></label></br />
+<input type="reset"></label></br />
 <!-- results -->
 <label>Sample size, n = </label><input name="n" value="" type="number" readonly></br />
 <label>Sample size (with <span id="drop_est_">10</span>% drop-out), n<sub>drop</sub> = </label><input name="n_drop" value="" type="number" readonly>
