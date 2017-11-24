@@ -1,27 +1,36 @@
 H1, H2, H3, H4 {
-FONT-FAMILY: Trebuchet MS, Helvetica, Arial;
+font-family: Trebuchet MS, Helvetica, Arial;
 }
 
 A:link, A:visited, A:active {
-TEXT-DECORATION: none;
+text-decoration: none;
 }
 
 A:hover {
-TEXT-DECORATION: underline;
+text-decoration: underline;
 }
 
 .calc FIELDSET {
-DISPLAY: inline-block;
+display: inline-block;
 width: 95%;
 }
 
 .calc LABEL {
-DISPLAY: inline-block;
-PADDING-BOTTOM: 10px;
+display: inline-block;
+padding-bottom: 10px;
 width: 50%;
 }
 
-input{
-  min-width: 150px;
-  margin: 0 0 10px;
+.calc INPUT {
+text-align: right;
+min-width: 150px;
+margin: 0 0 10px;
+}
+
+.calc INPUT[type="button"] {
+text-align: center;
+}
+
+.calc INPUT[type="reset"] {
+text-align: center;
 }
