@@ -20,3 +20,8 @@ DISPLAY: inline-block;
 PADDING-BOTTOM: 10px;
 width: 50%;
 }
+
+input{
+  min-width: 150px;
+  margin: 0 0 10px;
+}
