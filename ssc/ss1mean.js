@@ -13,13 +13,3 @@ function doCalculate() {
     document.getElementById("drop_").innerHTML = drop;
     return;
 }
-function doReset() {
-    document.SS1Mean.sd.value = "";
-    document.SS1Mean.precision.value = "";
-    document.SS1Mean.alpha.value = "0.05";
-    document.SS1Mean.drop.value = "10";    
-    document.SS1Mean.n.value = "";
-    document.SS1Mean.n_drop.value = "";
-    document.getElementById("drop_").innerHTML = 10;
-    return;
-}
