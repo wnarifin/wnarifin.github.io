@@ -12,9 +12,9 @@ function doCalculate_hx() {
     z_alpha = jStat.normal.inv(1 - alpha/2, 0, 1);
     z_beta = jStat.normal.inv(power, 0, 1);
     u_corr_zero = 0.5 * Math.log((1+corr)/(1-corr));
-    n_zero = Math.ceil( Math.pow(z_alpha + z_beta, 2)/Math.pow(u_corr_zero, 2) + 3);
-    u_corr = 0.5 * Math.log((1+corr)/(1-corr)) + corr/(2*(n_zero-1));
-    n = Math.ceil( Math.pow(z_alpha + z_beta, 2)/Math.pow(u_corr, 2) + 3);
+    n_zero = Math.ceil( Math.pow(z_alpha + z_beta, 2)/Math.pow(u_corr_zero, 2) + 3 );
+    u_corr = 0.5 * Math.log( (1+corr)/(1-corr)) + corr/(2*(n_zero-1) );
+    n = Math.ceil( Math.pow(z_alpha + z_beta, 2)/Math.pow(u_corr, 2) + 3 );
     n_drop = Math.ceil( n / ((100 - drop) / 100) );
     //results
     document.SSCorr_Hx.n.value = n;
