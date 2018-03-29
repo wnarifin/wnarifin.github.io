@@ -31,8 +31,8 @@ function doCalculate_est() {
     drop = document.SSCorr_Est.drop.value;
     //calculate
     z = jStat.normal.inv(ci + (1 - ci)/2, 0, 1)
-    n = ((z**2)*(1-corr**2)**2)/(precision**2) + 1 + 6*corr**2; // unfinished
-    n_drop = Math.ceil( n / ((100 - drop) / 100) );  // unfinished
+    n = Math.ceil( ((z**2)*(1-corr**2)**2)/(precision**2) + 1 + 6*corr**2 );
+    n_drop = Math.ceil( n / ((100 - drop) / 100) );
     //results
     document.SSCorr_Est.n.value = n;
     document.SSCorr_Est.n_drop.value = n_drop;
