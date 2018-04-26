@@ -14,7 +14,7 @@ function doCalculate_hx() {
     z_alpha = jStat.normal.inv(1 - alpha_hx/2, 0, 1);
     z_beta = jStat.normal.inv(power_hx, 0, 1);
     delta = (1-cronbach0_hx)/(1-cronbach1_hx);
-    n_hx = Math.ceil( (( 2*item_hx/(item_hx-1) ) * (z_alpha+z_beta2)**2) / (Math.log(delta)**2) + 2 );
+    n_hx = Math.ceil( (( 2*item_hx/(item_hx-1) ) * (z_alpha+z_beta)**2) / (Math.log(delta)**2) + 2 );
     n_drop_hx = Math.ceil( n_hx / ((100 - drop_hx) / 100) );
     //results
     document.SSAlpha_Hx.n_hx.value = n_hx;
