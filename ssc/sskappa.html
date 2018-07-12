@@ -20,7 +20,8 @@
 <fieldset>
 <legend><h3>Kappa (2 raters) - Hypothesis Testing</h3></legend>
 <!-- inputs -->
-<label>Minimum acceptable kappa (&kappa;<sub>0</sub>): </label><input name="k0" type="number" value="" min="0" max="1" step="0.05"><br />
+<label>Minimum acceptable kappa (&kappa;<sub>0</sub>): </label><input name="k0" type="number" value="0.6" min="0" max="1" step="0.05"><br />
+<!--default minimum acceptable value = 0.6, subtantial (Landis & Koch, 1977)-->
 <label>Expected kappa (&kappa;<sub>1</sub>): </label><input name="k1" type="number" value="" min="0" max="1" step="0.05"><br />
 <label>Proportion of outcome (p) being rated, e.g. p of heart disease in population: </label><input name="p" type="number" value="0.5" min="0" max="1" step="0.05"><br />
 <label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05" min="0" max="1" step="0.01"> Two-tailed<br />
