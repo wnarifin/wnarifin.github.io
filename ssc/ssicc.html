@@ -25,7 +25,7 @@
 <label>Expected reliability (ICC) (&rho;<sub>1</sub>): </label><input name="icc1" type="number" value="" min="0" max="1" step="0.05"><br />
 <label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05" min="0" max="1" step="0.01"> Two-tailed<br />
 <label>Power (1 - &beta;): </label><input name="power" type="number" value="80" min="0" max="100" step="5"> %<br />
-<label>Number of raters/repetitions per subject (n): </label><input name="rater" type="number" value="2" min="2" step="1"><br />
+<label>Number of raters/repetitions per subject (k): </label><input name="rater" type="number" value="2" min="2" step="1"><br />
 <label>Expected dropout rate: </label><input name="drop" type="number" value="10" min="0" max="100" step="5"> %</br />
 <!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate_hx()">
@@ -43,7 +43,7 @@
 <label>Expected reliability (ICC) (&rho;): </label><input name="icc" type="number" value="" min="0" max="1" step="0.05"><br />
 <label>Precision (&plusmn; expected): </label><input name="precision" type="number" min="0" max="1" step="0.05"><br />
 <label>Confidence level 100(1 - &alpha;): </label><input name="ci" type="number" value="95" min="0" max="100" step="1"> %</br />
-<label>Number of raters/repetitions per subject: </label><input name="rater" type="number" value="2" min="2" step="1"><br />
+<label>Number of raters/repetitions per subject (k): </label><input name="rater" type="number" value="2" min="2" step="1"><br />
 <label>Expected dropout rate: </label><input name="drop" type="number" value="10" min="0" max="100" step="5"> %</br />
 <!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate_est()">
