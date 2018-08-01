@@ -62,8 +62,12 @@ boxplot(cholest$chol ~ cholest$categ)
 barplot(df_sex_categ$Percent)
 barplot(df_sex_categ$Percent, horiz = T)
 
-plot(cholest$chol ~ cholest$age)
-abline(line(cholest$chol ~ cholest$age))
+plot(chol ~ age, data = cholest)
+plot(chol ~ age, col = sex, data = cholest)
+with(abline(line(chol ~ age)), data = cholest)  # we use `with()` here.
+# `with()` allows us to use function without `data =` argument, and it is easier
+# to write the variable names rather than specifying with `$` sign from the 
+# data frame object.
 
 # ggplot2
 # install ggplot2 then use `library(ggplot2)`
