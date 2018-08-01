@@ -63,7 +63,7 @@ barplot(df_sex_categ$Percent)
 barplot(df_sex_categ$Percent, horiz = T)
 
 plot(chol ~ age, data = cholest)
-plot(chol ~ age, col = sex, data = cholest)
+plot(chol ~ age, col = sex, data = cholest)  # auto color by `sex`
 with(abline(line(chol ~ age)), data = cholest)  # we use `with()` here.
 # `with()` allows us to use function without `data =` argument, and it is easier
 # to write the variable names rather than specifying with `$` sign from the 
