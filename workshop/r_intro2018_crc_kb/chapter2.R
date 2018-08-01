@@ -63,7 +63,7 @@ data[10:20, c(2, 5)]
 data[c(1:10, 20:30), c("age", "categ")]
 
 subset(data, age > 35, c(age, categ))
-# > < <= >= ==
+# > < <= >= == !=
 # & |
 subset(data, age >= 35 & categ == "Grp C", c(age, categ))
 subset(data, chol > 8.5 & age >= 40

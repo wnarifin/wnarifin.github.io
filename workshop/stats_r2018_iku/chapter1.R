@@ -91,3 +91,12 @@ margin_sex_categ
 
 addmargins(prop_sex_categ)
 addmargins(per_sex_categ)
+
+# extra, by "sex
+tbl = by(cholest$categ, cholest$sex, table)
+addmargins(tbl$male)
+addmargins(tbl$female)
+prop.table(tbl$male)*100
+prop.table(tbl$female)*100
+addmargins(prop.table(tbl$male)*100)
+addmargins(prop.table(tbl$female)*100)
