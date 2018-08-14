@@ -107,7 +107,8 @@ coef(mlg_cad1)
 summary(update(mlg_cad1, . ~ . + sbp))
 coef(update(mlg_cad1, . ~ . + sbp))
 coef(mlg_cad1)
-100 * (coef(mlg_cad1) - coef(update(mlg_cad1, . ~ . + sbp))[1:3]) / coef(update(mlg_cad1, . ~ . + sbp))[1:3]
+100 * (coef(mlg_cad1) - coef(update(mlg_cad1, . ~ . + sbp))[1:3]) / 
+  coef(update(mlg_cad1, . ~ . + sbp))[1:3]
 # > 20% change in dbp, possible confounder!
 # cause insig. p-values for both.
 # why?
@@ -209,7 +210,3 @@ new_data
 new_data$pred_cad = cut(new_data$prob_cad, breaks = c(-Inf, 0.5, Inf),
                         labels = c("no cad", "cad"))
 new_data
-
-# Exercise ==============================================#
-# use "coronary_large.sav" dataset and repeat the analysis
-# =======================================================#

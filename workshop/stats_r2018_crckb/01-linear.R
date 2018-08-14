@@ -9,61 +9,27 @@ library(rsq)
 library(MASS)
 library(car)
 
-# data prelim
-"
-coronary = read.spss('slog.sav', T, T)
-str(coronary)
-codebook(coronary)
-"
-
-# edit data
-"
-multi.hist(coronary[3:7])
-plot(chol ~ age, data = coronary)
-table(coronary$bmi)
-
-subset(coronary, bmi < 30, bmi)
-coronary[coronary$bmi < 30, 'bmi'] = rnorm(13, 36.8, 3.8)
-hist(coronary$bmi)
-coronary_ed = coronary
-
-coronary = coronary_ed
-hist(coronary$age)
-table(coronary$age < 45)
-sel_age = sample(which(coronary$age < 45), 50)
-coronary[sel_age, 'age'] = coronary[sel_age, 'age'] + sample(3:7, 1)
-hist(coronary$age)
-coronary_ed2 = coronary
-write.dta(coronary, 'coronary.dta')
-str(read.dta('coronary.dta'))
-"
-"
-hist(coronary$sbp)
-table(coronary$sbp)
-lm_coronary = lm(sbp ~ dbp, data = coronary)
-summary(lm_coronary)
-sbp_new = round(predict(lm_coronary, list(dbp = coronary[coronary$sbp > 170, 'dbp'])))
-coronary[coronary$sbp > 170, 'sbp'] = sbp_new
-hist(coronary$sbp)
-write.dta(coronary, 'coronary.dta')
-"
-
 # data
 coronary = read.dta("coronary.dta")
 str(coronary)
 
-# slr, chol ~ dbp
+# explore
 summ(coronary[c("chol", "dbp")])
 multi.hist(coronary[c("chol", "dbp")])
 par(mfrow = c(1, 2))
 mapply(boxplot, coronary[c("chol", "dbp")], 
        main = colnames(coronary[c("chol", "dbp")]))
 par(mfrow = c(1, 1))
+
+# slr, chol ~ dbp
 slr_chol = glm(chol ~ dbp, data = coronary)
 summary(slr_chol)
 Confint(slr_chol)  # 95% CI
 rsq(slr_chol, adj = T)
 plot(chol ~ dbp, data = coronary)
+abline(slr_chol)
+plot(chol ~ dbp, data = coronary,
+     xlim = c(0, 130), ylim = c(0, 10))
 abline(slr_chol)
 
 # mlr, chol ~ sbp + dbp + race + gender
