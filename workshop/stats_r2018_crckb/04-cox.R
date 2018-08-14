@@ -137,6 +137,16 @@ legend(5, 0.5, c("0", "1", "2"), lty = 1:3)
 
 # proportionate? so-so
 
+# Additional plot: Cumulative hazard, H(t) plot
+# sex
+plot(sur_lca_sex, fun = "cumhaz", xlab = "Time (days)", 
+     ylab = "Cumulative hazard", lty = 1:2)
+legend(5, 3.0, c("male", "female"), lty = 1:2)
+# ph.ecog
+plot(sur_lca_ph.ecog, fun = "cumhaz", xlab = "Time (days)", 
+     ylab = "Cumulative hazard", lty = 1:3)
+legend(5, 2.5, c("0", "1", "2"), lty = 1:3)
+
 # Interpretation
 # final model
 cox_lca_final = cox_lca1
@@ -153,24 +163,6 @@ log_hr1 = -0.51 * 1 + 0.32 * 0 + 0.94 * 1; log_hr1  # for sexfemale=1, ph.ecog=2
 exp(log_hr1)  # HR1 = 1.54
 
 # prediction
-head(data.frame(lca[c("sex", "ph.ecog", "time")], lp = predict(cox_lca_final, type = "lp")))
-head(data.frame(lca[c("sex", "ph.ecog", "time")], risk = predict(cox_lca_final, type = "risk")))
-# lp = linear predictor
-# risk = exp(lp)
-lca = data.frame(lca, lp = predict(cox_lca_final, type = "lp"),
-                 risk = predict(cox_lca_final, type = "risk"))
-# not the same as equation above, possibly h(t) not h(t)/h0(t)/HR
-# simple, sex = "female", ph.ecog = "2"
-predict(cox_lca_final, list(sex = "female", ph.ecog = "2"), type = "risk")  # h(t)
-predict(cox_lca_final, list(sex = "male", ph.ecog = "0"), type = "risk")  # h0(t)
-1.283438/0.8355948 # = 1.535957, confirmed h(t) = lp
-# obtain the "real" loghr and hr
-head(lca)
-lca$loghr = lca$lp - predict(cox_lca_final, list(sex = "male", ph.ecog = "0"), type = "lp")
-lca$hr = exp(lca$loghr)
-head(lca[c("sex", "ph.ecog", "time", "status", "hr")], 20)
-# mysteries solved...
-
 # HR & hazard
 # We start by adding predicted hazard to our sample,
 lca$hazard = predict(cox_lca_final, type = "risk")
@@ -201,6 +193,17 @@ new_data
 new_hazard = hazard = predict(cox_lca_final, new_data, type = "risk")
 new_hr = new_hazard/h0_t
 data.frame(new_data, hazard = round(new_hazard, 3), hr = round(new_hr, 3))
+# by formula
+new_data$sex1 = 0
+new_data$ph.ecog1 = 0
+new_data$ph.ecog2 = 0
+new_data[new_data$sex == "female", "sex1"] = 1
+new_data[new_data$ph.ecog == 1, "ph.ecog1"] = 1
+new_data[new_data$ph.ecog == 2, "ph.ecog2"] = 1
+new_data
+betas = coef(cox_lca_final)
+hr = exp(betas[1]*new_data$sex1 + betas[2]*new_data$ph.ecog1 + betas[3]*new_data$ph.ecog2)
+data.frame(new_data, hr = hr)
 
 # Median survival times and survival probabilities
 # http://www.drizopoulos.com/courses/emc/ep03_%20survival%20analysis%20in%20r%20companion
