@@ -34,3 +34,8 @@ text-align: center;
 .calc INPUT[type="reset"] {
 text-align: center;
 }
+
+.calc INPUT[type="radio"] {
+text-align: left;
+min-width: 35px;
+}

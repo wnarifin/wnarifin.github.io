@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>wnarifin.github.io > Sample size calculator</title>
+<style type="text/css">@import url("../wnarifin.css");</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script type="text/javascript" src="ssanimal.js"></script>
+</head>
+
+<body>
+
+<div style="margin: auto; width: 70%;">
+
+<h1 align="center"><a href="../index.html" class="fa fa-home"></a> &raquo; <a href="../ssc.html">Sample Size Calculator</a></h1>
+
+<h2><a href="../ssc_web.html">Sample Size Calculator (web)</a></h2>
+
+<form name="SSAnimal" class="calc">
+<fieldset>
+<legend><h3>Sample size for animal study (resource equation approach)</h3></legend>
+<!-- inputs -->
+<label>Number of groups, <i>k</i>: </label><input name="k" type="number" min="1" step="1" value="2"></br />
+<label>Number of repeated measurements, <i>r</i>: </label><input name="r" type="number" min="1" step="1" value="1"></br />
+<label>Sacrifice required?</label>
+<input name="sacrifice" type="radio" value="1">Yes
+<input name="sacrifice" type="radio" value="0" checked>No<br />
+<!-- buttons -->
+<label><input type="button" value="Calculate" onClick="doCalculate()">
+<input type="button" value="Reset" onClick="doReset()"></label></br />
+<!-- results -->
+<label style="width: 95%"><b><span id="design"></span></b>The sample sizes for <b><span id="k_">2</span></b> group(s), <b><span id="r_">1</span></b> measurement(s) are:</label><br />
+<label>Minimum sample size, n per group = </label><input name="n_min" value="" type="number" readonly><br />
+<label>Maximum sample size, n per group = </label><input name="n_max" value="" type="number" readonly><br />
+<label style="width: 95%">Whenever the sacrifice of animal is <b><span id="sacrifice_req">not required</span></b>, the total sample size, N (minimum, maximum) = <b><span id="N_min">0</span></b> to <b><span id="N_max">0</span></b>.</label>
+</fieldset>
+</form>
+
+<h3>Formula reference:</h3>
+<p>Arifin, W. N, Zahiruddin, W. M. (2017). <i>Sample size calculation in animal studies using resource equation approach. Malaysian Journal of Medical Sciences, 24</i>(5), 101-105. https://doi.org/10.21315/mjms2017.24.5.11</p>
+
+<h3>Suggested reference:</h3>
+<p>APA: Arifin, W. N. (2017). Sample size calculator (web). Retrieved from http://wnarifin.github.io</p>
+<p>Vancouver: Arifin WN. Sample size calculator (web) [Internet]. 2017 [cited <script type="text/javascript" src="../date_now.js"></script>]. Available from: http://wnarifin.github.io</p>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Sample Size Calculator by Wan Nor Arifin is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+<p align="center"><code>&copy; Wan Nor Arifin 2017-<script type="text/javascript" src="../year_now.js"></script>
+</code></p>
+
+</div>
+
+</body>
+
+</html>
