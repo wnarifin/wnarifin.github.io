@@ -18,7 +18,7 @@ z = qnorm(1 - alpha/2)
 ci = mean + c(-1, 1) * z * se
 cbind(mean = mean, ll = ci[1], ul = ci[2])
 
-# one mean, z
+# one mean, t
 #============
 mean = 120
 sd = 15
@@ -48,7 +48,7 @@ cbind(p = p, ll = ci[1], ul = ci[2]) * 100
 #=============
 sd = 15
 var = sd^2
-n = 12
+n = 30
 alpha = 0.05
 x2_ll = qchisq(1 - alpha/2, df = n - 1)
 x2_ul = qchisq(alpha/2, df = n - 1)
@@ -75,7 +75,7 @@ alpha = 0.05
 rep = 10  # repetition
 cp = numeric(length = rep)  # set coverage probability cp vector of length = rep
 
-for (i in 1:rep) {  # repeat simulation 100 times
+for (i in 1:rep) {  # repeat simulation 10 times
   # --- start cycle
   
   # construct 10000 CIs for 10000 sample means
@@ -142,7 +142,7 @@ mean(cp)  # dependent on n
 #=============================
 # say parameters, u = 120, sd = sample sd
 # simulation setup
-n = 5  # try with smaller n, e.g. 5 vs 30
+n = 40  # try with smaller n, e.g. 5 vs 30
 m = 10000  # replicated samples
 u = 120
 alpha = 0.05
