@@ -110,6 +110,9 @@ pc_2 = principal(data[-c(1, 12)], nfactors = 2)
 print(pc_2, cut = .3, digits = 3)
 # Cumulative variance = 57.3%
 
+## Component scores
+pc_2$scores
+
 ## Summary
 # Components:
 # > RC1: Q4, Q5, Q6, Q7, Q11
@@ -147,6 +150,9 @@ print(fa_2, cut = .3, digits = 3)
 # all FLs > .3
 # Cumulative variance = 48.1%
 # Factor correlation PA1 <-> PA2 = 0.1
+
+## Factor scores
+fa_2$scores
 
 ## Summary
 # Factors:
