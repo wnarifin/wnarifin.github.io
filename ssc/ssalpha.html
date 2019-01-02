@@ -26,12 +26,12 @@
 <label>Significance level (&alpha;): </label><input name="alpha_hx" type="number" value="0.05" min="0" max="1" step="0.01"> Two-tailed<br />
 <label>Power (1 - &beta;): </label><input name="power_hx" type="number" value="80" min="0" max="100" step="5"> %<br />
 <label>Number of items (k): </label><input name="item_hx" type="number" value="" min="2" step="1"><br />
-<label>Expected dropout rate: </label><input name="drop_hx" type="number" value="10" min="0" max="100" step="5"> %</br />
+<label>Expected dropout rate: </label><input name="drop_hx" type="number" value="10" min="0" max="100" step="5"> %<br />
 <!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate_hx()">
-<input type="reset"></label></br />
+<input type="reset"></label><br />
 <!-- results -->
-<label>Sample size, n = </label><input name="n_hx" value="" type="number" readonly></br />
+<label>Sample size, n = </label><input name="n_hx" value="" type="number" readonly><br />
 <label>Sample size (with <span id="drop_hx_">10</span>% dropout), n<sub>drop</sub> = </label><input name="n_drop_hx" value="" type="number" readonly>
 </fieldset>
 </form>
@@ -42,14 +42,14 @@
 <!-- inputs -->
 <label>Expected Cronbach's alpha: </label><input name="cronbach_est" type="number" value="" min="0" max="1" step="0.05"><br />
 <label>Precision (&plusmn; expected): </label><input name="precision_est" type="number" min="0" max="1" step="0.05"><br />
-<label>Confidence level 100(1 - &alpha;): </label><input name="ci_est" type="number" value="95" min="0" max="100" step="1"> %</br />
+<label>Confidence level 100(1 - &alpha;): </label><input name="ci_est" type="number" value="95" min="0" max="100" step="1"> %<br />
 <label>Number of items (k): </label><input name="item_est" type="number" min="2" step="1"><br />
-<label>Expected dropout rate: </label><input name="drop_est" type="number" value="10" min="0" max="100" step="5"> %</br />
+<label>Expected dropout rate: </label><input name="drop_est" type="number" value="10" min="0" max="100" step="5"> %<br />
 <!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate_est()">
-<input type="reset"></label></br />
+<input type="reset"></label><br />
 <!-- results -->
-<label>Sample size, n = </label><input name="n_est" value="" type="number" readonly></br />
+<label>Sample size, n = </label><input name="n_est" value="" type="number" readonly><br />
 <label>Sample size (with <span id="drop_est_">10</span>% dropout), n<sub>drop</sub> = </label><input name="n_drop_est" value="" type="number" readonly>
 </fieldset>
 </form>

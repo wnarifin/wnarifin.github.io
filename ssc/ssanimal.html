@@ -20,14 +20,14 @@
 <fieldset>
 <legend><h3>Sample size for animal study (resource equation approach)</h3></legend>
 <!-- inputs -->
-<label>Number of groups, <i>k</i>: </label><input name="k" type="number" min="1" step="1" value="2"></br />
-<label>Number of repeated measurements, <i>r</i>: </label><input name="r" type="number" min="1" step="1" value="1"></br />
+<label>Number of groups, <i>k</i>: </label><input name="k" type="number" min="1" step="1" value="2"><br />
+<label>Number of repeated measurements, <i>r</i>: </label><input name="r" type="number" min="1" step="1" value="1"><br />
 <label>Sacrifice required?</label>
 <input name="sacrifice" type="radio" value="1">Yes
 <input name="sacrifice" type="radio" value="0" checked>No<br />
 <!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate()">
-<input type="button" value="Reset" onClick="doReset()"></label></br />
+<input type="button" value="Reset" onClick="doReset()"></label><br />
 <!-- results -->
 <label style="width: 95%"><b><span id="design"></span></b>The sample sizes for <b><span id="k_">2</span></b> group(s), <b><span id="r_">1</span></b> measurement(s) are:</label><br />
 <label>Minimum sample size, n per group = </label><input name="n_min" value="" type="number" readonly><br />

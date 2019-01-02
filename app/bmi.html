@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>wnarifin.github.io > Apps</title>
+<style type="text/css">@import url("../wnarifin.css");</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script type="text/javascript" src="bmi.js"></script>
+</head>
+
+<body>
+
+<div style="margin: auto; width: 70%;">
+
+<h1 align="center"><a href="../index.html" class="fa fa-home"></a> &raquo; <a href="../app.html">Apps</a></h1>
+
+<h2><a href="../app.html">Apps</a></h2>
+
+<form name="BMI" class="calc">
+<fieldset>
+<legend><h3>Body Mass Index (BMI)</h3></legend>
+<!-- inputs -->
+<label>Weight: </label><input name="weight" type="number" min="0" step="any">kg<br />
+<label>Height: </label><input name="height" type="number" min="0" step="any">cm<br />
+<label>Target BMI: </label><input name="target_bmi" type="number" value="25" min="0" step="any">kg/m<sup>2</sup><br />
+<!-- buttons -->
+<label><input type="button" value="Calculate" onClick="doCalculate()">
+<input type="reset"></label><br />
+<!-- results -->
+<label>Present BMI = </label><input name="bmi" value="" type="number" readonly>kg/m<sup>2</sup><br />
+<label>Target weight = </label><input name="target_weight" value="" type="number" readonly>kg<br />
+</fieldset>
+</form>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Sample Size Calculator by Wan Nor Arifin is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+<p align="center"><code>&copy; Wan Nor Arifin 2017-<script type="text/javascript" src="../year_now.js"></script>
+</code></p>
+
+</div>
+
+</body>
+
+</html>
