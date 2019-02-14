@@ -14,6 +14,7 @@ library(rsq)
 library(MASS)
 library(car)
 library(broom)
+library(dplyr)
 
 # data
 coronary = read.dta("coronary.dta")
@@ -160,14 +161,11 @@ summary(mlr_chol_final)
 Confint(mlr_chol_final)  # 95% CI of the coefficients
 rsq(mlr_chol_final, adj = T)
 # using broom
-tib_mlr = tidy(mlr_chol_final); tib_mlr
-tib_mlr_ci = tidy(Confint(mlr_chol_final)); tib_mlr_ci
-# combine estimates and ci
-df_mlr_ci = data.frame(tib_mlr[1:3], tib_mlr_ci[3:4], tib_mlr[4:5]); df_mlr_ci
+tib_mlr = tidy(mlr_chol_final, conf.int = T); tib_mlr
 # use kable to come up with nice table
-knitr::kable(df_mlr_ci)
+knitr::kable(tib_mlr)
 # export it to a csv file for use later
-write.csv(df_mlr_ci, "mlr_final.csv")
+write.csv(tib_mlr, "mlr_final.csv")
 
 # predict
 coronary$pred_chol = predict(mlr_chol_final)
