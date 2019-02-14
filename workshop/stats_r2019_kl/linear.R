@@ -14,7 +14,6 @@ library(rsq)
 library(MASS)
 library(car)
 library(broom)
-library(dplyr)
 
 # data
 coronary = read.dta("coronary.dta")
