@@ -162,7 +162,12 @@ rsq(mlr_chol_final, adj = T)
 # using broom
 tib_mlr = tidy(mlr_chol_final); tib_mlr
 tib_mlr_ci = tidy(Confint(mlr_chol_final)); tib_mlr_ci
-knitr::kable(data.frame(tib_mlr[1:2], tib_mlr_ci[3:4], tib_mlr[3:4]))
+# combine estimates and ci
+df_mlr_ci = data.frame(tib_mlr[1:3], tib_mlr_ci[3:4], tib_mlr[4:5]); df_mlr_ci
+# use kable to come up with nice table
+knitr::kable(df_mlr_ci)
+# export it to a csv file for use later
+write.csv(df_mlr_ci, "mlr_final.csv")
 
 # predict
 coronary$pred_chol = predict(mlr_chol_final)
