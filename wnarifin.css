@@ -12,7 +12,7 @@ text-decoration: underline;
 
 .calc FIELDSET {
 display: inline-block;
-width: 95%;
+//width: 95%;
 }
 
 .calc LABEL {
