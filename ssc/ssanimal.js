@@ -24,8 +24,8 @@ function doCalculate() {
         n_max = null;
         design = "The ANOVA design is inappropriate";
     }
-    n_min = Math.max(2, Math.ceil( n_min ));
-    n_max = Math.max(2, Math.floor( n_max )); //rounded down, see pg.102
+    n_min = Math.ceil( n_min );
+    n_max = Math.max(n_min, Math.floor( n_max )); //rounded down, see pg.102
     if (sacrifice == 0) {
         sacrifice_req = "not required";
         N_min = n_min * k;
