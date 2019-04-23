@@ -6,7 +6,7 @@
 <style type="text/css">@import url("../wnarifin.css");</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
-<script type="text/javascript" src="ss1mean.js"></script>
+<script type="text/javascript" src="sssnsp.js"></script>
 </head>
 
 <body>
@@ -17,26 +17,29 @@
 
 <h2><a href="../ssc_web.html">Sample Size Calculator (web)</a></h2>
 
-<form name="SS1Mean" class="calc">
+<form name="SSSnSp" class="calc">
 <fieldset>
-<legend><h3>1 mean - Estimation</h3></legend>
+<legend><h3>Sensitivity/Specificity - Estimation</h3></legend>
 <!-- inputs -->
-<label>Standard deviation (&sigma;): </label><input name="sd" type="number" min="0" step="any"><br />
-<label>Precision: </label><input name="precision" type="number" min="0" step="any"><br />
+<label>Expected sensitivity: </label><input name="sn" type="number" value="0.90" min="0" step="0.05" max="1"><br />
+<label>Expected specificity: </label><input name="sp" type="number" value="0.85" min="0" step="0.05" max="1"><br />
+<label>Prevalence of disease (p): </label><input name="p" type="number" value="0.20" min="0" step="0.05" max="1"><br />
+<label>Acceptable precision (W): </label><input name="precision" type="number" value="0.10" min="0" step="0.01" max="1"><br />
 <label>Confidence level 100(1 - &alpha;): </label><input name="ci" type="number" value="95" min="0" max="100" step="1"> %<br />
 <label>Expected dropout rate: </label><input name="drop" type="number" value="10" min="0" max="100" step="5"> %<br />
 <!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate()">
 <input type="reset"></label><br />
 <!-- results -->
-<label>Sample size, n = </label><input name="n" value="" type="number" readonly><br />
-<label>Sample size (with <span id="drop_">10</span>% dropout), n<sub>drop</sub> = </label><input name="n_drop" value="" type="number" readonly>
+<label>Sample size for sensitivity, n<sub>sen</sub> = </label><input name="n1" value="" type="number" readonly><br />
+<label>Sample size for specificity, n<sub>spec</sub> = </label><input name="n2" value="" type="number" readonly><br />
+<label>Final sample size (largest), n = </label><input name="n" value="" type="number" readonly><br />
+<label>Final sample size (with <span id="drop_">10</span>% dropout), n<sub>drop</sub> = </label><input name="n_drop" value="" type="number" readonly>
 </fieldset>
 </form>
 
 <h3>Formula reference:</h3>
-<p>36. Arifin, W. N. (2013). Introduction to sample size calculation. Education in Medicine Journal, 5(2), e89-e96.</p>
-<p>Naing, N. N. (2003). Determination of Sample Size. The Malaysian Journal of Medical Sciences: MJMS, 10(2), 84-86.</p>
+<p>Buderer, N. M. F. (1996). Statistical methodology: I. Incorporating the prevalence of disease into the sample size calculation for sensitivity and specificity. Academic Emergency Medicine, 3(9), 895-900.</p>
 
 <h3>Suggested reference:</h3>
 <p>APA: Arifin, W. N. (2017). Sample size calculator (web). Retrieved from http://wnarifin.github.io</p>
