@@ -2,9 +2,9 @@
 // Author: Wan Nor Arifin
 function doCalculate() {
     // Get values from form
-    k = document.SSAnimal.k.value;
-    r = document.SSAnimal.r.value;
-    sacrifice = document.SSAnimal.sacrifice.value;
+    k = +document.SSAnimal.k.value;
+    r = +document.SSAnimal.r.value;
+    sacrifice = +document.SSAnimal.sacrifice.value;
 
     // Calculator
     if (k > 1 && r == 1) {
