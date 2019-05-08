@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>wnarifin.github.io > Apps</title>
+<style type="text/css">@import url("../wnarifin.css");</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<script type="text/javascript" src="quran_ms.js"></script>
+</head>
+
+<body>
+
+<div style="margin: auto; width: 85%;">
+
+<h1 align="center"><a href="../index.html" class="fa fa-home"></a> &raquo; <a href="../app.html">Apps</a></h1>
+
+<h2><a href="../app.html">Apps</a></h2>
+
+<form name="quran_ms" class="calc">
+<fieldset>
+<legend><h3>Muka surat Al-Quran untuk dibaca sepanjang Ramadhan</h3></legend>
+<!-- inputs -->
+<label>Target untuk khatam: </label><input name="khatam" type="number" value="1" min="1" step="1">kali/bulan<br />
+<label>Telah berapa kali khatam? </label><input name="khatam_total" type="number" value="0" min="0" step="1">kali<br />
+<label>Jumlah muka surat pada Mushaf: </label><input name="ms_total" type="number" value="604" min="1" step="1">m/s<br />
+<label>Jumlah muka surat telah dibaca kali ini: </label><input name="ms_read" type="number" value="0" min="0" step="1">m/s<br />
+<label>Hari Ramadhan yang ke: </label><input name="day_pass" type="number" value="1" min="0" max="30" step="1"><br />
+<label>Jumlah hari Ramadhan tahun ini: </label><input name="day_total" type="number" value="30" min="29" max="30" step="1"><br />
+<!-- buttons -->
+<label><input type="button" value="Calculate" onClick="doCalculate()">
+<input type="reset"></label><br />
+<!-- results -->
+<label>Jumlah muka surat perlu dibaca sehari = </label><input name="ms_day" value="" type="number" readonly>m/s<br />
+<label>Jumlah muka surat perlu dibaca setiap waktu solat = </label><input name="ms_solat" value="" type="number" readonly>m/s<br />
+</fieldset>
+</form>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Sample Size Calculator by Wan Nor Arifin is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+<p align="center"><code>&copy; Wan Nor Arifin 2017-<script type="text/javascript" src="../year_now.js"></script>
+</code></p>
+
+</div>
+
+</body>
+
+</html>
