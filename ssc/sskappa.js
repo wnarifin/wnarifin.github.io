@@ -22,3 +22,27 @@ function doCalculate_hx() {
     document.getElementById("drop_").innerHTML = drop;
     return;
 }
+
+// SSKappa_Est
+function doCalculate_est() {
+    // inputs
+    k = document.SSKappa_Est.k.value;
+    precision = document.SSKappa_Est.precision.value;
+    p = document.SSKappa_Est.p.value;
+    ci = document.SSKappa_Est.ci.value/100;
+    drop = document.SSKappa_Est.drop.value;
+    //calculate
+    z = jStat.normal.inv(ci + (1 - ci)/2, 0, 1);
+    w = precision*2;
+    a = (4*z**2 / w**2);
+    b = (1-k);
+    c = (1-k)*(1-2*k);
+    d = (k*(2-k))/(2*p*(1-p));
+    n = Math.ceil( a*(b*(c+d)) );
+    n_drop = Math.ceil( n / ((100 - drop) / 100) );
+    //results
+    document.SSKappa_Est.n.value = n;
+    document.SSKappa_Est.n_drop.value = n_drop;
+    document.getElementById("drop_").innerHTML = drop;
+    return;
+}
