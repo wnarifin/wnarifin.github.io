@@ -1,5 +1,7 @@
-// SS2MeanPaired
+// SS2MeanPaired & SSSDDiff
 // Author: Wan Nor Arifin
+
+// SS2MeanPaired
 function doCalculate_hx() {
     // inputs
     sd = document.SS2MeanPaired.sd.value;
@@ -18,6 +20,8 @@ function doCalculate_hx() {
     document.getElementById("drop_").innerHTML = drop;
     return;
 }
+
+// SSSDDiff
 function doCalculate_sd() {
     // inputs
     sd_pre = document.SSSDDiff.sd_pre.value;
