@@ -22,7 +22,7 @@
 <legend><h3>2 means (paired) - Hypothesis Testing<sup>1,2</sup></h3></legend>
 <!-- inputs -->
 <label>Standard deviation of difference (&sigma;<sub>d</sub>)*:<br /></label><input name="sd" type="number" min="0" step="any"><br />
-<label><small>If &sigma;<sub>d</sub> not available in literature, use <b>Standard deviation of difference calculator</b> below to get an approximate value of &sigma;<sub>d</sub>.</small></label>
+<label><small>If &sigma;<sub>d</sub> not available in literature, use <b>Standard deviation of difference</b> calculator below to get an approximate value of &sigma;<sub>d</sub>.</small></label>
 <label>Expected difference: </label><input name="diff" type="number" value="" min="0"><br />
 <label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05" min="0" max="1" step="0.01"> Two-tailed<br />
 <label>Power (1 - &beta;): </label><input name="power" type="number" value="80" min="0" max="100" step="5"> %<br />
@@ -40,8 +40,8 @@
 <fieldset>
 <legend><h3>Standard deviation of difference, &sigma;<sub>d</sub><sup>2</sup></h3></legend>
 <!-- inputs -->
-<label>Standard deviation at Pre intervention (&sigma;<sub>pre</sub>)*:<br /></label><input name="sd_pre" type="number" min="0.0" step="any"><br />
-<label>Standard deviation at Post intervention (&sigma;<sub>post</sub>)*:<br /></label><input name="sd_post" type="number" min="0.0" step="any"><br />
+<label>Standard deviation at Pre intervention (&sigma;<sub>pre</sub>):<br /></label><input name="sd_pre" type="number" min="0.0" step="any"><br />
+<label>Standard deviation at Post intervention (&sigma;<sub>post</sub>):<br /></label><input name="sd_post" type="number" min="0.0" step="any"><br />
 <label>Correlation between pre and post: </label><input name="r_pre_post" type="number" value="0.5" min="0.0" max="1.0"><br />
 <!-- buttons -->
 <label><input type="button" value="Calculate" onClick="doCalculate_sd()">
