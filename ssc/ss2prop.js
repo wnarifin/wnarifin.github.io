@@ -11,7 +11,6 @@ function doCalculate() {
     //calculate
     z_alpha = jStat.normal.inv(1 - alpha/2, 0, 1);
     z_beta = jStat.normal.inv(power, 0, 1);
-    //n = p_bar;
     n_ = (z_alpha * Math.sqrt(2 * p_bar * (1 - p_bar)) + z_beta * Math.sqrt(p0 * (1 - p0) + p1 * (1 - p1)))**2 / (p0 - p1)**2;
     n = Math.ceil(n_);
     n_drop = Math.ceil( n / ((100 - drop) / 100) );
