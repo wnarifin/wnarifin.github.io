@@ -42,7 +42,7 @@ sp2 = sum((1-cad_$T)*(1-preds)) / sum(1-preds); sp2  # P(T=0|D=0)
 
 # Multiple Imputation, Logistic Regression
 # Modified codes from deGroot et al 2008
-m = 50  # number of imputed data sets
+m = 10  # number of imputed data sets
 seednum = 12345
 cad1 = cad[, c("T","D")]  # select only T & D, else MI use all variables for imputation
 cad1$D = as.factor(cad1$D); data_impute = mice(cad1, m = m, method = "logreg", seed = seednum)  # logistic regression
