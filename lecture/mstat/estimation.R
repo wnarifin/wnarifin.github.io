@@ -32,12 +32,12 @@ cbind(mean = mean, ll = ci[1], ul = ci[2])
 
 # one proportion
 #===============
-p = 0.35
+p = 0.65
 n = 200
 (n*p > 5)
 (n*(1-p) > 5)
 se = sqrt(p*(1-p)/n)
-alpha = 0.05
+alpha = 0.01
 z = qnorm(1 - alpha/2)
 
 ci = p + c(-1, 1) * z * se
@@ -58,7 +58,7 @@ ci_ul = (n-1)*var / x2_ul
 cbind(variance = var, ll = ci_ll, ul = ci_ul)
 sqrt(cbind(sd = var, ll = ci_ll, ul = ci_ul))
 
-# coverage probility of confidence interval
+# coverage probability of confidence interval
 ###########################################
 
 # basic z, when population sd known
@@ -142,7 +142,7 @@ mean(cp)  # dependent on n
 #=============================
 # say parameters, u = 120, sd = sample sd
 # simulation setup
-n = 40  # try with smaller n, e.g. 5 vs 30
+n = 5  # try with smaller n, e.g. 5 vs 30
 m = 10000  # replicated samples
 u = 120
 alpha = 0.05
