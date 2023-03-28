@@ -43,34 +43,20 @@ ICC(data.dbp)
 source("https://raw.githubusercontent.com/wnarifin/medicalstats-in-R/master/functions/tbl2raw_fun.R")
 # tbl2raw function
 tbl_12 = matrix(c(30, 15, 
-                  5, 30), 2)
-dimnames(tbl_12) = list(doc1 = c("1", "2"), doc2 = c("1", "2"))
-tbl_12
-data2 = tbl2raw(tbl_12)
-table(data2)
-kappa2(data2)
-
-cohen.kappa(data2)
+                  5, 30), 2)  # enter data
+dimnames(tbl_12) = list(doc1 = c("1", "2"), doc2 = c("1", "2"))  # give labels
+tbl_12  # resulting matrix
+data2 = tbl2raw(tbl_12)  # convert matrix to raw data
+table(data2)  # confirm cross-tabulation of the raw data = matrix
+kappa2(data2)  # irr package
+cohen.kappa(data2)  # psych package
 
 # data in my note Table 3
-data2 = read.csv("kappa.csv")
-head(data2)
-table(data2)
-kappa2(data2)  # unweighted
-# Please read on weighting in Altman, D. G. (1991). Practical statistics for medical research. London: Chapman and Hall.
-kappa2(data2, "equal")  # linear weight
-kappa2(data2, "squared")  # quadratic weight
-
-# aggregate data in my note, Table 3
-tbl_12 = matrix(c(44, 5, 1, 
-                  4, 38, 2, 
-                  0, 5, 21), 3)
-dimnames(tbl_12) = list(doc1 = c("1", "2", "3"), doc2 = c("1", "2", "3"))
-tbl_12
-data3 = tbl2raw(tbl_12)
+data3 = read.csv("kappa.csv")
+head(data3)
 table(data3)
-kappa2(data3)
+kappa2(data3)  # unweighted
+# Please read on weighting in Altman, D. G. (1991). Practical statistics for medical research. London: Chapman and Hall.
 kappa2(data3, "equal")  # linear weight
 kappa2(data3, "squared")  # quadratic weight
-
-cohen.kappa(data3)
+cohen.kappa(data3)  # psych package
