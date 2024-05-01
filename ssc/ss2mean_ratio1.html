@@ -6,7 +6,7 @@
 <style type="text/css">@import url("../wnarifin.css");</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
-<script type="text/javascript" src="ss2mean.js"></script>
+<script type="text/javascript" src="ss2mean_ratio1.js"></script>
 </head>
 
 <body>
@@ -23,7 +23,6 @@
 <!-- inputs -->
 <label>Standard deviation (&sigma;): </label><input name="sd" type="number" min="0" step="any"><br />
 <label>Expected difference: </label><input name="diff" type="number" value="" min="0"><br />
-<label>Ratio of control to treatment group (m): </label><input name="m" type="number" value="" min="0" step="0.1"><br />
 <label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05" min="0" max="1" step="0.01"> Two-tailed<br />
 <label>Power (1 - &beta;): </label><input name="power" type="number" value="80" min="0" max="100" step="5"> %<br />
 <label>Expected dropout rate: </label><input name="drop" type="number" value="10" min="0" max="100" step="5"> %<br />
@@ -31,15 +30,14 @@
 <label><input type="button" value="Calculate" onClick="doCalculate()">
 <input type="reset"></label><br />
 <!-- results -->
-<label>Sample size, n<sub>1</sub> for treatment group = </label><input name="n1" value="" type="number" readonly><br />
-<label>Sample size, n<sub>0</sub> for control group = </label><input name="n0" value="" type="number" readonly><br />
-<label>Sample size (with <span id="drop_">10</span>% dropout), n<sub>1 drop</sub> for treatment group = </label><input name="n1_drop" value="" type="number" readonly><br />
-<label>Sample size (with <span id="drop_">10</span>% dropout), n<sub>0 drop</sub> for control group = </label><input name="n0_drop" value="" type="number" readonly>
+<label>Sample size, n  per group = </label><input name="n" value="" type="number" readonly><br />
+<label>Sample size (with <span id="drop_">10</span>% dropout), n<sub>drop</sub> per group = </label><input name="n_drop" value="" type="number" readonly>
 </fieldset>
 </form>
 
 <h3>Formula reference:</h3>
-<p>Machin, D., Campbell, M. J., Tan, S. B., & Tan, S. H. (2009). Sample size tables for clinical studies (3rd ed.). John Wiley & Sons.</p>
+<p>Lemeshow, S., Hosmer Jr, D. W., Klar, J., Lwanga, S. K. (1990). Adequacy of sample size in health studies. England: John Wiley & Sons Ltd.</p>
+<p>Naing, N. N. (2011). A practical guide on determination of sample size in health sciences research. Kelantan: Pustaka Aman Press.</p>
 
 <h3>Suggested reference:</h3>
 <p>APA: Arifin, W. N. (<script type="text/javascript" src="../year_now.js"></script>). Sample size calculator (web). Retrieved from http://wnarifin.github.io</p>
