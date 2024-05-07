@@ -23,6 +23,7 @@ function doCalculate() {
     document.SS2Mean.n1_drop.value = n1_drop;
     document.SS2Mean.n0.value = n0;
     document.SS2Mean.n0_drop.value = n0_drop;
-    document.getElementById("drop_").innerHTML = drop;
+    document.getElementById("drop_1").innerHTML = drop;
+    document.getElementById("drop_2").innerHTML = drop;
     return;
 }

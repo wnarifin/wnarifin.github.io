@@ -17,12 +17,20 @@
 
 <h2><a href="../ssc_web.html">Sample Size Calculator (web)</a></h2>
 
-<form name="SS2Prop" class="calc">
+<form name="SS2Prop" class="calc" autocomplete="off">
 <fieldset>
 <legend><h3>2 proportions - Hypothesis Testing</h3></legend>
+<!-- select study design -->
+<label>Epidemiological study design: </label>
+<select name="" id="design" onchange="updateForm()">
+  <option value="case-control" selected>Case-control</option>
+  <option value="cohort">Cohort</option>
+  <option value="cross-sectional">Cross-sectional</option>
+</select><br />
 <!-- inputs -->
-<label>Proportion in control (p<sub>0</sub>): </label><input name="p0" type="number" min="0" max="1" step="0.05"><br />
-<label>Proportion in case (p<sub>1</sub>): </label><input name="p1" type="number" min="0" max="1" step="0.05"><br />
+<label>Proportion of <span id="outcome0">exposure</span> in <span id="sel0_1">control</span> (p<sub>0</sub>): </label><input name="p0" type="number" min="0" max="1" step="0.05"><br />
+<label>Proportion of <span id="outcome1">exposure</span> in <span id="sel1_1">case</span> (p<sub>1</sub>): </label><input name="p1" type="number" min="0" max="1" step="0.05"><br />
+<label><span id="cross">Ratio of control to case (m)</span>: </label><input name="m" type="number" value="1" min="0.1" step="0.1"><br />
 <label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05" min="0" max="1" step="0.01"> Two-tailed<br />
 <label>Power (1 - &beta;): </label><input name="power" type="number" value="80" min="0" max="100" step="5"> %<br />
 <label>Expected dropout rate: </label><input name="drop" type="number" value="10" min="0" max="100" step="5"> %<br />
@@ -30,13 +38,68 @@
 <label><input type="button" value="Calculate" onClick="doCalculate()">
 <input type="reset"></label><br />
 <!-- results -->
-<label>Sample size, n per group = </label><input name="n" value="" type="number" readonly><br />
-<label>Sample size (with <span id="drop_">10</span>% dropout), n<sub>drop</sub> per group = </label><input name="n_drop" value="" type="number" readonly>
+<label>Sample size, n<sub>1</sub> for <span id="sel1_3">case</span> = </label><input name="n1" value="" type="number" readonly><br />
+<label>Sample size, n<sub>0</sub> for <span id="sel0_3">control</span> = </label><input name="n0" value="" type="number" readonly><br />
+<label>Sample size (with <span id="drop_1">10</span>% dropout), n<sub>1 drop</sub> for <span id="sel1_4">case</span> = </label><input name="n1_drop" value="" type="number" readonly><br />
+<label>Sample size (with <span id="drop_2">10</span>% dropout), n<sub>0 drop</sub> for <span id="sel0_4">control</span> = </label><input name="n0_drop" value="" type="number" readonly>
+<div id="n_cs" style="visibility:hidden">
+<label>Total sample size, n = </label><input name="n" value="" type="number" readonly><br />
+<label>Total sample size (with <span id="drop_3">10</span>% dropout), n<sub>drop</sub> = </label><input name="n_drop" value="" type="number" readonly></div>
 </fieldset>
 </form>
+<script type="text/javascript">
+  function updateForm()
+  {
+    sel = document.getElementById("design").value;
+    if(sel=="case-control")
+    {
+      document.getElementById("outcome0").innerHTML = "exposure";
+      document.getElementById("outcome1").innerHTML = "exposure";
+      document.getElementById("cross").innerHTML = "Ratio of control to case (m)";
+      document.SS2Prop.m.value = 1;
+      document.getElementById("sel0_1").innerHTML = "control";
+      document.getElementById("sel1_1").innerHTML = "case";
+      // output
+      document.getElementById("sel0_3").innerHTML = "control";
+      document.getElementById("sel1_3").innerHTML = "case";
+      document.getElementById("sel0_4").innerHTML = "control";
+      document.getElementById("sel1_4").innerHTML = "case";
+      document.getElementById("n_cs").style.visibility = "hidden";
+    }
+    if(sel=="cohort")
+    {
+      document.getElementById("outcome0").innerHTML = "outcome";
+      document.getElementById("outcome1").innerHTML = "outcome";
+      document.getElementById("cross").innerHTML = "Ratio of unexposed to exposed (m)";
+      document.SS2Prop.m.value = 1;
+      document.getElementById("sel0_1").innerHTML = "unexposed";
+      document.getElementById("sel1_1").innerHTML = "exposed";
+      // output
+      document.getElementById("sel0_3").innerHTML = "unexposed";
+      document.getElementById("sel1_3").innerHTML = "exposed";
+      document.getElementById("sel0_4").innerHTML = "unexposed";
+      document.getElementById("sel1_4").innerHTML = "exposed";
+      document.getElementById("n_cs").style.visibility = "hidden";
+    }
+    if(sel=="cross-sectional")
+    {
+      document.getElementById("outcome0").innerHTML = "factor";
+      document.getElementById("outcome1").innerHTML = "factor";
+      document.getElementById("cross").innerHTML = "Prevalence of disease (outcome) (p)";
+      document.SS2Prop.m.value = 0.5;
+      document.getElementById("sel0_1").innerHTML = "non-diseased (without outcome)";
+      document.getElementById("sel1_1").innerHTML = "diseased (with outcome)";
+      document.getElementById("sel0_3").innerHTML = "non-diseased";
+      document.getElementById("sel1_3").innerHTML = "diseased";
+      document.getElementById("sel0_4").innerHTML = "non-diseased";
+      document.getElementById("sel1_4").innerHTML = "diseased";
+      document.getElementById("n_cs").style.visibility = "visible";
+    }
+  }
+</script>
 
 <h3>Formula reference:</h3>
-<p>Lemeshow, S., Hosmer Jr, D. W., Klar, J., Lwanga, S. K. (1990). Adequacy of sample size in health studies. England: John Wiley & Sons Ltd.</p>
+<p>Machin, D., Campbell, M. J., Tan, S. B., & Tan, S. H. (2009). Sample size tables for clinical studies (3rd ed.). John Wiley & Sons.</p>
 
 <h3>Suggested reference:</h3>
 <p>APA: Arifin, W. N. (<script type="text/javascript" src="../year_now.js"></script>). Sample size calculator (web). Retrieved from http://wnarifin.github.io</p>
