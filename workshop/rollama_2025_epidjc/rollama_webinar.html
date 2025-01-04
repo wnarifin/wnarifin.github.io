@@ -82,10 +82,198 @@ top:1em;right:1em;
 - #### Local LLM in <svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg>
 - #### Examples using `rollama`
 
+Download my slides from: https://wnarifin.github.io/workshop.html
+
 ---
 class: center, middle
 
-# Local Large Language Model (LLM)
+# Local LLM
+
+---
+## What is LLM?
+
+I asked three different LLMs, Qwen 2.5 (14 billion parameters), Gemma 2 (9 billion) and Llama 3.2 (3 billion),
+
+&gt; Briefly, what is a large language model?
+
+---
+## What is LLM?
+
+Qwen2.5:14B (Alibaba)
+
+&gt;  A large language model is an artificial intelligence system designed to process and generate human-like text based on the input it receives. These models are typically trained on vast amounts of textual data from the internet and other sources, enabling them to understand and produce text in a variety of contexts and styles. They use deep learning techniques, especially transformer architectures, which allow them to handle long sequences of text and capture complex patterns within language. Large language models can be used for tasks such as answering questions, writing stories or articles, translating languages, and much more.
+
+---
+## What is LLM?
+
+Gemma2:9B (Google)
+
+&gt;  A large language model (LLM) is a type of artificial intelligence trained on massive amounts of text data. This training allows it to understand and generate human-like text in response to a wide range of prompts and questions. 
+
+&gt; Think of it like a computer program that has read countless books and articles, learning the patterns of language and the relationships between words. It can then use this knowledge to: 
+
+&gt;    - Generate creative content:  Write stories, poems, articles, etc.
+&gt;    - Translate languages:  Convert text from one language to another.
+&gt;    - Answer questions:  Provide informative responses to queries based on its knowledge.
+&gt;    - Summarize text:  Condense large amounts of information into shorter summaries.
+&gt;    - Engage in conversation:  Hold natural-sounding conversations with humans.
+
+&gt; LLMs are still under development, but they have the potential to revolutionize many aspects of our lives. 
+
+---
+## What is LLM?
+
+Llama3.2:3B (Meta)
+
+&gt;  A large language model (LLM) is a type of artificial intelligence (AI) model that uses natural language processing (NLP) techniques to understand and generate human-like text. Large LLMs are trained on massive amounts of data, often terabytes or even petabytes in size, to learn patterns and relationships between words, phrases, and ideas. 
+
+&gt; These models can perform a wide range of tasks, such as: 
+
+&gt;    - Language translation
+&gt;    - Text summarization
+&gt;    - Question answering
+&gt;    - Sentiment analysis
+&gt;    - Text generation
+
+&gt; The key characteristics of large LLMs are their massive size (in terms of the amount of data used to train them) and their ability to generate human-like text based on the input they receive. 
+
+---
+## What is Local LLM?
+
+&gt; Local LLMs are versions of these powerful language models that run directly on a user's device or local network, rather than in the cloud.
+
+&lt;small&gt;*Source: https://localxpose.io/blog/unleashing-the-power-of-local-llms&lt;/small&gt;
+
+---
+## Why Use Local LLM?
+
+&lt;center&gt;
+&lt;img src="img/gpt_down.png"&gt;
+&lt;/center&gt;
+
+&lt;small&gt;*Source: https://status.openai.com&lt;/small&gt;
+
+---
+## Why Use Local LLM?
+
+&lt;center&gt;
+&lt;img src="img/gpt_limit.png"&gt;
+&lt;/center&gt;
+
+&lt;small&gt;*Source: https://chatgpt.com/ when you ran out of limit on free account.&lt;/small&gt;
+
+---
+## Why Use Local LLM?
+
+### Personal reasons:
+
+- Privacy
+
+--
+&gt; exam questions, novel ideas, top secret research etc...
+
+--
+- No downtime
+
+--
+&gt; I want it now!
+
+--
+
+- Experiment
+
+--
+&gt; we researchers love the freedom to try and error...
+
+---
+## Using Local LLM
+
+You'll need a gaming specs PC/Laptop with NVIDIA GPU
+
+&lt;center&gt;
+&lt;img src="img/geforce-rtx-40-series-new.jpeg" height="380px"&gt;
+&lt;/center&gt;
+
+&lt;small&gt;*Source: https://www.nvidia.com/en-us/geforce/graphics-cards/&lt;/small&gt;
+
+---
+## Using Local LLM
+You'll need a gaming specs PC/Laptop with NVIDIA GPU <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+
+&lt;center&gt;
+&lt;img src="img/Gemini_Generated_Image_4ro9b24ro9b24ro9.jpeg" height="380px"&gt;
+&lt;/center&gt;
+
+&lt;small&gt;*Source: Generated with Gemini's Imagen 3&lt;/small&gt;
+
+---
+## Using Local LLM
+
+### Options:
+
+.pull-left[
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+ollama <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>&lt;br/&gt;
+ollama + Open WebUI <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+&lt;/div&gt;
+]
+
+.pull-right[
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+Msty&lt;br/&gt;
+LM Studio&lt;br/&gt;
+GPT4All&lt;br/&gt;
+llama.cpp&lt;br/&gt;
+vLLM&lt;br/&gt;
+&lt;/div&gt;
+]
+
+---
+## Using Local LLM
+
+.left-column[
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+ollama <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+&lt;/div&gt;
+https://ollama.com
+]
+
+.right-column[
+&lt;img src="img/ollama_main_page.png"&gt;
+]
+
+---
+## Using Local LLM
+
+.left-column[
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+ollama <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+&lt;/div&gt;
+https://ollama.com
+]
+
+.right-column[
+&lt;img src="img/ollama_cli.png" height="425px"&gt;
+]
+
+---
+## Using Local LLM
+
+.left-column[
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+ollama <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+&lt;/div&gt;
+https://ollama.com
+&lt;span style="font-size: 36px; font-weight: bold"&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;+&lt;/span&gt;&lt;br/&gt;
+&lt;div style="font-size: 28px; font-weight: bold"&gt;
+Open WebUI <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+&lt;/div&gt;
+&lt;small&gt;https://openwebui.com&lt;/small&gt;
+]
+
+.right-column[
+&lt;img src="img/ollama_web_ui.png" height="425px"&gt;
+]
 
 ---
 class: center, middle
@@ -93,20 +281,542 @@ class: center, middle
 # Local LLM in <svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg>
 
 ---
+## `ollama` meets <svg aria-hidden="true" role="img" viewBox="0 0 581 512" style="height:1em;width:1.13em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:steelblue;overflow:visible;position:relative;"><path d="M581 226.6C581 119.1 450.9 32 290.5 32S0 119.1 0 226.6C0 322.4 103.3 402 239.4 418.1V480h99.1v-61.5c24.3-2.7 47.6-7.4 69.4-13.9L448 480h112l-67.4-113.7c54.5-35.4 88.4-84.9 88.4-139.7zm-466.8 14.5c0-73.5 98.9-133 220.8-133s211.9 40.7 211.9 133c0 50.1-26.5 85-70.3 106.4-2.4-1.6-4.7-2.9-6.4-3.7-10.2-5.2-27.8-10.5-27.8-10.5s86.6-6.4 86.6-92.7-90.6-87.9-90.6-87.9h-199V361c-74.1-21.5-125.2-67.1-125.2-119.9zm225.1 38.3v-55.6c57.8 0 87.8-6.8 87.8 27.3 0 36.5-38.2 28.3-87.8 28.3zm-.9 72.5H365c10.8 0 18.9 11.7 24 19.2-16.1 1.9-33 2.8-50.6 2.9v-22.1z"/></svg>
+
+### Options:
+
+.pull-left[
+For `ollama` API
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+rollama <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>&lt;/div&gt;
+https://jbgruber.github.io/rollama/&lt;br/&gt;
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+ollamar&lt;/div&gt;
+https://hauselin.github.io/ollama-r/
+]
+
+.pull-right[
+General for other LLM APIs
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+mall&lt;/div&gt;
+https://mlverse.github.io/mall/&lt;br/&gt;
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+gptstudio&lt;/div&gt;
+https://michelnivard.github.io/gptstudio/
+]
+
+---
+## Let's get started with `rollama`
+
+- Must install `ollama` (in your PC)
+
+--
+
+- Then `rollama` (in R)
+
+--
+
+- Find suitable models in `ollama` website
+
+---
+## Available LLM models
+
+.pull-left[
+https://ollama.com/search
+]
+
+.pull-right[
+&lt;img src="img/all.png" height="425px"&gt;
+]
+
+---
+## Text to Text
+
+.pull-left[
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+Text generation
+&lt;/div&gt;
+text in/text out (typical LLM)
+
+- llama (Meta)
+- qwen (Alibaba)
+- gemma (Google)
+- mistral (Mistral AI)
+- phi (Microsoft)
+]
+
+.pull-right[
+&lt;img src="img/text.png" height="425px"&gt;
+]
+
+---
+## Image + Text to Text
+
+.pull-left[
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+Vision
+&lt;/div&gt;
+image+text in/text out (vision LM)
+
+- llama-vision
+- llava
+- moondream
+]
+
+.pull-right[
+&lt;img src="img/vision.png" height="425px"&gt;
+]
+
+---
+## Text to Number
+
+.pull-left[
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+Embedding generation
+&lt;/div&gt;
+text in/numerical vector out
+
+- nomic-embed-text
+- mxbai-embed
+]
+
+.pull-right[
+&lt;img src="img/embedding.png" height="425px"&gt;
+]
+
+---
+## Malaysian LLM models
+
+.pull-left[
+https://huggingface.co/models
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+GGUF file
+&lt;/div&gt;
+mesolitica
+]
+
+.pull-right[
+&lt;img src="img/mesolitica.png" height="425px"&gt;
+]
+
+---
+## Malaysian LLM models
+
+.pull-left[
+https://huggingface.co/models
+&lt;div style="font-size: 36px; font-weight: bold"&gt;
+GGUF file
+&lt;/div&gt;
+malaysia
+]
+
+.pull-right[
+&lt;img src="img/malaysian.png" height="425px"&gt;
+]
+
+---
+## Basic Usage
+
+### Install models
+
+``` r
+library(rollama)
+
+pull_model("llama3.2")
+pull_model("moondream")
+pull_model("nomic-embed-text")
+```
+
+---
+## Basic Usage
+
+### List installed models
+
+``` r
+list_models()
+```
+
+```
+# A tibble: 6 × 11
+  name       model modified_at   size digest parent_model format family families
+  &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;  &lt;list&gt;  
+1 hf.co/Ric… hf.c… 2025-01-04… 4.92e9 30e73… ""           gguf   llama  &lt;chr&gt;   
+2 moondream… moon… 2025-01-03… 1.74e9 55fc3… ""           gguf   phi2   &lt;chr&gt;   
+3 moondream… moon… 2025-01-03… 1.74e9 55fc3… ""           gguf   phi2   &lt;chr&gt;   
+4 llama3.2:… llam… 2025-01-03… 2.02e9 a80c4… ""           gguf   llama  &lt;chr&gt;   
+5 nomic-emb… nomi… 2024-10-06… 2.74e8 0a109… ""           gguf   nomic… &lt;chr&gt;   
+6 llama3.2:… llam… 2024-10-02… 2.02e9 a80c4… ""           gguf   llama  &lt;chr&gt;   
+# ℹ 2 more variables: parameter_size &lt;chr&gt;, quantization_level &lt;chr&gt;
+```
+
+---
+## Basic Usage
+
+### _Query_ and answer
+
+``` r
+q = "Describe the history of R programming language"
+
+query(q, "llama3.2")
+```
+
+&lt;small&gt;&lt;small&gt;&lt;small&gt;The R programming language has a rich and fascinating history that spans over three decades. Here's an overview:
+
+**Early Beginnings (1980s)**
+
+R is based on the statistical software S, which was developed in the 1970s by John Chambers at Bell Labs. Chambers, who is often referred to as the "father of R," began working on a new system that would allow users to create their own statistical models and data visualizations.
+
+**The First Version (1992)**
+
+In 1992, Chambers released the first version of S-PLUS, which was later renamed R. The initial release included many features from S, such as data manipulation, statistical modeling, and data visualization tools. However, it also introduced some new features, including a syntax inspired by Fortran.
+
+**The Rise of R (1990s)**
+
+In the early 1990s, R gained popularity among statisticians and researchers due to its ease of use, flexibility, and powerful statistical capabilities. The language's syntax was influenced by Fortran, which made it accessible to users familiar with other programming languages.
+
+**The Open-Source Movement (2001)**
+
+In 2001, Chambers released the source code for R under a permissive license, making the software open-source. This move marked a significant turning point in R's history, as it allowed the community to contribute to and improve the language.
+
+**The Foundation and the CRAN Project (2003)**
+
+In 2003, the R Foundation for Statistical Computing was established by Chambers and other key developers. The foundation aimed to promote the use of R, develop new features, and provide a platform for collaborative development. One of the initiatives launched by the foundation was the Comprehensive R Archive Network (CRAN), which serves as a repository for R packages.
+
+**Package Development and Community Growth (2000s)**
+
+The 2000s saw an explosion in the number of R packages available on CRAN, covering topics from data visualization to machine learning. The community grew rapidly, with thousands of users contributing to the language's development. This period also witnessed the rise of influential packages like ggplot2 and dplyr.
+
+**Modern Developments (2010s)**
+
+In recent years, R has continued to evolve with the introduction of new features, such as:
+
+1. **RStudio**: A popular integrated development environment (IDE) for R that provides tools for coding, data visualization, and project management.
+2. **Shiny**: A web application framework that enables developers to create interactive user interfaces.
+3. **Data Visualization Packages**: The introduction of packages like ggplot2, Shiny, and plotly has made it easier for users to create high-quality data visualizations.
+
+**Current Status (2020s)**
+
+Today, R is one of the most widely used programming languages in academia, industry, and government. Its popularity can be attributed to its:
+
+1. **Ease of use**: R's syntax is relatively simple and accessible to users with some programming experience.
+2. **Powerful statistical capabilities**: R offers an extensive range of statistical models and techniques.
+3. **Large community**: The R community is vast, with thousands of contributors to CRAN and many online forums.
+
+Overall, the history of R is a story of innovation, collaboration, and continuous improvement. From its humble beginnings as S-PLUS to its current status as one of the most popular programming languages, R has come a long way in providing users with a powerful tool for statistical computing and data analysis.&lt;/small&gt;&lt;/small&gt;&lt;/small&gt;
+
+---
+## Basic Usage
+
+### _Chat_ and answer
+
+``` r
+q = "Describe the history of R programming language"
+
+chat(q, "llama3.2")
+```
+
+&lt;small&gt;&lt;small&gt;&lt;small&gt;The R programming language was created by Ross Ihaka and Robert Gentleman in the early 1990s. Here's a brief history of R:
+
+**Early Development (1992-1995)**
+
+Ross Ihaka, a statistician at the University of Waikato in New Zealand, and Robert Gentleman, a biologist and software developer, began working on a statistical programming language in 1992. They were both interested in creating a language that would allow users to easily perform statistical analysis and visualization using high-performance computing.
+
+The initial version of R was called "S-PLUS," but the name was later changed to R in 1995. The "R" stood for "Reconstruction," which referred to the reconstruction of the S system (a programming language developed by John Chambers) into a more modern, object-oriented design.
+
+**Release and Growth (1996-2000)**
+
+In 1996, R was released under the GNU General Public License (GPL), allowing users to freely distribute and modify the software. This move helped R gain popularity among the statistical community.
+
+During this period, Ihaka and Gentleman continued to work on R, adding new features and improving performance. They also established a user-friendly interface for R, which made it easier for users to learn and use the language.
+
+**Expansion and Community (2001-2010)**
+
+In 2001, the CRAN (Comprehensive R Archive Network) was established to provide a centralized location for R packages, making it easier for developers to share their work with the community. This marked a significant turning point in R's growth, as it enabled users to easily install and update packages.
+
+The early 2000s saw an influx of new contributors to R, including academics, statisticians, and data analysts. The language gained popularity among researchers and practitioners alike, particularly in the fields of economics, finance, and biology.
+
+**Modern Developments (2011-Present)**
+
+In recent years, R has continued to evolve, with significant improvements in performance, usability, and accessibility. Some notable developments include:
+
+* **R Studio**: A popular integrated development environment (IDE) for R, which provides a user-friendly interface for data manipulation, visualization, and analysis.
+* **Data Visualization Packages**: The introduction of packages like ggplot2, Shiny, and plotly has made it easier for users to create interactive and dynamic visualizations.
+* **Machine Learning and Deep Learning Libraries**: The incorporation of libraries like caret, dplyr, and tflearn has enabled R to become a viable platform for machine learning and deep learning applications.
+
+Today, R is widely used in academia, industry, and research institutions around the world. Its versatility, flexibility, and ease of use have made it an essential tool for data analysis, visualization, and modeling.
+
+**Key Milestones**
+
+* 1992: Ross Ihaka and Robert Gentleman begin working on a statistical programming language.
+* 1995: R is released as S-PLUS.
+* 1996: R is released under the GNU General Public License (GPL).
+* 2001: The CRAN is established to provide a centralized location for R packages.
+* 2013: R Studio is introduced, providing an IDE for R users.
+
+Overall, R's history reflects its commitment to community-driven development, innovative software design, and continuous improvement. Its enduring popularity is a testament to the power of collaboration and the need for accessible, high-quality statistical analysis tools.&lt;/small&gt;&lt;/small&gt;&lt;/small&gt;
+
+---
+## Basic Usage
+
+### _Chat_ and answer
+
+``` r
+chat("Summarize it", "llama3.2")
+```
+
+&lt;small&gt;&lt;small&gt;Here's a summary of the history of the R programming language:
+
+**Early Development (1992-1995)**: Ross Ihaka and Robert Gentleman created R as a replacement for S-PLUS.
+
+**Release and Growth (1996-2000)**: R was released under the GPL, gaining popularity among statisticians. The CRAN was established to provide a centralized location for R packages.
+
+**Expansion and Community (2001-2010)**: New contributors joined, making R more accessible and popular.
+
+**Modern Developments (2011-Present)**: Improvements in performance, usability, and accessibility led to the creation of R Studio, new data visualization libraries, and machine learning tools.
+
+**Key Milestones**: 1992: R started development; 1995: S-PLUS renamed; 1996: GPL release; 2001: CRAN established; 2013: R Studio introduced.
+
+Today, R is widely used in academia, industry, and research institutions worldwide due to its versatility, flexibility, and ease of use.&lt;/small&gt;&lt;/small&gt;
+
+---
+## Basic Usage
+
+### Describe image
+
+.pull-left[
+
+``` r
+img = "rollama_webinar.jpeg"
+
+q = "Describe the given image"
+query(q, "moondream", images = img)
+```
+
+&lt;small&gt;&lt;small&gt;&lt;small&gt;
+The image features a poster for an event, likely a webinar or conference. The poster is predominantly white with black text and includes two men standing side by side in front of a shield. One man appears to be wearing a suit while the other has a tie on. They are positioned against a gray background, which contrasts nicely with their attire.
+
+The event's title is prominently displayed at the top of the poster, along with the date and time it will take place. The poster also includes a code for accessing the event details, likely a website or social media account where attendees can register or find more information about the event.&lt;/small&gt;&lt;/small&gt;&lt;/small&gt;
+]
+
+.pull-right[
+&lt;img src="rollama_webinar.jpeg" height="425px"&gt;
+]
+
+---
+## Basic Usage
+
+### Text to embeddings
+
+``` r
+# from: https://ollama.com/blog/embedding-models
+docs = c(
+  "Llamas are members of the camelid family meaning they're pretty closely related to vicunas and camels",
+  "Llamas were first domesticated and used as pack animals 4,000 to 5,000 years ago in the Peruvian highlands",
+  "Llamas can grow as much as 6 feet tall though the average llama between 5 feet 6 inches and 5 feet 9 inches tall",
+  "Llamas weigh between 280 and 450 pounds and can carry 25 to 30 percent of their body weight",
+  "Llamas are vegetarians and have very efficient digestive systems",
+  "Llamas live to be about 20 years old, though some only live for 15 years and others live to be 30 years old"
+)
+nums = embed_text(docs, "nomic-embed-text")
+```
+
+---
+## Basic Usage
+
+### Text to embeddings
+
+``` r
+dim(nums)
+```
+
+```
+[1]   6 768
+```
+
+``` r
+head(nums)
+```
+
+```
+# A tibble: 6 × 768
+   dim_1   dim_2 dim_3  dim_4  dim_5  dim_6  dim_7   dim_8   dim_9  dim_10
+   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 0.551   0.344  -3.61 -1.23   0.433 -0.503 -1.70  -1.54   -0.690  -0.364 
+2 0.647  -0.0234 -4.03 -0.805  0.335  0.171 -1.19  -0.178  -0.570   0.240 
+3 0.961   1.28   -3.66 -0.773 -1.24   0.678 -0.610 -0.242  -0.874   0.138 
+4 0.0560  0.729  -3.90 -1.20  -0.296  0.714 -1.18  -0.220  -1.30    0.173 
+5 0.0300  1.87   -3.79 -0.370  0.441 -0.649 -1.73  -0.894  -1.30    0.0216
+6 0.542  -0.127  -3.93 -1.13  -0.647  1.11  -1.14   0.0426 -0.0564  0.190 
+# ℹ 758 more variables: dim_11 &lt;dbl&gt;, dim_12 &lt;dbl&gt;, dim_13 &lt;dbl&gt;, dim_14 &lt;dbl&gt;,
+#   dim_15 &lt;dbl&gt;, dim_16 &lt;dbl&gt;, dim_17 &lt;dbl&gt;, dim_18 &lt;dbl&gt;, dim_19 &lt;dbl&gt;,
+#   dim_20 &lt;dbl&gt;, dim_21 &lt;dbl&gt;, dim_22 &lt;dbl&gt;, dim_23 &lt;dbl&gt;, dim_24 &lt;dbl&gt;,
+#   dim_25 &lt;dbl&gt;, dim_26 &lt;dbl&gt;, dim_27 &lt;dbl&gt;, dim_28 &lt;dbl&gt;, dim_29 &lt;dbl&gt;,
+#   dim_30 &lt;dbl&gt;, dim_31 &lt;dbl&gt;, dim_32 &lt;dbl&gt;, dim_33 &lt;dbl&gt;, dim_34 &lt;dbl&gt;,
+#   dim_35 &lt;dbl&gt;, dim_36 &lt;dbl&gt;, dim_37 &lt;dbl&gt;, dim_38 &lt;dbl&gt;, dim_39 &lt;dbl&gt;,
+#   dim_40 &lt;dbl&gt;, dim_41 &lt;dbl&gt;, dim_42 &lt;dbl&gt;, dim_43 &lt;dbl&gt;, dim_44 &lt;dbl&gt;, …
+```
+
+---
+## Basic Usage
+
+_"Llamas are members of the camelid family meaning they're pretty closely related to vicunas and camels"_ becomes
+
+``` r
+nums[1,] |&gt; round(1) |&gt; as.numeric()
+```
+&lt;small&gt;&lt;small&gt;&lt;small&gt;&lt;small&gt;0.6 0.3 -3.6 -1.2 0.4 -0.5 -1.7 -1.5 -0.7 -0.4 -0.5 1.3 1.5 0.4 0.4 -0.5 -1 -0.6 1 0.5 -1.8 0.8 0.7 -0.2 1.2 -0.2 -0.6 0.8 0.2 -0.3 2.4 -0.1 0.8 -0.5 0 0.7 1.5 0.4 1.8 0.2 1.3 -0.2 0.2 0.5 0.7 -0.5 0.7 0.9 2 -0.1 1.2 -0.4 -0.9 0.2 0.8 0.1 0.8 0.1 0.3 -0.7 1.7 -0.1 -0.4 2 0.6 -0.7 -1.3 0.3 -0.5 0.1 0.5 -0.1 1.1 -0.1 -0.2 0.9 1.1 -0.2 -0.4 -0.7 1.8 0.4 0.6 0.1 0.9 0.3 -1.8 -0.2 -0.2 0.5 0.1 0.5 1.4 0.7 -1 1.2 -0.9 0.1 -0.5 -0.8 -0.9 -0.5 1.2 0.2 0.8 0 0.5 -0.6 -0.3 -0.4 -1.5 0.1 -0.1 -0.5 -1.1 -1 0.8 -0.9 0.8 0.7 -0.6 -0.9 -0.3 0.8 0.4 0.1 -0.2 0.3 1 -0.9 -0.4 -0.5 0.1 -0.5 0.3 0 0 -0.3 0.6 0.7 0.2 1.1 0.5 -0.7 0.4 -0.8 0.8 -0.9 -1 -0.6 0.3 1 -0.5 0.3 -0.3 -0.7 -0.4 -0.4 -0.3 0 0.5 -0.2 0.2 -0.1 -0.4 -0.6 1.8 0.6 1.6 1.6 -1.4 -0.4 0 -0.1 1.1 -0.4 0.3 -0.8 -0.2 -0.7 -0.3 -1.4 -0.1 1.3 -0.9 0.1 -0.1 -0.2 -1.1 -1.2 -0.7 1.8 0.7 -1.2 -0.3 -0.2 0.1 -0.4 0.2 -0.9 -1.1 0.2 -1.9 0.5 -1.1 0.6 -0.1 -1.2 -0.5 0.8 0.5 -0.3 -0.4 0 -0.5 -0.8 -0.1 -0.4 -0.4 1.2 0.6 0.8 1.3 -0.8 1.6 0.2 -1.3 0.4 -0.6 0.2 0.2 -0.1 1.4 -0.3 0.7 0.1 0.5 0.5 -0.2 -0.2 -0.4 -0.6 -0.1 -0.3 -1.4 -0.1 0.4 -1 -0.4 1.7 0.3 -0.9 0.6 0.2 0.4 -0.1 -0.2 -0.6 0 -0.2 0.4 -0.8 0.8 -0.6 -0.5 -0.6 0.2 -0.1 -0.2 -0.8 -0.5 0.8 1.1 -0.4 0.1 -0.1 -0.3 -0.5 -0.6 -0.2 1.5 -1.3 -0.6 -0.5 0 0.7 1 0.3 0.3 -0.1 0.5 0.8 0.2 1.5 0.7 -0.2 2 0.6 -0.3 0.5 -0.1 0 1.2 0.3 0.1 0.1 0.2 -0.7 1 -0.7 -0.3 -0.1 -0.3 0.1 -0.2 1 -0.1 0.2 1.1 1.1 -0.1 -1.1 -0.4 -1.2 0.9 0.3 -0.7 0.4 0.1 -1 -0.2 1.1 1.2 0.1 -0.2 1.1 -1.1 -0.3 -0.3 0.4 0.7 -0.5 1.6 -0.8 -1.3 0.6 -0.4 -0.1 0.4 -0.8 -0.6 0.1 0.4 0.3 0.6 -0.9 0.3 -0.1 0.5 -0.2 1 -0.2 -0.2 -0.5 0.5 -0.2 0.4 0.3 0.9 -0.3 -0.6 0.6 -0.7 0 0.7 0.6 -1 -0.9 -1.9 -0.7 0.4 -0.1 0.4 1.2 0.5 0 0.6 -0.7 0.1 0.5 -0.1 -0.2 -1.4 -0.7 0.1 -0.5 1.6 0.1 -0.8 1.6 -0.9 -0.8 0.1 0.1 0.4 0.9 -0.5 -0.9 1.2 0.1 1 0.2 0.9 -0.2 -0.3 2.1 -0.1 0.6 -0.5 -0.1 0 1 -0.1 0.8 0.1 0.3 -0.1 0.5 -0.1 -0.6 0.2 1.2 1.5 0 0.5 -0.6 -0.1 0.9 0.3 -0.1 1.2 -0.1 -0.7 -0.6 0.8 1.9 0.7 -0.4 0.1 1 -0.1 0.7 0.6 -0.1 1.3 -0.6 -0.2 -0.5 1.6 0.4 0.8 0.2 -0.5 0.9 0.3 -0.7 0.5 0.4 -0.3 0.8 -0.6 0.7 -0.4 -0.4 -1.4 -0.6 -0.3 0.3 0.9 0.7 0.8 0.3 -1 -2.8 0.3 0.9 0.6 -0.4 -0.3 0.4 0.4 -0.6 0.7 0.4 0 -1.3 -0.1 0.2 2 0.6 0.4 1.3 -0.2 -0.6 1 -0.2 0.1 -1.1 -0.7 0.4 -1.3 0.2 -1 0.6 1.2 -1.2 0.9 0.3 -0.3 0.1 -0.3 -0.6 0 -0.5 -0.8 -0.2 0 -0.9 0 -0.2 -0.6 -0.3 -0.5 -0.1 -0.5 -0.5 0.3 1.5 0.8 -0.2 0.8 -0.9 -0.4 0.6 0.1 0.3 -0.5 -0.4 0.2 0.3 -0.4 -1.5 -0.1 -1.2 -0.1 -0.9 -0.1 0.1 -0.7 -0.2 0.2 0.4 0.4 -0.5 -0.8 -0.9 0 0.1 0.2 0.3 0.4 -1.3 -0.2 0.1 0.9 -0.6 0.1 -0.2 -0.7 -0.7 0 -1.9 -1.1 0.3 -0.4 0.5 -0.7 -0.3 -0.2 -0.6 0.5 0.9 -1 -0.9 0.1 -0.6 0.3 -0.8 -0.5 -1.1 0.8 -1.1 1.5 0.1 -1 0.5 0.1 1 0.2 -0.4 0.7 0.5 -0.4 -0.4 0.5 -0.3 0.2 -1.4 -1.1 0.2 -0.7 -0.7 -0.2 0.3 -0.4 0.7 -2.3 -0.2 0.5 0.4 -1.3 -0.2 -0.7 -1.2 -0.3 0 -1.4 -0.4 -0.2 0.8 0.5 -0.5 -0.6 1 1 -0.7 0.1 0.2 0.5 0.1 1.9 1.4 0.9 0.7 0.2 -0.5 0.6 -1.4 -1.1 -0.2 -0.3 1.2 -0.6 0.6 -0.2 0.2 0 -1.1 -1.6 0.9 0.4 -0.6 -0.1 -0.8 -0.1 -0.4 0.3 0.3 1.8 -0.2 0.2 -0.3 -0.7 -0.2 -0.6 -0.7 0.9 -1.1 0.1 -1.2 -0.5 -1.4 0 -0.5 0.2 0 0.2 0 -0.3 1.6 -0.7 1 0.2 1 0.5 -0.7 0.1 1.7 0.2 -0.3 -1.1 1.1 -0.5 1.7 1.1 -0.6 -0.7 -0.1 0 0.2 0.8 -0.7 0.7 -0.3 -0.4 -1.1 0.9 -2.2 0 -0.7 0.6 -0.2 -0.3 0.5 -0.3 0.1 -0.8 0.3 0.7 -0.1 -1.2 -0.1 -0.2 0.4 1.1 -1.7 -0.5 1.2 0.2 0.1 0.5 -0.8 0.1 -0.2 0.3 0.3 -0.9 0.7 0.9 -0.2 1.3 -0.1 1 0.3 -1.4 -1.1 -2.4 -0.9&lt;/small&gt;&lt;/small&gt;&lt;/small&gt;&lt;/small&gt;
+
+---
+## More details about models
+
+Important details of LLM models in your `ollama`
+
+``` r
+list_models()|&gt;names()
+```
+
+```
+ [1] "name"               "model"              "modified_at"       
+ [4] "size"               "digest"             "parent_model"      
+ [7] "format"             "family"             "families"          
+[10] "parameter_size"     "quantization_level"
+```
+
+``` r
+list_models()[, c("name", "family", "parameter_size", "format", "quantization_level")]
+```
+
+```
+# A tibble: 6 × 5
+  name                           family parameter_size format quantization_level
+  &lt;chr&gt;                          &lt;chr&gt;  &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;             
+1 hf.co/RichardErkhov/mesolitic… llama  8.03B          gguf   unknown           
+2 moondream:latest               phi2   1B             gguf   Q4_0              
+3 moondream:latest               phi2   1B             gguf   Q4_0              
+4 llama3.2:latest                llama  3.2B           gguf   Q4_K_M            
+5 nomic-embed-text:latest        nomic… 137M           gguf   F16               
+6 llama3.2:3b                    llama  3.2B           gguf   Q4_K_M            
+```
+
+---
+## Terms
+
+### Model size:
+
+- number of parameters in billions (B)
+- parameters = weights in deep neural networks
+- larger = better, but heavy to run (massive GPU requirement)
+- smaller = (maybe) not as good, but lighter to run (consumer GPU can run)
+
+---
+## Terms
+
+### Model size:
+
+- number of parameters in billions (B)
+- parameters = weights in deep neural networks
+- larger = better, but heavy to run (massive GPU requirement)
+- smaller = (maybe) not as good, but lighter to run (consumer GPU can run)
+- generally:
+  - 4B model = GPU 4Gb VRAM
+  - 8B model = GPU 8Gb VRAM
+  - 16B model = GPU 16Gb VRAM
+
+---
+## Terms
+
+### Quantization:
+
+- a technique _"to reduce the model's memory footprint and computational requirements without significantly sacrificing performance"_
+- reduce the precision of the weights of LLM models
+- floating points: FP32, FP16; integers: Q2, Q4 (common, default in ollama), Q5, Q6, Q8. in bits, i.e. Q4 is 4-bit integer
+
+---
+## Terms
+
+### Quantization:
+
+- a technique _"to reduce the model's memory footprint and computational requirements without significantly sacrificing performance"_
+- reduce the precision of the weights of LLM models
+- floating points: FP32, FP16; integers: Q2, Q4 (common, default in ollama), Q5, Q6, Q8. in bits, i.e. Q4 is 4-bit integer
+- quantization allows us to run local LLMs in our consumer grade PC
+
+--
+
+More on quantization types: https://huggingface.co/docs/hub/gguf#quantization-types
+
+---
+## Pull Malaysian LLM model
+
+### Pull model
+
+``` r
+m = "hf.co/RichardErkhov/mesolitica_-_malaysian-llama-3-8b-instruct-16k-gguf:Q4_K_M"
+pull_model(m)
+show_model(m)[, c("family", "parameter_size", "format", "quantization_level")]
+```
+
+
+```
+# A tibble: 1 × 4
+  family parameter_size format quantization_level
+  &lt;chr&gt;  &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;             
+1 llama  8.03B          gguf   unknown           
+```
+
+- How many parameters?
+- Quantization?
+
+---
+## Pull Malaysian LLM model
+
+### Pull model
+
+``` r
+m = "hf.co/RichardErkhov/mesolitica_-_malaysian-llama-3-8b-instruct-16k-gguf:Q4_K_M"
+pull_model(m)
+show_model(m)[, c("family", "parameter_size", "format", "quantization_level")]
+```
+
+
+```
+# A tibble: 1 × 4
+  family parameter_size format quantization_level
+  &lt;chr&gt;  &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;             
+1 llama  8.03B          gguf   unknown           
+```
+
+- How many parameters? **8 Billion**
+- Quantization? **Q4**
+
+--
+
+We will use this model in an example later.
+
+---
 class: center, middle
 
 # Examples using `rollama`
+
+Go to: https://wnarifin.github.io/workshop.html under "Examples using rollama"
 
 ---
 class: center, middle
 
 # Thanks!
+
+---
+## Additonal resources
+
+- Good resource on `ollama`: http://www.youtube.com/@technovangelist
+- `ollama` documentations: https://github.com/ollama/ollama/tree/main/docs
+- Open source LLM models: https://huggingface.co/
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
-"highlightLines": true,
+"highlightLines": false,
 "ratio": "16:9",
 "countIncrementalSlides": true
 });
@@ -187,24 +897,7 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
       links[i].target = '_blank';
     }
   }
-})();
-// adds .remark-code-has-line-highlighted class to <pre> parent elements
-// of code chunks containing highlighted lines with class .remark-code-line-highlighted
-(function(d) {
-  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
-  const preParents = [];
-  const findPreParent = function(line, p = 0) {
-    if (p > 1) return null; // traverse up no further than grandparent
-    const el = line.parentElement;
-    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
-  };
-
-  for (let line of hlines) {
-    let pre = findPreParent(line);
-    if (pre && !preParents.includes(pre)) preParents.push(pre);
-  }
-  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
-})(document);</script>
+})();</script>
 
 <script>
 slideshow._releaseMath = function(el) {
