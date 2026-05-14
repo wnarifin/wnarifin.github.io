@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>wnarifin.github.io > Sample size calculator</title>
+    <style type="text/css">
+        @import url("../wnarifin.css");
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+    <script type="text/javascript" src="pncchisquare.js"></script>
+    <script type="text/javascript" src="ncp.js"></script>
+    <script type="text/javascript" src="ssrmsea1.js"></script>
+
+</head>
+
+<body bgcolor="white">
+
+    <div style="margin: auto; width: 85%;">
+
+        <h1 align="center"><a href="https://wnarifin.github.io" class="fa fa-home"></a> &raquo; <a
+                href="https://wnarifin.github.io/ssc.html">Sample Size Calculator</a></h1>
+
+        <h2><a href="https://wnarifin.github.io/ssc_web.html">Sample Size Calculator (web)</a></h2>
+
+        <form name="SSRMSEA1" class="calc">
+            <fieldset>
+                <legend>
+                    <h3>Structural Equation Modeling - Root Mean Squared Error of Aproximation (RMSEA)</h3>
+                </legend>
+                <!-- inputs -->
+                <label>Expected RMSEA: </label><input name="rmsea" type="number" value="0.05" min="0" max="1"
+                    step="0.01"><br />
+                <!--typical value of RMSEA = 0.05-->
+                <label>Degrees of freedom (df, may calculate <a
+                        href="https://wnarifin.shinyapps.io/ss_sem_df/">here</a>): </label><input name="df"
+                    type="number" value="" min="1" max="1000" step="1"><br />
+                <label>Significance level (&alpha;): </label><input name="alpha" type="number" value="0.05" min="0"
+                    max="1" step="0.01"> Two-tailed<br />
+                <label>Power (1 - &beta;): </label><input name="power" type="number" value="80" min="0" max="100"
+                    step="5"> %<br />
+                <label>Expected dropout rate: </label><input name="drop" type="number" value="10" min="0" max="100"
+                    step="5"> %<br />
+                <!-- buttons -->
+                <label><input id="calculatebutton" type="button" value="Calculate" onClick="ssrmseaCalculate()">
+                    <input type="reset"></label><br />
+                <!-- results -->
+                <label>Sample size, n = </label><input name="n" value="" type="number" readonly><br />
+                <label>Sample size (with <span id="drop_">10</span>% dropout), n<sub>drop</sub> = </label><input
+                    name="n_drop" value="" type="number" readonly>
+            </fieldset>
+        </form>
+
+        <h3>References:</h3>
+        <p>Kim, K. H. (2005). The relation among fit indexes, power, and sample size in structural equation modeling.
+            <i>Structural Equation Modeling, 12</i>(3), 368-390. [Sample size formula, Non-centrality parameter
+            calculation]
+        </p>
+
+        <h3>References for algorithms(for calculating CDF of non-central chi-square):</h3>
+        <p>Ding, C. G. (1992). Algorithm AS 275: computing the non-central χ 2 distribution function.
+            <i>Journal of the Royal Statistical Society. Series C (Applied Statistics), 41</i>(2), 478-482.
+        </p>
+        <p>Pearson, E. S. (1959). Note on an approximation to the distribution of non-central χ2. <i>Biometrika,
+                46</i>(3/4), 364.
+        </p>
+        <p>Wilson, E. B., & Hilferty, M. M. (1931). The distribution of chi-square. <i>Proceedings of the National
+                Academy of Sciences of the United States of America, 17</i>(12), 684–688.
+        </p>
+        <p>Ross, A. H. (1999). Algorithm for calculating the noncentral chi-square distribution. <i>IEEE Transactions on
+                Information Theory, 45</i>(4), 1327-1333.
+        </p>
+
+        <h3>Suggested reference:</h3>
+        <p>APA: Arifin, W. N. (2025). A web-based sample size calculator for structural equation modelling. <i>Education
+                in
+                Medicine Journal, 17</i>(1), 195–212. https://doi.org/10.21315/eimj2025.17.1.14</p>
+        <p>Vancouver: Arifin WN. A web-based sample size calculator for structural equation modelling. <i>Education in
+                Medicine Journal</i>. 2025;17(1):195–212. https://doi.org/10.21315/eimj2025.17.1.14</p>
+
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License"
+                style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Sample
+        Size Calculator by Wan Nor Arifin is licensed under a <a rel="license"
+            href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons
+            Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+
+        <p align="center"><code>&copy; Wan Nor Arifin 2017-<script type="text/javascript" src="../year_now.js"></script>
+</code></p>
+
+    </div>
+
+</body>
+
+</html>
