@@ -4963,6 +4963,134 @@ tripod_table |&gt;
 </table>
 </div>
 </div>
+<div id="model-deployment-making-predictions-on-new-data" class="section level2" number="13">
+<h2><span class="header-section-number">13</span> Model Deployment:
+Making Predictions on New Data</h2>
+<p>Once we have thoroughly evaluated our models and selected the best
+candidate for deployment (for this demonstration, we will use the
+<strong>Decision Tree</strong>), we can use it to predict the diabetes
+status of new, unseen patients.</p>
+<p>First, we finalize our Decision Tree workflow using the exact tuned
+hyperparameters we extracted during cross-validation. Then, we fit
+(train) this finalized model on our full training dataset.</p>
+<pre class="r"><code># 1. Finalize the workflow with the best tuned parameters
+final_dt_wf &lt;- finalize_workflow(dt_wf, dt_results$best_params)
+
+# 2. Fit the finalized model to the full training set
+final_dt_model &lt;- fit(final_dt_wf, data = pima_train)</code></pre>
+<p>Now, let’s imagine a new patient comes into the clinic. We measure
+their vitals and record their clinical metrics into a new data frame.
+<em>(Note: The column names and data types must perfectly match the
+original training data).</em></p>
+<pre class="r"><code># 3. Create a new observation (mock patient data)
+new_patient &lt;- tibble::tibble(
+  pregnant = 2,
+  glucose = 155,
+  pressure = 72,
+  triceps = 30,
+  insulin = 125,
+  mass = 33.5,
+  pedigree = 0.55,
+  age = 35
+)
+
+# Display the new patient&#39;s profile
+knitr::kable(new_patient, caption = &quot;New Patient Clinical Profile&quot;)</code></pre>
+<table>
+<caption>New Patient Clinical Profile</caption>
+<thead>
+<tr class="header">
+<th align="right">pregnant</th>
+<th align="right">glucose</th>
+<th align="right">pressure</th>
+<th align="right">triceps</th>
+<th align="right">insulin</th>
+<th align="right">mass</th>
+<th align="right">pedigree</th>
+<th align="right">age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">155</td>
+<td align="right">72</td>
+<td align="right">30</td>
+<td align="right">125</td>
+<td align="right">33.5</td>
+<td align="right">0.55</td>
+<td align="right">35</td>
+</tr>
+</tbody>
+</table>
+<p>Finally, we pass this new patient data into our fitted model using
+the <code>predict()</code> function. We can ask the model for both the
+hard classification (Positive/Negative) and the underlying probability
+(how confident the model is in its decision).</p>
+<pre class="r"><code># 4. Generate predictions
+pred_class &lt;- predict(final_dt_model, new_data = new_patient)
+pred_probs &lt;- predict(final_dt_model, new_data = new_patient, type = &quot;prob&quot;)
+
+# Combine the patient data with the predictions into a single, clean table
+final_prediction &lt;- dplyr::bind_cols(
+  new_patient, 
+  pred_class, 
+  pred_probs
+)
+
+# Display the final prediction
+knitr::kable(
+  final_prediction, 
+  caption = &quot;Model Prediction Results&quot;,
+  digits = 3
+)</code></pre>
+<table>
+<caption>Model Prediction Results</caption>
+<colgroup>
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="5%" />
+<col width="9%" />
+<col width="4%" />
+<col width="13%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">pregnant</th>
+<th align="right">glucose</th>
+<th align="right">pressure</th>
+<th align="right">triceps</th>
+<th align="right">insulin</th>
+<th align="right">mass</th>
+<th align="right">pedigree</th>
+<th align="right">age</th>
+<th align="left">.pred_class</th>
+<th align="right">.pred_pos</th>
+<th align="right">.pred_neg</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">155</td>
+<td align="right">72</td>
+<td align="right">30</td>
+<td align="right">125</td>
+<td align="right">33.5</td>
+<td align="right">0.55</td>
+<td align="right">35</td>
+<td align="left">pos</td>
+<td align="right">0.603</td>
+<td align="right">0.397</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 
 
