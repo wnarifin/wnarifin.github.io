@@ -12,7 +12,7 @@
 <meta name="author" content="Dr. Wan Nor Arifin and my PA (En. Gemini 3.1 Pro)  Biostatistics &amp; Research Methdology Unit, Universiti Sains Malaysia" />
 
 
-<title>Machine Learning for Classification using R: Practical 1</title>
+<title>Machine Learning for Classification using R: Practical 2</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1485,7 +1485,7 @@ border-radius: 0px;
 
 
 <h1 class="title toc-ignore">Machine Learning for Classification using
-R: Practical 1</h1>
+R: Practical 2</h1>
 <h4 class="author">Dr. Wan Nor Arifin and my PA (En. Gemini 3.1 Pro)<br>
 Biostatistics &amp; Research Methdology Unit, Universiti Sains
 Malaysia</h4>
@@ -1497,645 +1497,75 @@ Malaysia</h4>
 <hr />
 <div id="overview" class="section level2" number="1">
 <h2><span class="header-section-number">1</span> Overview</h2>
-<p>This practical session uses the Pima Indians Diabetes dataset. We
-will use a 70:30 data split, 5-fold cross-validation for hyperparameter
-tuning, and evaluate the models using Accuracy, F1-score, AUC, and
-Brier’s score.</p>
+<p>Following our previous practical session, we noticed discrepancies
+between train and test performance (overfitting). In this session, we
+will use k-fold Cross-Validation (CV) to get an averaged, more realistic
+performance metric over the folds on the training data. We will also
+expand our toolkit to include Decision Trees, Random Forests, and
+XGBoost.</p>
 </div>
 <div id="install-packages-if-you-havent-done-so" class="section level2" number="2">
 <h2><span class="header-section-number">2</span> Install packages (if
 you haven’t done so)</h2>
-<pre class="r"><code># install.packages(c(&quot;tidymodels&quot;, &quot;mlbench&quot;, &quot;knitr&quot;))
-# install.packages(&quot;remotes&quot;)
-# For Windows, install RTools from https://cran.r-project.org/bin/windows/Rtools/
-# install.packages(&quot;parameters&quot;) # for building vignettes
-# remotes::install_github(&quot;wnarifin/MJMSTable&quot;, build_vignettes = TRUE) # for easy descriptive statistics</code></pre>
+<pre class="r"><code># install.packages(c(&quot;tidymodels&quot;, &quot;glmnet&quot;, &quot;rpart&quot;, &quot;ranger&quot;, &quot;xgboost&quot;, &quot;mlbench&quot;, &quot;knitr&quot;))</code></pre>
+</div>
+<div id="load-packages" class="section level2" number="3">
+<h2><span class="header-section-number">3</span> Load Packages</h2>
 <pre class="r"><code>library(tidymodels)
 library(glmnet)
+library(rpart)
+library(ranger)
+library(xgboost)
 library(mlbench)</code></pre>
 </div>
-<div id="load-and-prepare-the-data" class="section level2" number="3">
-<h2><span class="header-section-number">3</span> Load and Prepare the
+<div id="load-and-prepare-the-data" class="section level2" number="4">
+<h2><span class="header-section-number">4</span> Load and Prepare the
 Data</h2>
-<p>We load the dataset</p>
-<pre class="r"><code>?PimaIndiansDiabetes2</code></pre>
-<pre><code>#&gt; _P_i_m_a _I_n_d_i_a_n_s _D_i_a_b_e_t_e_s _D_a_t_a_b_a_s_e
-#&gt; 
-#&gt; _D_e_s_c_r_i_p_t_i_o_n:
-#&gt; 
-#&gt;      A data frame with 768 observations on 9 variables.
-#&gt; 
-#&gt; _U_s_a_g_e:
-#&gt; 
-#&gt;      data(&quot;PimaIndiansDiabetes&quot;, package = &quot;mlbench&quot;)
-#&gt;      data(&quot;PimaIndiansDiabetes2&quot;, package = &quot;mlbench&quot;)
-#&gt;      
-#&gt; _F_o_r_m_a_t:
-#&gt; 
-#&gt;        pregnant  Number of times pregnant                              
-#&gt;         glucose  Plasma glucose concentration (glucose tolerance test) 
-#&gt;        pressure  Diastolic blood pressure (mm Hg)                      
-#&gt;         triceps  Triceps skin fold thickness (mm)                      
-#&gt;         insulin  2-Hour serum insulin (mu U/ml)                        
-#&gt;            mass  Body mass index                                       
-#&gt;        pedigree  Diabetes pedigree function                            
-#&gt;             age  Age (years)                                           
-#&gt;        diabetes  Class variable (test for diabetes)                    
-#&gt;       
-#&gt; _D_e_t_a_i_l_s:
-#&gt; 
-#&gt;      The data set &#39;PimaIndiansDiabetes2&#39; contains a corrected version
-#&gt;      of the original data set. While the UCI repository index claims
-#&gt;      that there are no missing values, closer inspection of the data
-#&gt;      shows several physical impossibilities, e.g., blood pressure or
-#&gt;      body mass index of 0. In &#39;PimaIndiansDiabetes2&#39;, all zero values
-#&gt;      of &#39;glucose&#39;, &#39;pressure&#39;, &#39;triceps&#39;, &#39;insulin&#39; and &#39;mass&#39; have
-#&gt;      been set to &#39;NA&#39;, see also Wahba, Gu, Wang, and Chappell (1995)
-#&gt;      and Ripley (1996).
-#&gt; 
-#&gt; _S_o_u_r_c_e:
-#&gt; 
-#&gt;         • Original owners: National Institute of Diabetes and Digestive
-#&gt;           and Kidney Diseases
-#&gt; 
-#&gt;         • Donor of database: Vincent Sigillito (vgs@aplcen.apl.jhu.edu)
-#&gt; 
-#&gt;      These data have been taken from the UCI Repository Of Machine
-#&gt;      Learning Databases (Blake and Merz 1998) and were converted to R
-#&gt;      format by Friedrich Leisch in the late 1990s.
-#&gt; 
-#&gt;      The data no longer seems to be available from the UC Irvine
-#&gt;      Machine Learning Repository (now at
-#&gt;      &lt;https://archive.ics.uci.edu/&gt;).
-#&gt; 
-#&gt; _R_e_f_e_r_e_n_c_e_s:
-#&gt; 
-#&gt;      Blake CL, Merz CJ (1998). &quot;UCI Repository of Machine Learning
-#&gt;      Databases.&quot; University of California, Irvine, Department of
-#&gt;      Information and Computer Science.  Formerly available from
-#&gt;      &#39;http://www.ics.uci.edu/~mlearn/MLRepository.html&#39;.
-#&gt; 
-#&gt;      Ripley BD (1996). _Pattern Recognition and Neural Networks_.
-#&gt;      Cambridge University Press, Cambridge.
-#&gt;      doi:10.1017/CBO9780511812651
-#&gt;      &lt;https://doi.org/10.1017/CBO9780511812651&gt;.
-#&gt; 
-#&gt;      Wahba G, Gu C, Wang Y, Chappell R (1995). &quot;Chapter Soft
-#&gt;      Classification, a.k.a. Risk Estimation, via Penalized Log
-#&gt;      Likelihood and Smoothing Spline Analysis of Variance.&quot; In Wolpert
-#&gt;      DH (ed.), _The Mathematics of Generalization_, 331-359.
-#&gt;      Addison-Wesley, Reading, MA.
-#&gt; 
-#&gt; _E_x_a_m_p_l_e_s:
-#&gt; 
-#&gt;      data(&quot;PimaIndiansDiabetes&quot;, package = &quot;mlbench&quot;)
-#&gt;      summary(PimaIndiansDiabetes)
-#&gt;      
-#&gt;      data(&quot;PimaIndiansDiabetes2&quot;, package = &quot;mlbench&quot;)
-#&gt;      summary(PimaIndiansDiabetes2)
-#&gt; </code></pre>
+<p>We load the dataset and prepare it by releveling the outcome variable
+and removing missing values.</p>
 <pre class="r"><code>data(&quot;PimaIndiansDiabetes2&quot;)
-pima &lt;- PimaIndiansDiabetes2
-str(pima)</code></pre>
-<pre><code>#&gt; &#39;data.frame&#39;:    768 obs. of  9 variables:
-#&gt;  $ pregnant: num  6 1 8 1 0 5 3 10 2 8 ...
-#&gt;  $ glucose : num  148 85 183 89 137 116 78 115 197 125 ...
-#&gt;  $ pressure: num  72 66 64 66 40 74 50 NA 70 96 ...
-#&gt;  $ triceps : num  35 29 NA 23 35 NA 32 NA 45 NA ...
-#&gt;  $ insulin : num  NA NA NA 94 168 NA 88 NA 543 NA ...
-#&gt;  $ mass    : num  33.6 26.6 23.3 28.1 43.1 25.6 31 35.3 30.5 NA ...
-#&gt;  $ pedigree: num  0.627 0.351 0.672 0.167 2.288 ...
-#&gt;  $ age     : num  50 31 32 21 33 30 26 29 53 54 ...
-#&gt;  $ diabetes: Factor w/ 2 levels &quot;neg&quot;,&quot;pos&quot;: 2 1 2 1 2 1 2 1 2 2 ...</code></pre>
+pima &lt;- PimaIndiansDiabetes2</code></pre>
 <p>Relevel so the positive class (“pos”) is the first level for
 yardstick metrics.</p>
-<pre class="r"><code>pima$diabetes &lt;- relevel(pima$diabetes, ref = &quot;pos&quot;)
-levels(pima$diabetes)</code></pre>
-<pre><code>#&gt; [1] &quot;pos&quot; &quot;neg&quot;</code></pre>
-<p>Remove observations with NA (missing data). In practice we can save
-them with imputation.</p>
-<pre class="r"><code>pima &lt;- na.omit(pima)
-str(pima)</code></pre>
-<pre><code>#&gt; &#39;data.frame&#39;:    392 obs. of  9 variables:
-#&gt;  $ pregnant: num  1 0 3 2 1 5 0 1 1 3 ...
-#&gt;  $ glucose : num  89 137 78 197 189 166 118 103 115 126 ...
-#&gt;  $ pressure: num  66 40 50 70 60 72 84 30 70 88 ...
-#&gt;  $ triceps : num  23 35 32 45 23 19 47 38 30 41 ...
-#&gt;  $ insulin : num  94 168 88 543 846 175 230 83 96 235 ...
-#&gt;  $ mass    : num  28.1 43.1 31 30.5 30.1 25.8 45.8 43.3 34.6 39.3 ...
-#&gt;  $ pedigree: num  0.167 2.288 0.248 0.158 0.398 ...
-#&gt;  $ age     : num  21 33 26 53 59 51 31 33 32 27 ...
-#&gt;  $ diabetes: Factor w/ 2 levels &quot;pos&quot;,&quot;neg&quot;: 2 1 1 1 1 1 1 2 1 2 ...
-#&gt;  - attr(*, &quot;na.action&quot;)= &#39;omit&#39; Named int [1:376] 1 2 3 6 8 10 11 12 13 16 ...
-#&gt;   ..- attr(*, &quot;names&quot;)= chr [1:376] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;6&quot; ...</code></pre>
-<pre class="r"><code>summary(pima)</code></pre>
-<pre><code>#&gt;     pregnant         glucose         pressure         triceps     
-#&gt;  Min.   : 0.000   Min.   : 56.0   Min.   : 24.00   Min.   : 7.00  
-#&gt;  1st Qu.: 1.000   1st Qu.: 99.0   1st Qu.: 62.00   1st Qu.:21.00  
-#&gt;  Median : 2.000   Median :119.0   Median : 70.00   Median :29.00  
-#&gt;  Mean   : 3.301   Mean   :122.6   Mean   : 70.66   Mean   :29.15  
-#&gt;  3rd Qu.: 5.000   3rd Qu.:143.0   3rd Qu.: 78.00   3rd Qu.:37.00  
-#&gt;  Max.   :17.000   Max.   :198.0   Max.   :110.00   Max.   :63.00  
-#&gt;     insulin            mass          pedigree           age        diabetes 
-#&gt;  Min.   : 14.00   Min.   :18.20   Min.   :0.0850   Min.   :21.00   pos:130  
-#&gt;  1st Qu.: 76.75   1st Qu.:28.40   1st Qu.:0.2697   1st Qu.:23.00   neg:262  
-#&gt;  Median :125.50   Median :33.20   Median :0.4495   Median :27.00            
-#&gt;  Mean   :156.06   Mean   :33.09   Mean   :0.5230   Mean   :30.86            
-#&gt;  3rd Qu.:190.00   3rd Qu.:37.10   3rd Qu.:0.6870   3rd Qu.:36.00            
-#&gt;  Max.   :846.00   Max.   :67.10   Max.   :2.4200   Max.   :81.00</code></pre>
-<p>Descriptive statistics</p>
-<pre class="r"><code>MJMSTable::descriptive_tbl(
-  pima,
-  group_var = &quot;diabetes&quot;,
-  included_var = names(pima[,-9]) # diabetes is the 9th variable in the dataset
-  )</code></pre>
-<div id="axwrjqicpc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#axwrjqicpc table {
-font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-}
-#axwrjqicpc thead, #axwrjqicpc tbody, #axwrjqicpc tfoot, #axwrjqicpc tr, #axwrjqicpc td, #axwrjqicpc th {
-border-style: none;
-}
-#axwrjqicpc p {
-margin: 0;
-padding: 0;
-}
-#axwrjqicpc .gt_table {
-display: table;
-border-collapse: collapse;
-line-height: normal;
-margin-left: auto;
-margin-right: auto;
-color: #333333;
-font-size: 16px;
-font-weight: normal;
-font-style: normal;
-background-color: #FFFFFF;
-width: auto;
-border-top-style: solid;
-border-top-width: 2px;
-border-top-color: #A8A8A8;
-border-right-style: none;
-border-right-width: 2px;
-border-right-color: #D3D3D3;
-border-bottom-style: solid;
-border-bottom-width: 2px;
-border-bottom-color: #A8A8A8;
-border-left-style: none;
-border-left-width: 2px;
-border-left-color: #D3D3D3;
-}
-#axwrjqicpc .gt_caption {
-padding-top: 4px;
-padding-bottom: 4px;
-}
-#axwrjqicpc .gt_title {
-color: #333333;
-font-size: 125%;
-font-weight: initial;
-padding-top: 4px;
-padding-bottom: 4px;
-padding-left: 5px;
-padding-right: 5px;
-border-bottom-color: #FFFFFF;
-border-bottom-width: 0;
-}
-#axwrjqicpc .gt_subtitle {
-color: #333333;
-font-size: 85%;
-font-weight: initial;
-padding-top: 3px;
-padding-bottom: 5px;
-padding-left: 5px;
-padding-right: 5px;
-border-top-color: #FFFFFF;
-border-top-width: 0;
-}
-#axwrjqicpc .gt_heading {
-background-color: #FFFFFF;
-text-align: center;
-border-bottom-color: #FFFFFF;
-border-left-style: none;
-border-left-width: 1px;
-border-left-color: #D3D3D3;
-border-right-style: none;
-border-right-width: 1px;
-border-right-color: #D3D3D3;
-}
-#axwrjqicpc .gt_bottom_border {
-border-bottom-style: solid;
-border-bottom-width: 2px;
-border-bottom-color: #D3D3D3;
-}
-#axwrjqicpc .gt_col_headings {
-border-top-style: solid;
-border-top-width: 2px;
-border-top-color: #D3D3D3;
-border-bottom-style: solid;
-border-bottom-width: 2px;
-border-bottom-color: #D3D3D3;
-border-left-style: none;
-border-left-width: 1px;
-border-left-color: #D3D3D3;
-border-right-style: none;
-border-right-width: 1px;
-border-right-color: #D3D3D3;
-}
-#axwrjqicpc .gt_col_heading {
-color: #333333;
-background-color: #FFFFFF;
-font-size: 100%;
-font-weight: normal;
-text-transform: inherit;
-border-left-style: none;
-border-left-width: 1px;
-border-left-color: #D3D3D3;
-border-right-style: none;
-border-right-width: 1px;
-border-right-color: #D3D3D3;
-vertical-align: bottom;
-padding-top: 5px;
-padding-bottom: 6px;
-padding-left: 5px;
-padding-right: 5px;
-overflow-x: hidden;
-}
-#axwrjqicpc .gt_column_spanner_outer {
-color: #333333;
-background-color: #FFFFFF;
-font-size: 100%;
-font-weight: normal;
-text-transform: inherit;
-padding-top: 0;
-padding-bottom: 0;
-padding-left: 4px;
-padding-right: 4px;
-}
-#axwrjqicpc .gt_column_spanner_outer:first-child {
-padding-left: 0;
-}
-#axwrjqicpc .gt_column_spanner_outer:last-child {
-padding-right: 0;
-}
-#axwrjqicpc .gt_column_spanner {
-border-bottom-style: solid;
-border-bottom-width: 2px;
-border-bottom-color: #D3D3D3;
-vertical-align: bottom;
-padding-top: 5px;
-padding-bottom: 5px;
-overflow-x: hidden;
-display: inline-block;
-width: 100%;
-}
-#axwrjqicpc .gt_spanner_row {
-border-bottom-style: hidden;
-}
-#axwrjqicpc .gt_group_heading {
-padding-top: 8px;
-padding-bottom: 8px;
-padding-left: 5px;
-padding-right: 5px;
-color: #333333;
-background-color: #FFFFFF;
-font-size: 100%;
-font-weight: initial;
-text-transform: inherit;
-border-top-style: solid;
-border-top-width: 2px;
-border-top-color: #D3D3D3;
-border-bottom-style: solid;
-border-bottom-width: 2px;
-border-bottom-color: #D3D3D3;
-border-left-style: none;
-border-left-width: 1px;
-border-left-color: #D3D3D3;
-border-right-style: none;
-border-right-width: 1px;
-border-right-color: #D3D3D3;
-vertical-align: middle;
-text-align: left;
-}
-#axwrjqicpc .gt_empty_group_heading {
-padding: 0.5px;
-color: #333333;
-background-color: #FFFFFF;
-font-size: 100%;
-font-weight: initial;
-border-top-style: solid;
-border-top-width: 2px;
-border-top-color: #D3D3D3;
-border-bottom-style: solid;
-border-bottom-width: 2px;
-border-bottom-color: #D3D3D3;
-vertical-align: middle;
-}
-#axwrjqicpc .gt_from_md > :first-child {
-margin-top: 0;
-}
-#axwrjqicpc .gt_from_md > :last-child {
-margin-bottom: 0;
-}
-#axwrjqicpc .gt_row {
-padding-top: 8px;
-padding-bottom: 8px;
-padding-left: 5px;
-padding-right: 5px;
-margin: 10px;
-border-top-style: solid;
-border-top-width: 1px;
-border-top-color: #D3D3D3;
-border-left-style: none;
-border-left-width: 1px;
-border-left-color: #D3D3D3;
-border-right-style: none;
-border-right-width: 1px;
-border-right-color: #D3D3D3;
-vertical-align: middle;
-overflow-x: hidden;
-}
-#axwrjqicpc .gt_stub {
-color: #333333;
-background-color: #FFFFFF;
-font-size: 100%;
-font-weight: initial;
-text-transform: inherit;
-border-right-style: solid;
-border-right-width: 2px;
-border-right-color: #D3D3D3;
-padding-left: 5px;
-padding-right: 5px;
-}
-#axwrjqicpc .gt_stub_row_group {
-color: #333333;
-background-color: #FFFFFF;
-font-size: 100%;
-font-weight: initial;
-text-transform: inherit;
-border-right-style: solid;
-border-right-width: 2px;
-border-right-color: #D3D3D3;
-padding-left: 5px;
-padding-right: 5px;
-vertical-align: top;
-}
-#axwrjqicpc .gt_row_group_first td {
-border-top-width: 2px;
-}
-#axwrjqicpc .gt_row_group_first th {
-border-top-width: 2px;
-}
-#axwrjqicpc .gt_summary_row {
-color: #333333;
-background-color: #FFFFFF;
-text-transform: inherit;
-padding-top: 8px;
-padding-bottom: 8px;
-padding-left: 5px;
-padding-right: 5px;
-}
-#axwrjqicpc .gt_first_summary_row {
-border-top-style: solid;
-border-top-color: #D3D3D3;
-}
-#axwrjqicpc .gt_first_summary_row.thick {
-border-top-width: 2px;
-}
-#axwrjqicpc .gt_last_summary_row {
-padding-top: 8px;
-padding-bottom: 8px;
-padding-left: 5px;
-padding-right: 5px;
-border-bottom-style: solid;
-border-bottom-width: 2px;
-border-bottom-color: #D3D3D3;
-}
-#axwrjqicpc .gt_grand_summary_row {
-color: #333333;
-background-color: #FFFFFF;
-text-transform: inherit;
-padding-top: 8px;
-padding-bottom: 8px;
-padding-left: 5px;
-padding-right: 5px;
-}
-#axwrjqicpc .gt_first_grand_summary_row {
-padding-top: 8px;
-padding-bottom: 8px;
-padding-left: 5px;
-padding-right: 5px;
-border-top-style: double;
-border-top-width: 6px;
-border-top-color: #D3D3D3;
-}
-#axwrjqicpc .gt_last_grand_summary_row_top {
-padding-top: 8px;
-padding-bottom: 8px;
-padding-left: 5px;
-padding-right: 5px;
-border-bottom-style: double;
-border-bottom-width: 6px;
-border-bottom-color: #D3D3D3;
-}
-#axwrjqicpc .gt_striped {
-background-color: rgba(128, 128, 128, 0.05);
-}
-#axwrjqicpc .gt_table_body {
-border-top-style: solid;
-border-top-width: 2px;
-border-top-color: #D3D3D3;
-border-bottom-style: solid;
-border-bottom-width: 2px;
-border-bottom-color: #D3D3D3;
-}
-#axwrjqicpc .gt_footnotes {
-color: #333333;
-background-color: #FFFFFF;
-border-bottom-style: none;
-border-bottom-width: 2px;
-border-bottom-color: #D3D3D3;
-border-left-style: none;
-border-left-width: 2px;
-border-left-color: #D3D3D3;
-border-right-style: none;
-border-right-width: 2px;
-border-right-color: #D3D3D3;
-}
-#axwrjqicpc .gt_footnote {
-margin: 0px;
-font-size: 90%;
-padding-top: 4px;
-padding-bottom: 4px;
-padding-left: 5px;
-padding-right: 5px;
-}
-#axwrjqicpc .gt_sourcenotes {
-color: #333333;
-background-color: #FFFFFF;
-border-bottom-style: none;
-border-bottom-width: 2px;
-border-bottom-color: #D3D3D3;
-border-left-style: none;
-border-left-width: 2px;
-border-left-color: #D3D3D3;
-border-right-style: none;
-border-right-width: 2px;
-border-right-color: #D3D3D3;
-}
-#axwrjqicpc .gt_sourcenote {
-font-size: 90%;
-padding-top: 4px;
-padding-bottom: 4px;
-padding-left: 5px;
-padding-right: 5px;
-}
-#axwrjqicpc .gt_left {
-text-align: left;
-}
-#axwrjqicpc .gt_center {
-text-align: center;
-}
-#axwrjqicpc .gt_right {
-text-align: right;
-font-variant-numeric: tabular-nums;
-}
-#axwrjqicpc .gt_font_normal {
-font-weight: normal;
-}
-#axwrjqicpc .gt_font_bold {
-font-weight: bold;
-}
-#axwrjqicpc .gt_font_italic {
-font-style: italic;
-}
-#axwrjqicpc .gt_super {
-font-size: 65%;
-}
-#axwrjqicpc .gt_footnote_marks {
-font-size: 75%;
-vertical-align: 0.4em;
-position: initial;
-}
-#axwrjqicpc .gt_asterisk {
-font-size: 100%;
-vertical-align: 0;
-}
-#axwrjqicpc .gt_indent_1 {
-text-indent: 5px;
-}
-#axwrjqicpc .gt_indent_2 {
-text-indent: 10px;
-}
-#axwrjqicpc .gt_indent_3 {
-text-indent: 15px;
-}
-#axwrjqicpc .gt_indent_4 {
-text-indent: 20px;
-}
-#axwrjqicpc .gt_indent_5 {
-text-indent: 25px;
-}
-#axwrjqicpc .katex-display {
-display: inline-flex !important;
-margin-bottom: 0.75em !important;
-}
-#axwrjqicpc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-height: 0px !important;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <caption><span class="gt_from_md"><strong>Table :</strong> Patient Demographics (<em>n</em> = 392)</span></caption>
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Variables</strong></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class="gt_from_md"><strong>pos</strong>
-(
-<em>n</em> = 130)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class="gt_from_md"><strong>neg</strong>
-(
-<em>n</em> = 262)</span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class="gt_from_md"><strong>Total</strong>
-<em>n</em> (%)</span></th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="label" class="gt_row gt_left">pregnant, Mean (SD)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span></td>
-<td headers="stat_1" class="gt_row gt_center">4.5 (3.9)</td>
-<td headers="stat_2" class="gt_row gt_center">2.7 (2.6)</td>
-<td headers="stat_0" class="gt_row gt_center">3.3 (3.2)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">glucose, Mean (SD)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span></td>
-<td headers="stat_1" class="gt_row gt_center">145.2 (29.8)</td>
-<td headers="stat_2" class="gt_row gt_center">111.4 (24.6)</td>
-<td headers="stat_0" class="gt_row gt_center">122.6 (30.9)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">pressure, Mean (SD)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span></td>
-<td headers="stat_1" class="gt_row gt_center">74.1 (13.0)</td>
-<td headers="stat_2" class="gt_row gt_center">69.0 (11.9)</td>
-<td headers="stat_0" class="gt_row gt_center">70.7 (12.5)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">triceps, Mean (SD)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span></td>
-<td headers="stat_1" class="gt_row gt_center">33.0 (9.6)</td>
-<td headers="stat_2" class="gt_row gt_center">27.3 (10.4)</td>
-<td headers="stat_0" class="gt_row gt_center">29.1 (10.5)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">insulin, Mean (SD)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span></td>
-<td headers="stat_1" class="gt_row gt_center">206.8 (132.7)</td>
-<td headers="stat_2" class="gt_row gt_center">130.9 (102.6)</td>
-<td headers="stat_0" class="gt_row gt_center">156.1 (118.8)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">mass, Mean (SD)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span></td>
-<td headers="stat_1" class="gt_row gt_center">35.8 (6.7)</td>
-<td headers="stat_2" class="gt_row gt_center">31.8 (6.8)</td>
-<td headers="stat_0" class="gt_row gt_center">33.1 (7.0)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">pedigree, Mean (SD)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span></td>
-<td headers="stat_1" class="gt_row gt_center">0.6 (0.4)</td>
-<td headers="stat_2" class="gt_row gt_center">0.5 (0.3)</td>
-<td headers="stat_0" class="gt_row gt_center">0.5 (0.3)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">age, Mean (SD)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span></td>
-<td headers="stat_1" class="gt_row gt_center">35.9 (10.6)</td>
-<td headers="stat_2" class="gt_row gt_center">28.3 (9.0)</td>
-<td headers="stat_0" class="gt_row gt_center">30.9 (10.2)</td></tr>
-  </tbody>
-  <tfoot>
-    <tr class="gt_footnotes">
-      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>a</sup></span> <span class="gt_from_md">Mean (SD)</span></td>
-    </tr>
-  </tfoot>
-</table>
+<pre class="r"><code>pima$diabetes &lt;- relevel(pima$diabetes, ref = &quot;pos&quot;)</code></pre>
+<p>Remove observations with NA (missing data). (Note: this reduces N
+from 768 to 392. In practice, imputation might be preferred).</p>
+<pre class="r"><code>pima &lt;- na.omit(pima)</code></pre>
 </div>
-</div>
-<div id="data-splitting-resampling" class="section level2" number="4">
-<h2><span class="header-section-number">4</span> Data Splitting &amp;
+<div id="data-splitting-resampling" class="section level2" number="5">
+<h2><span class="header-section-number">5</span> Data Splitting &amp;
 Resampling</h2>
 <p>We split the data into training (70%) and testing (30%) sets,
-stratified by the diabetes outcome to maintain class proportions. We
-also create 5-fold cross-validation folds from the training data.</p>
+stratified by the diabetes outcome to maintain class proportions.</p>
 <pre class="r"><code>set.seed(123)
-# 70:30 split, stratified by outcome
 pima_split &lt;- initial_split(pima, prop = 0.70, strata = diabetes)
-pima_train &lt;- training(pima_split)
-pima_test  &lt;- testing(pima_split)
-
-# 5-fold Cross-Validation
-set.seed(234)
-cv_folds &lt;- vfold_cv(pima_train, v = 10, strata = diabetes)
-
-# Create a recipe
-pima_rec &lt;- recipe(diabetes ~ ., data = pima_train) |&gt; 
-  step_normalize(all_numeric_predictors()) # data pre-processing
-# Normalizing numeric predictors is crucial for glmnet</code></pre>
+pima_train &lt;- training(pima_split)</code></pre>
+<p>We create 5-fold cross-validation folds from the training data.</p>
+<pre class="r"><code>set.seed(234)
+cv_folds &lt;- vfold_cv(pima_train, v = 10, strata = diabetes)</code></pre>
+<p>Create a recipe</p>
+<pre class="r"><code>pima_rec &lt;- recipe(diabetes ~ ., data = pima_train) |&gt; 
+  step_normalize(all_numeric_predictors()) </code></pre>
+<p>Normalizing numeric predictors is crucial for engines like
+<code>glmnet</code>.</p>
 </div>
-<div id="logistic-and-penalised-logistic-regression" class="section level2" number="5">
-<h2><span class="header-section-number">5</span> Logistic and Penalised
-Logistic Regression</h2>
-<div id="model-specifications" class="section level3" number="5.1">
-<h3><span class="header-section-number">5.1</span> Model
-Specifications</h3>
-<p>We specify two models: standard logistic regression using the
-<code>glm</code> engine, and penalized logistic regression using the
-<code>glmnet</code> engine. For the penalized model, we tag
-<code>penalty</code> and <code>mixture</code> for tuning.</p>
-<p><strong>Standard Logistic Regression (No tuning needed)</strong></p>
-<pre class="r"><code>log_spec &lt;- logistic_reg() |&gt;
-  set_engine(&quot;glm&quot;) |&gt;
+<div id="model-specifications" class="section level2" number="6">
+<h2><span class="header-section-number">6</span> Model
+Specifications</h2>
+<p>In <code>tidymodels</code>, we define the “blueprint” of the model
+before passing any data. Common elements used across these blueprints
+include:</p>
+<ul>
+<li><code>tune()</code>: A placeholder indicating that the best
+hyperparameter value will be found later during cross-validation.</li>
+<li><code>set_engine()</code>: Specifies the underlying R package to do
+the math (e.g., <code>glmnet</code>, <code>xgboost</code>).</li>
+<li><code>set_mode(&quot;classification&quot;)</code>: Specifies we are predicting
+a categorical outcome (“pos” or “neg”).</li>
+</ul>
+<p><strong>Standard Logistic Regression (Baseline)</strong></p>
+<pre class="r"><code>log_spec   &lt;- logistic_reg() |&gt; 
+  set_engine(&quot;glm&quot;) |&gt; 
   set_mode(&quot;classification&quot;)</code></pre>
 <p><strong>Penalized Logistic Regression (Elastic Net)</strong></p>
 <ul>
@@ -2148,186 +1578,149 @@ coefficients) and Lasso regression (forces some coefficients to exactly
 <pre class="r"><code>penal_spec &lt;- logistic_reg(penalty = tune(), mixture = tune()) |&gt; 
   set_engine(&quot;glmnet&quot;) |&gt; 
   set_mode(&quot;classification&quot;)</code></pre>
+<p><strong>Decision Tree</strong></p>
+<ul>
+<li><code>cost_complexity</code>: The pruning parameter. Penalizes the
+tree for getting too complicated, preventing it from fitting to
+noise.</li>
+<li><code>tree_depth</code>: Limits how many levels deep the single tree
+is allowed to grow.</li>
+</ul>
+<pre class="r"><code>dt_spec    &lt;- decision_tree(cost_complexity = tune(), tree_depth = tune()) |&gt; 
+  set_engine(&quot;rpart&quot;) |&gt; 
+  set_mode(&quot;classification&quot;)</code></pre>
+<p><strong>Random Forest</strong></p>
+<ul>
+<li><code>mtry</code>: The number of random predictors (columns) the
+model is allowed to consider at each split.</li>
+<li><code>min_n</code>: The minimum number of data points required in a
+node before it is allowed to split further.</li>
+<li><code>trees = 500</code>: Hardcodes the model to build exactly 500
+trees in the ensemble (a solid default).</li>
+</ul>
+<pre class="r"><code>rf_spec    &lt;- rand_forest(mtry = tune(), min_n = tune(), trees = 500) |&gt; 
+  set_engine(&quot;ranger&quot;) |&gt; 
+  set_mode(&quot;classification&quot;)</code></pre>
+<p><strong>XGBoost (Gradient Boosted Trees)</strong></p>
+<ul>
+<li><code>tree_depth</code>: Limits how deep each individual boosted
+tree can grow.</li>
+<li><code>learn_rate</code>: Shrinkage. Controls how much each
+sequential tree contributes to the final answer.</li>
+<li><code>trees = 500</code>: Builds 500 trees sequentially, where each
+new tree tries to fix the mistakes of the previous one.</li>
+</ul>
+<pre class="r"><code>xgb_spec   &lt;- boost_tree(tree_depth = tune(), learn_rate = tune(), trees = 500) |&gt; 
+  set_engine(&quot;xgboost&quot;) |&gt; 
+  set_mode(&quot;classification&quot;)</code></pre>
 </div>
-<div id="workflows" class="section level3" number="5.2">
-<h3><span class="header-section-number">5.2</span> Workflows</h3>
-<p>Workflows bundle the model specification and the formula together</p>
+<div id="workflows" class="section level2" number="7">
+<h2><span class="header-section-number">7</span> Workflows</h2>
+<p>Next, we bundle the preprocessing recipe and model specifications
+into workflows.</p>
 <pre class="r"><code>log_wf   &lt;- workflow() |&gt; add_recipe(pima_rec) |&gt; add_model(log_spec)
-penal_wf &lt;- workflow() |&gt; add_recipe(pima_rec) |&gt; add_model(penal_spec)</code></pre>
+penal_wf &lt;- workflow() |&gt; add_recipe(pima_rec) |&gt; add_model(penal_spec)
+dt_wf    &lt;- workflow() |&gt; add_recipe(pima_rec) |&gt; add_model(dt_spec)
+rf_wf    &lt;- workflow() |&gt; add_recipe(pima_rec) |&gt; add_model(rf_spec)
+xgb_wf   &lt;- workflow() |&gt; add_recipe(pima_rec) |&gt; add_model(xgb_spec)</code></pre>
 </div>
-<div id="tune-fit-models" class="section level3" number="5.3">
-<h3><span class="header-section-number">5.3</span> Tune &amp; Fit
-Models</h3>
-<p>We fit the standard model directly to the training data.</p>
-<pre class="r"><code># Fit standard model
-log_fit &lt;- fit(log_wf, data = pima_train)</code></pre>
-<p>For the penalized model, we use the 5-fold CV to test 20 random
-hyperparameter combinations, optimizing for AUC.</p>
-<pre class="r"><code># Tune penalized model
-set.seed(345)
-tune_res &lt;- tune_grid(
-  penal_wf,
-  resamples = cv_folds,
-  grid = 20, 
-  metrics = metric_set(roc_auc)
-)
-# Extract best hyperparameters and finalize the model
-best_params &lt;- select_best(tune_res, metric = &quot;roc_auc&quot;)
-final_penal_wf &lt;- finalize_workflow(penal_wf, best_params)
-penal_fit &lt;- fit(final_penal_wf, data = pima_train)</code></pre>
+<div id="define-evaluation-metrics" class="section level2" number="8">
+<h2><span class="header-section-number">8</span> Define Evaluation
+Metrics</h2>
+<p>We specify our desired yardstick metrics.</p>
+<pre class="r"><code>eval_metrics &lt;- metric_set(accuracy, f_meas, roc_auc, brier_class)</code></pre>
 </div>
-<div id="performance-evaluation-on-training-set" class="section level3" number="5.4">
-<h3><span class="header-section-number">5.4</span> Performance
-Evaluation on Training Set</h3>
-<p><strong>Standard Logistic</strong></p>
-<pre class="r"><code>predictions &lt;- pima_train |&gt;
-  bind_cols(
-    predict(log_fit, new_data = pima_train),
-    predict(log_fit, new_data = pima_train, type = &quot;prob&quot;)
+<div id="master-helper-function" class="section level2" number="9">
+<h2><span class="header-section-number">9</span> Master Helper
+Function</h2>
+<p>To streamline tuning, CV evaluation, and test set evaluation across
+multiple models without repeating code, we define a helper function
+<code>evaluate_model()</code>.</p>
+<pre class="r"><code>evaluate_model &lt;- function(workflow, model_name, requires_tuning = TRUE, seed = 345) {
+  set.seed(seed)
+  
+  # Step A: Tune and Finalize Workflow (if required)
+  if (requires_tuning) {
+    tune_res &lt;- tune_grid(
+      workflow,
+      resamples = cv_folds,
+      grid = 20,                      # Fixed: Matched to manual code
+      metrics = metric_set(roc_auc)   # Fixed: Use only AUC for tuning to prevent f_meas warnings
+    )
+    best_params &lt;- select_best(tune_res, metric = &quot;roc_auc&quot;)
+    final_wf &lt;- finalize_workflow(workflow, best_params)
+  } else {
+    final_wf &lt;- workflow
+  }
+  
+  # Step B: Calculate 5-Fold CV Performance (on Training Data)
+  set.seed(seed)
+  cv_resamples &lt;- fit_resamples(
+    final_wf,
+    resamples = cv_folds,
+    metrics = eval_metrics            # Evaluate all metrics on the final best model
   )
-predictions |&gt; conf_mat(truth = diabetes, estimate = .pred_class)</code></pre>
-<pre><code>#&gt;           Truth
-#&gt; Prediction pos neg
-#&gt;        pos  58  18
-#&gt;        neg  33 165</code></pre>
-<pre class="r"><code>predictions |&gt; accuracy(truth = diabetes, estimate = .pred_class)</code></pre>
-<pre><code>#&gt; # A tibble: 1 × 3
-#&gt;   .metric  .estimator .estimate
-#&gt;   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 accuracy binary         0.814</code></pre>
-<pre class="r"><code>predictions |&gt; f_meas(truth = diabetes, estimate = .pred_class)</code></pre>
-<pre><code>#&gt; # A tibble: 1 × 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 f_meas  binary         0.695</code></pre>
-<pre class="r"><code>predictions |&gt; roc_auc(truth = diabetes, .pred_pos)</code></pre>
-<pre><code>#&gt; # A tibble: 1 × 3
-#&gt;   .metric .estimator .estimate
-#&gt;   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 roc_auc binary         0.874</code></pre>
-<pre class="r"><code>predictions |&gt; brier_class(truth = diabetes, .pred_pos)</code></pre>
-<pre><code>#&gt; # A tibble: 1 × 3
-#&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 brier_class binary         0.133</code></pre>
-<p>To be more concise, we define all metrics: Accuracy, F1-score
-(f_meas), AUC (roc_auc), Brier score (brier_class).</p>
-<pre class="r"><code>eval_metrics &lt;- metric_set(accuracy, f_meas, roc_auc, brier_class)
-eval_metrics(
-  predictions, 
-  truth = diabetes, 
-  estimate = .pred_class, 
-  .pred_pos
-) -&gt; log_metric0; log_metric0</code></pre>
-<pre><code>#&gt; # A tibble: 4 × 3
-#&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 accuracy    binary         0.814
-#&gt; 2 f_meas      binary         0.695
-#&gt; 3 roc_auc     binary         0.874
-#&gt; 4 brier_class binary         0.133</code></pre>
-<p><strong>Penalised Logistic</strong></p>
-<pre class="r"><code>predictions &lt;- pima_train |&gt;
-  bind_cols(
-    predict(penal_fit, new_data = pima_train),
-    predict(penal_fit, new_data = pima_train, type = &quot;prob&quot;)
+  
+  cv_metrics &lt;- collect_metrics(cv_resamples) |&gt; 
+    dplyr::mutate(model = paste0(model_name, &quot; (CV Train)&quot;)) |&gt; 
+    dplyr::select(model, .metric, mean) |&gt; 
+    dplyr::rename(.estimate = mean)
+  
+  # Step C: Calculate Final Test Set Performance
+  set.seed(seed)
+  test_fit &lt;- last_fit(
+    final_wf,
+    split = pima_split,
+    metrics = eval_metrics            # Evaluate all metrics on the test set
   )
-
-eval_metrics(
-  predictions, 
-  truth = diabetes, 
-  estimate = .pred_class, 
-  .pred_pos
-) -&gt; penal_metric0; penal_metric0</code></pre>
-<pre><code>#&gt; # A tibble: 4 × 3
-#&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 accuracy    binary         0.818
-#&gt; 2 f_meas      binary         0.699
-#&gt; 3 roc_auc     binary         0.873
-#&gt; 4 brier_class binary         0.133</code></pre>
+  
+  test_metrics &lt;- collect_metrics(test_fit) |&gt; 
+    dplyr::mutate(model = paste0(model_name, &quot; (Test)&quot;)) |&gt; 
+    dplyr::select(model, .metric, .estimate)
+  
+  # Step D: Combine and return
+  dplyr::bind_rows(cv_metrics, test_metrics)
+}</code></pre>
 </div>
-<div id="performance-evaluation-on-test-set" class="section level3" number="5.5">
-<h3><span class="header-section-number">5.5</span> Performance
-Evaluation on Test Set</h3>
-<p><strong>Standard Logistic</strong></p>
-<pre class="r"><code>predictions &lt;- pima_test |&gt;
-  bind_cols(
-    predict(log_fit, new_data = pima_test),
-    predict(log_fit, new_data = pima_test, type = &quot;prob&quot;)
-  )
-
-eval_metrics(
-  predictions, 
-  truth = diabetes, 
-  estimate = .pred_class, 
-  .pred_pos
-) -&gt; log_metric; log_metric</code></pre>
-<pre><code>#&gt; # A tibble: 4 × 3
-#&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 accuracy    binary         0.729
-#&gt; 2 f_meas      binary         0.543
-#&gt; 3 roc_auc     binary         0.821
-#&gt; 4 brier_class binary         0.169</code></pre>
-<p><strong>Penalised Logistic</strong></p>
-<pre class="r"><code>predictions &lt;- pima_test |&gt;
-  bind_cols(
-    predict(penal_fit, new_data = pima_test),
-    predict(penal_fit, new_data = pima_test, type = &quot;prob&quot;)
-  )
-
-eval_metrics(
-  predictions, 
-  truth = diabetes, 
-  estimate = .pred_class, 
-  .pred_pos
-) -&gt; penal_metric; penal_metric</code></pre>
-<pre><code>#&gt; # A tibble: 4 × 3
-#&gt;   .metric     .estimator .estimate
-#&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;
-#&gt; 1 accuracy    binary         0.729
-#&gt; 2 f_meas      binary         0.543
-#&gt; 3 roc_auc     binary         0.821
-#&gt; 4 brier_class binary         0.168</code></pre>
+<div id="run-evaluations" class="section level2" number="10">
+<h2><span class="header-section-number">10</span> Run Evaluations</h2>
+<p>We now run our evaluation pipeline on all models. <em>(Note: Standard
+logistic regression does not have hyperparameters to tune, so we bypass
+tuning.)</em></p>
+<pre class="r"><code>log_results   &lt;- evaluate_model(log_wf, &quot;Standard Logistic&quot;, requires_tuning = FALSE)
+penal_results &lt;- evaluate_model(penal_wf, &quot;Penalized Logistic&quot;)
+dt_results    &lt;- evaluate_model(dt_wf, &quot;Decision Tree&quot;)
+rf_results    &lt;- evaluate_model(rf_wf, &quot;Random Forest&quot;)</code></pre>
+<pre><code>#&gt; i Creating pre-processing data to finalize 1 unknown parameter: &quot;mtry&quot;</code></pre>
+<pre class="r"><code>xgb_results   &lt;- evaluate_model(xgb_wf, &quot;XGBoost&quot;)</code></pre>
 </div>
-</div>
-<div id="compare-results" class="section level2" number="6">
-<h2><span class="header-section-number">6</span> Compare Results</h2>
-<p>Finally, we compare the metrics for all models on train &amp; test
-set and format them into a comparison table.</p>
-<pre class="r"><code>log_metric0 |&gt;
-  dplyr::mutate(model = &quot;Standard Logistic (Train)&quot;) |&gt; 
-  dplyr::select(model, .metric, .estimate) -&gt; log_perf0
-penal_metric0 |&gt;
-  dplyr::mutate(model = &quot;Penalized Logistic (Train)&quot;) |&gt; 
-  dplyr::select(model, .metric, .estimate) -&gt; penal_perf0
-log_metric |&gt;
-  dplyr::mutate(model = &quot;Standard Logistic (Test)&quot;) |&gt; 
-  dplyr::select(model, .metric, .estimate) -&gt; log_perf
-penal_metric |&gt;
-  dplyr::mutate(model = &quot;Penalized Logistic (Test)&quot;) |&gt; 
-  dplyr::select(model, .metric, .estimate) -&gt; penal_perf
+<div id="compare-results" class="section level2" number="11">
+<h2><span class="header-section-number">11</span> Compare Results</h2>
+<p>Finally, we bring all the results together to compare the CV metrics
+against the completely unseen Test Set metrics to assess
+generalization.</p>
+<pre class="r"><code>final_comparison &lt;- dplyr::bind_rows(
+  log_results, penal_results, dt_results, rf_results, xgb_results
+) |&gt; 
+  # Pivot to match ml-classification1.R format
+  tidyr::pivot_wider(names_from = .metric, values_from = .estimate) |&gt;
+  # Reorder columns explicitly to match the first practical
+  dplyr::select(model, accuracy, f_meas, roc_auc, brier_class)
 
 # Print the final output
-comparison &lt;- dplyr::bind_rows(
-  log_perf0, log_perf,
-  penal_perf0, penal_perf) |&gt;
-  tidyr::pivot_wider(names_from = .metric, values_from = .estimate)
-
-comparison |&gt; 
+final_comparison |&gt; 
   knitr::kable(
     col.names = c(&quot;Model&quot;, &quot;Accuracy&quot;, &quot;F1 Score&quot;, &quot;AUC&quot;, &quot;Brier Score&quot;),
-    digits = 3, # Optional: rounds the decimals to make the table cleaner
-    align = &quot;lcccc&quot; # Optional: Left-align the first column, center the rest
+    digits = 3, 
+    align = &quot;lcccc&quot;
   )</code></pre>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="40%" />
+<col width="42%" />
 <col width="14%" />
 <col width="14%" />
 <col width="10%" />
-<col width="19%" />
+<col width="18%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2340,11 +1733,11 @@ comparison |&gt;
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Standard Logistic (Train)</td>
-<td align="center">0.814</td>
-<td align="center">0.695</td>
-<td align="center">0.874</td>
-<td align="center">0.133</td>
+<td align="left">Standard Logistic (CV Train)</td>
+<td align="center">0.815</td>
+<td align="center">0.699</td>
+<td align="center">0.860</td>
+<td align="center">0.142</td>
 </tr>
 <tr class="even">
 <td align="left">Standard Logistic (Test)</td>
@@ -2354,11 +1747,11 @@ comparison |&gt;
 <td align="center">0.169</td>
 </tr>
 <tr class="odd">
-<td align="left">Penalized Logistic (Train)</td>
-<td align="center">0.818</td>
-<td align="center">0.699</td>
-<td align="center">0.873</td>
-<td align="center">0.133</td>
+<td align="left">Penalized Logistic (CV Train)</td>
+<td align="center">0.815</td>
+<td align="center">0.693</td>
+<td align="center">0.862</td>
+<td align="center">0.141</td>
 </tr>
 <tr class="even">
 <td align="left">Penalized Logistic (Test)</td>
@@ -2367,14 +1760,50 @@ comparison |&gt;
 <td align="center">0.821</td>
 <td align="center">0.168</td>
 </tr>
+<tr class="odd">
+<td align="left">Decision Tree (CV Train)</td>
+<td align="center">0.788</td>
+<td align="center">0.703</td>
+<td align="center">0.841</td>
+<td align="center">0.146</td>
+</tr>
+<tr class="even">
+<td align="left">Decision Tree (Test)</td>
+<td align="center">0.797</td>
+<td align="center">0.714</td>
+<td align="center">0.812</td>
+<td align="center">0.147</td>
+</tr>
+<tr class="odd">
+<td align="left">Random Forest (CV Train)</td>
+<td align="center">0.789</td>
+<td align="center">0.661</td>
+<td align="center">0.861</td>
+<td align="center">0.144</td>
+</tr>
+<tr class="even">
+<td align="left">Random Forest (Test)</td>
+<td align="center">0.754</td>
+<td align="center">0.592</td>
+<td align="center">0.821</td>
+<td align="center">0.157</td>
+</tr>
+<tr class="odd">
+<td align="left">XGBoost (CV Train)</td>
+<td align="center">0.789</td>
+<td align="center">0.647</td>
+<td align="center">0.871</td>
+<td align="center">0.140</td>
+</tr>
+<tr class="even">
+<td align="left">XGBoost (Test)</td>
+<td align="center">0.780</td>
+<td align="center">0.629</td>
+<td align="center">0.814</td>
+<td align="center">0.156</td>
+</tr>
 </tbody>
 </table>
-<p>Notice that there are discrepancies between train and test
-performance. Train performance is higher than when it is tested on the
-unseen test set. This is overfitting, the model unable to generalize to
-unseen data. How to get better idea of the real performance of the model
-in the training data? We will use k-fold CV in the next training session
-to get averaged performance over the folds.</p>
 </div>
 
 
