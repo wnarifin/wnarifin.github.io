@@ -3989,7 +3989,7 @@ Data with R and LLMs – Part 3</h1>
 <h4 class="author">Dr. Wan Nor Arifin and my PA (En. Gemini 3.1 Pro)<br>
 Biostatistics &amp; Research Methodology Unit, Universiti Sains
 Malaysia</h4>
-<h4 class="date">Updated: 22 July 2026</h4>
+<h4 class="date">Updated: 23 July 2026</h4>
 
 </div>
 
@@ -4000,30 +4000,12 @@ Data Import</h1>
 <p>In this initial step, we load the required R packages and stream in
 the primary dataset (<code>pt_data_full.jsonl</code>) generated from the
 previous clinical note extraction phase.</p>
-<pre class="r"><code># Libraries
-library(tidyllm)</code></pre>
-<pre><code>#&gt; 
-#&gt; Attaching package: &#39;tidyllm&#39;</code></pre>
-<pre><code>#&gt; The following object is masked from &#39;package:stats&#39;:
-#&gt; 
-#&gt;     embed</code></pre>
-<pre class="r"><code>library(jsonlite)
-library(purrr)</code></pre>
-<pre><code>#&gt; 
-#&gt; Attaching package: &#39;purrr&#39;</code></pre>
-<pre><code>#&gt; The following object is masked from &#39;package:jsonlite&#39;:
-#&gt; 
-#&gt;     flatten</code></pre>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>#&gt; 
-#&gt; Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>#&gt; The following objects are masked from &#39;package:stats&#39;:
-#&gt; 
-#&gt;     filter, lag</code></pre>
-<pre><code>#&gt; The following objects are masked from &#39;package:base&#39;:
-#&gt; 
-#&gt;     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code># Load data
+<pre class="r"><code>library(tidyllm)
+library(jsonlite)
+library(purrr)
+library(dplyr)
+
+# Load data
 json_file = &quot;pt_data_full.jsonl&quot;
 if (file.exists(json_file)) { # check if we indeed have the file
   patient_data &lt;- stream_in(file(json_file)) # Read the jsonl file
@@ -4031,9 +4013,7 @@ if (file.exists(json_file)) { # check if we indeed have the file
 } else {
   print(&quot;File not found.&quot;)
 }</code></pre>
-<pre><code>#&gt; opening file input connection.</code></pre>
 <pre><code>#&gt;  Found 13 records... Imported 13 records. Simplifying...</code></pre>
-<pre><code>#&gt; closing file input connection.</code></pre>
 <pre><code>#&gt; Rows: 13
 #&gt; Columns: 8
 #&gt; $ patient_name &lt;chr&gt; &quot;Ramasamy&quot;, &quot;Danial&quot;, &quot;Bella&quot;, &quot;Amy&quot;, &quot;Ryan&quot;, &quot;Suhaimi&quot;, …
@@ -4064,8 +4044,8 @@ glimpse(patient_data)</code></pre>
 #&gt; $ ix_imaging   &lt;list&gt; NA, NA, NA, NA, NA, &quot;KUB radiograph: bilateral staghorn …
 #&gt; $ diagnosis    &lt;chr&gt; &quot;NA&quot;, &quot;beta thalassemia major&quot;, &quot;breast cancer&quot;, &quot;HIV inf…</code></pre>
 <pre class="r"><code>DT::datatable(patient_data)</code></pre>
-<div class="datatables html-widget html-fill-item" id="htmlwidget-83b2e374793314909bb2" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-83b2e374793314909bb2">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13"],["Ramasamy","Danial","Bella","Amy","Ryan","Suhaimi","Fatimah","Ahmed","Najeeb","Danisha","Salmah","Hashim","Asyraf"],[45,0.5,56,35,8,45,27,70,60,0.019,50,17,35],["male","male","female","female","male","male","female","male","male","female","female","male","male"],[["heavy alcohol consumption","smoker","bedridden","right leg atrophy"],["pale","not active"],["breast lump"],["severe lethargy"],["fever","spontaneous gum bleeding"],["severe left loin pain","nausea","vomiting","fever","dysuria","incomplete bladder emptying"],["high grade fever","pain during micturition","feeling of incomplete passing out urine","increased frequency of micturition"],["inability to pass urine","suprapubic discomfort","nocturia","terminal dribbling","frequency","hesitancy","urgency"],["severe diarrhoea","nausea","vomiting","dark yellow urine","oliguria","lethargy"],["midline swelling over the lumbo-sacral spine","lower limbs not moving","increase in head circumference"],["difficulty in talking","difficulty in standing","asymmetrical face"],["weakness of both legs","numbness in legs","tingling sensation in legs","shortness of breath","diarrhoea","mild abdominal cramps"],["severe shortness of breath","cough"]],[["cardiomegaly","hepatomegaly"],[null],[null],[null],["pale","febrile","multiple bruises over upper and lower limbs","generalised lymphadenopathy","hepatomegaly 3 cm below right costal margin","splenomegaly 4 cm below left costal margin"],["alert and conscious","blood pressure 144/86 mmHg","pulse rate 100/min","respiratory rate 18/min","temperature 38 C","dehydrated","left renal punch positive"],["temperature 39C","pulse rate 100 bpm","blood pressure 140/80 mmHg","abdomen soft","mild tenderness at suprapubic region","kidneys not ballotable"],["suprapubic mass","large rubbery mass on the anterior aspect of prostate detected by DRE"],["drowsy","sunken eyes","dry lips","reduced skin turgor","blood pressure 100/60 mmHg","pulse rate 110/min with thready volume","temperature 39C","abdomen soft and non-tender","no masses","100 ml concentrated urine"],["generally active","both lower limbs not moving"],["GCS eye opening spontaneous","unable to produce spontaneous speech","intact speech understanding","BP 180/90 mmHg","pulse rate 110 bpm","right-sided facial weakness with forehead sparing","right upper and lower limb hypertonia","right upper and lower limb muscle strength grade 0","brisk tendon reflexes on the right","up-going plantar response on the right"],["normal vital signs","normal cranial nerves","no upper limb motor abnormalities","bilateral symmetrical weakness of lower limbs (MRC Grade 3-4/5)","loss of all deep tendon reflexes","bilateral upgoing plantar response","high-stepping gait","minimal impairment of light touch in lower limbs","normal anal tone and reflex"],["tachypneic","afebrile","normal vital signs","ronchi over anterior chest wall"]],[[null],[null],[null],["HIV reactive"],["TWBC 80 x10^9/l","Hb 7.8g/dl","Platelet 20 x10^9/l","Blood film leucocytosis with 80% blast cells"],["Urine dipstick: microscopic haematuria and leukocytes","Hb: 10.4 g/dL","TWBC: 21.3 x 109/L","Potassium: 5.7 mmol/L","Sodium: 136 mmol/L","Urea: 27 mmol/L","Creatinine: 213 µmol/L"],["Hb: 11.9 g/dl","WBC: 17.8 x 109/liter","Neutrophils: 70%","Lymphocytes: 24%","Eosinophils: 2%","Monocytes: 4%","Platelets: 250 x 109/liter","Na+: 139 mmol/L","K+: 4.5 mmol/L","CI-: 94 mmol/L","Ca++: 2.1 mmol/L","PO42-: 1.4 mmol/L","Urea: 6.5 mmol/L","Creatinine: 80 µmol/L","urine culture: growth of E. coli (colony count 105/ml)","urinalysis: cloudy, pH 5.5, protein +, glucose -, ketone -, bilirubin -, pus cells numerous, Red cells 5-10 / High power field, casts present, epithelial cells seen, bacteria seen"],["Hb 12.0 g/dL","TWBC 7 x 10^9/L","Potassium 5.6 mmol/L","Sodium 136 mmol/L","Urea 23 mmol/L","Creatinine 200 µmol/L","PSA 2 ng/ml"],["Hb: 15 g/dl","PCV: 50%","Sodium: 140 mmol/L","Potassium: 4.9 mmol/L","Urea: 20 mmol/L","Creatinine: 110 µmol/L","pH: 7.2","PO2: 120 mmHg","PCO2: 28 mmHg","HCO3-: 16 mmol/L","BE: -6","O2 saturation: 98%"],[null],[null],[null],[null]],[[null],[null],[null],[null],[null],["KUB radiograph: bilateral staghorn calculi, left ureteric stone, and two bladder stones"],[null],["KUB plain radiograph: no abnormality","Ultrasound KUB: Thickened bladder wall","prostate size of 5x5x4 cm","Bilateral dilated pelvicalyeal system with thinning of renal parenchyma"],[null],["hydrocephalus"],[null],["nerve conduction study"],[null]],["NA","beta thalassemia major","breast cancer","HIV infection","acute lymphoblastic leukaemia (ALL)","NA","urinary tract infection","benign prostatic hyperplasia","acute kidney injury","spina bifida cystica (myelomeningocoele) and hydrocephalus","left middle cerebral artery ischemic stroke","Guillain-Barre Syndrome","occupational asthma"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>patient_name<\/th>\n      <th>age<\/th>\n      <th>gender<\/th>\n      <th>symptoms<\/th>\n      <th>pe<\/th>\n      <th>ix_blood<\/th>\n      <th>ix_imaging<\/th>\n      <th>diagnosis<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"patient_name","targets":1},{"name":"age","targets":2},{"name":"gender","targets":3},{"name":"symptoms","targets":4},{"name":"pe","targets":5},{"name":"ix_blood","targets":6},{"name":"ix_imaging","targets":7},{"name":"diagnosis","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-87f7f6fb59d01be41fcf" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-87f7f6fb59d01be41fcf">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13"],["Ramasamy","Danial","Bella","Amy","Ryan","Suhaimi","Fatimah","Ahmed","Najeeb","Danisha","Salmah","Hashim","Asyraf"],[45,0.5,56,35,8,45,27,70,60,0.019,50,17,35],["male","male","female","female","male","male","female","male","male","female","female","male","male"],[["heavy alcohol consumption","smoker","bedridden","right leg atrophy"],["pale","not active"],["breast lump"],["severe lethargy"],["fever","spontaneous gum bleeding"],["severe left loin pain","nausea","vomiting","fever","dysuria","incomplete bladder emptying"],["high grade fever","pain during micturition","feeling of incomplete passing out urine","increased frequency of micturition"],["inability to pass urine","suprapubic discomfort","nocturia","terminal dribbling","frequency","hesitancy","urgency"],["severe diarrhoea","nausea","vomiting","dark yellow urine","oliguria","lethargy"],["midline swelling over the lumbo-sacral spine","lower limbs not moving","increase in head circumference"],["difficulty in talking","difficulty in standing","asymmetrical face"],["weakness of both legs","numbness in legs","tingling sensation in legs","shortness of breath","diarrhoea","mild abdominal cramps"],["severe shortness of breath","cough"]],[["cardiomegaly","hepatomegaly"],[null],[null],[null],["pale","febrile","multiple bruises over upper and lower limbs","generalised lymphadenopathy","hepatomegaly 3 cm below right costal margin","splenomegaly 4 cm below left costal margin"],["alert and conscious","blood pressure 144/86 mmHg","pulse rate 100/min","respiratory rate 18/min","temperature 38 C","dehydrated","left renal punch positive"],["temperature 39C","pulse rate 100 bpm","blood pressure 140/80 mmHg","abdomen soft","mild tenderness at suprapubic region","kidneys not ballotable"],["suprapubic mass","large rubbery mass on the anterior aspect of prostate detected by DRE"],["drowsy","sunken eyes","dry lips","reduced skin turgor","blood pressure 100/60 mmHg","pulse rate 110/min with thready volume","temperature 39C","abdomen soft and non-tender","no masses","100 ml concentrated urine"],["generally active","both lower limbs not moving"],["GCS eye opening spontaneous","unable to produce spontaneous speech","intact speech understanding","BP 180/90 mmHg","pulse rate 110 bpm","right-sided facial weakness with forehead sparing","right upper and lower limb hypertonia","right upper and lower limb muscle strength grade 0","brisk tendon reflexes on the right","up-going plantar response on the right"],["normal vital signs","normal cranial nerves","no upper limb motor abnormalities","bilateral symmetrical weakness of lower limbs (MRC Grade 3-4/5)","loss of all deep tendon reflexes","bilateral upgoing plantar response","high-stepping gait","minimal impairment of light touch in lower limbs","normal anal tone and reflex"],["tachypneic","afebrile","normal vital signs","ronchi over anterior chest wall"]],[[null],[null],[null],["HIV reactive"],["TWBC 80 x10^9/l","Hb 7.8g/dl","Platelet 20 x10^9/l","Blood film leucocytosis with 80% blast cells"],["Urine dipstick: microscopic haematuria and leukocytes","Hb: 10.4 g/dL","TWBC: 21.3 x 109/L","Potassium: 5.7 mmol/L","Sodium: 136 mmol/L","Urea: 27 mmol/L","Creatinine: 213 µmol/L"],["Hb: 11.9 g/dl","WBC: 17.8 x 109/liter","Neutrophils: 70%","Lymphocytes: 24%","Eosinophils: 2%","Monocytes: 4%","Platelets: 250 x 109/liter","Na+: 139 mmol/L","K+: 4.5 mmol/L","CI-: 94 mmol/L","Ca++: 2.1 mmol/L","PO42-: 1.4 mmol/L","Urea: 6.5 mmol/L","Creatinine: 80 µmol/L","urine culture: growth of E. coli (colony count 105/ml)","urinalysis: cloudy, pH 5.5, protein +, glucose -, ketone -, bilirubin -, pus cells numerous, Red cells 5-10 / High power field, casts present, epithelial cells seen, bacteria seen"],["Hb 12.0 g/dL","TWBC 7 x 10^9/L","Potassium 5.6 mmol/L","Sodium 136 mmol/L","Urea 23 mmol/L","Creatinine 200 µmol/L","PSA 2 ng/ml"],["Hb: 15 g/dl","PCV: 50%","Sodium: 140 mmol/L","Potassium: 4.9 mmol/L","Urea: 20 mmol/L","Creatinine: 110 µmol/L","pH: 7.2","PO2: 120 mmHg","PCO2: 28 mmHg","HCO3-: 16 mmol/L","BE: -6","O2 saturation: 98%"],[null],[null],[null],[null]],[[null],[null],[null],[null],[null],["KUB radiograph: bilateral staghorn calculi, left ureteric stone, and two bladder stones"],[null],["KUB plain radiograph: no abnormality","Ultrasound KUB: Thickened bladder wall","prostate size of 5x5x4 cm","Bilateral dilated pelvicalyeal system with thinning of renal parenchyma"],[null],["hydrocephalus"],[null],["nerve conduction study"],[null]],["NA","beta thalassemia major","breast cancer","HIV infection","acute lymphoblastic leukaemia (ALL)","NA","urinary tract infection","benign prostatic hyperplasia","acute kidney injury","spina bifida cystica (myelomeningocoele) and hydrocephalus","left middle cerebral artery ischemic stroke","Guillain-Barre Syndrome","occupational asthma"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>patient_name<\/th>\n      <th>age<\/th>\n      <th>gender<\/th>\n      <th>symptoms<\/th>\n      <th>pe<\/th>\n      <th>ix_blood<\/th>\n      <th>ix_imaging<\/th>\n      <th>diagnosis<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"patient_name","targets":1},{"name":"age","targets":2},{"name":"gender","targets":3},{"name":"symptoms","targets":4},{"name":"pe","targets":5},{"name":"ix_blood","targets":6},{"name":"ix_imaging","targets":7},{"name":"diagnosis","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code># Sample data
 patient_data$age</code></pre>
 <pre><code>#&gt;  [1] 45.000  0.500 56.000 35.000  8.000 45.000 27.000 70.000 60.000  0.019
@@ -4074,20 +4054,20 @@ patient_data$age</code></pre>
 <pre><code>#&gt;  [1] &quot;male&quot;   &quot;male&quot;   &quot;female&quot; &quot;female&quot; &quot;male&quot;   &quot;male&quot;   &quot;female&quot; &quot;male&quot;  
 #&gt;  [9] &quot;male&quot;   &quot;female&quot; &quot;female&quot; &quot;male&quot;   &quot;male&quot;</code></pre>
 <pre class="r"><code>gtsummary::tbl_summary(patient_data, include = c(age, gender))</code></pre>
-<div id="dsduztuqss" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dsduztuqss table {
+<div id="hxwzqepwww" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hxwzqepwww table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#dsduztuqss thead, #dsduztuqss tbody, #dsduztuqss tfoot, #dsduztuqss tr, #dsduztuqss td, #dsduztuqss th {
+#hxwzqepwww thead, #hxwzqepwww tbody, #hxwzqepwww tfoot, #hxwzqepwww tr, #hxwzqepwww td, #hxwzqepwww th {
 border-style: none;
 }
-#dsduztuqss p {
+#hxwzqepwww p {
 margin: 0;
 padding: 0;
 }
-#dsduztuqss .gt_table {
+#hxwzqepwww .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -4112,11 +4092,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#dsduztuqss .gt_caption {
+#hxwzqepwww .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#dsduztuqss .gt_title {
+#hxwzqepwww .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -4127,7 +4107,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#dsduztuqss .gt_subtitle {
+#hxwzqepwww .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -4138,7 +4118,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#dsduztuqss .gt_heading {
+#hxwzqepwww .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -4149,12 +4129,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#dsduztuqss .gt_bottom_border {
+#hxwzqepwww .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#dsduztuqss .gt_col_headings {
+#hxwzqepwww .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4168,7 +4148,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#dsduztuqss .gt_col_heading {
+#hxwzqepwww .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4187,7 +4167,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#dsduztuqss .gt_column_spanner_outer {
+#hxwzqepwww .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4198,13 +4178,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#dsduztuqss .gt_column_spanner_outer:first-child {
+#hxwzqepwww .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#dsduztuqss .gt_column_spanner_outer:last-child {
+#hxwzqepwww .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#dsduztuqss .gt_column_spanner {
+#hxwzqepwww .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -4215,10 +4195,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#dsduztuqss .gt_spanner_row {
+#hxwzqepwww .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#dsduztuqss .gt_group_heading {
+#hxwzqepwww .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4243,7 +4223,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#dsduztuqss .gt_empty_group_heading {
+#hxwzqepwww .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -4257,13 +4237,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#dsduztuqss .gt_from_md > :first-child {
+#hxwzqepwww .gt_from_md > :first-child {
 margin-top: 0;
 }
-#dsduztuqss .gt_from_md > :last-child {
+#hxwzqepwww .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#dsduztuqss .gt_row {
+#hxwzqepwww .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4281,7 +4261,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#dsduztuqss .gt_stub {
+#hxwzqepwww .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4293,7 +4273,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#dsduztuqss .gt_stub_row_group {
+#hxwzqepwww .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -4306,13 +4286,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#dsduztuqss .gt_row_group_first td {
+#hxwzqepwww .gt_row_group_first td {
 border-top-width: 2px;
 }
-#dsduztuqss .gt_row_group_first th {
+#hxwzqepwww .gt_row_group_first th {
 border-top-width: 2px;
 }
-#dsduztuqss .gt_summary_row {
+#hxwzqepwww .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -4321,14 +4301,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#dsduztuqss .gt_first_summary_row {
+#hxwzqepwww .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#dsduztuqss .gt_first_summary_row.thick {
+#hxwzqepwww .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#dsduztuqss .gt_last_summary_row {
+#hxwzqepwww .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4337,7 +4317,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#dsduztuqss .gt_grand_summary_row {
+#hxwzqepwww .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -4346,7 +4326,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#dsduztuqss .gt_first_grand_summary_row {
+#hxwzqepwww .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4355,7 +4335,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#dsduztuqss .gt_last_grand_summary_row_top {
+#hxwzqepwww .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -4364,10 +4344,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#dsduztuqss .gt_striped {
+#hxwzqepwww .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#dsduztuqss .gt_table_body {
+#hxwzqepwww .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -4375,7 +4355,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#dsduztuqss .gt_footnotes {
+#hxwzqepwww .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4388,7 +4368,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#dsduztuqss .gt_footnote {
+#hxwzqepwww .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -4396,7 +4376,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#dsduztuqss .gt_sourcenotes {
+#hxwzqepwww .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -4409,64 +4389,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#dsduztuqss .gt_sourcenote {
+#hxwzqepwww .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#dsduztuqss .gt_left {
+#hxwzqepwww .gt_left {
 text-align: left;
 }
-#dsduztuqss .gt_center {
+#hxwzqepwww .gt_center {
 text-align: center;
 }
-#dsduztuqss .gt_right {
+#hxwzqepwww .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#dsduztuqss .gt_font_normal {
+#hxwzqepwww .gt_font_normal {
 font-weight: normal;
 }
-#dsduztuqss .gt_font_bold {
+#hxwzqepwww .gt_font_bold {
 font-weight: bold;
 }
-#dsduztuqss .gt_font_italic {
+#hxwzqepwww .gt_font_italic {
 font-style: italic;
 }
-#dsduztuqss .gt_super {
+#hxwzqepwww .gt_super {
 font-size: 65%;
 }
-#dsduztuqss .gt_footnote_marks {
+#hxwzqepwww .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#dsduztuqss .gt_asterisk {
+#hxwzqepwww .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#dsduztuqss .gt_indent_1 {
+#hxwzqepwww .gt_indent_1 {
 text-indent: 5px;
 }
-#dsduztuqss .gt_indent_2 {
+#hxwzqepwww .gt_indent_2 {
 text-indent: 10px;
 }
-#dsduztuqss .gt_indent_3 {
+#hxwzqepwww .gt_indent_3 {
 text-indent: 15px;
 }
-#dsduztuqss .gt_indent_4 {
+#hxwzqepwww .gt_indent_4 {
 text-indent: 20px;
 }
-#dsduztuqss .gt_indent_5 {
+#hxwzqepwww .gt_indent_5 {
 text-indent: 25px;
 }
-#dsduztuqss .katex-display {
+#hxwzqepwww .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#dsduztuqss div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hxwzqepwww div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -4580,9 +4560,12 @@ patient_schema &lt;- tidyllm_schema(
 )
 
 # Set output file in JSON Lite format
-output_file = &quot;pt_data_bld.jsonl&quot;
-
-# Get variable ix_blood as text
+output_file = &quot;pt_data_bld.jsonl&quot;</code></pre>
+<p>Clear the output file before starting a fresh run. Otherwise, with
+multiple run, new data will be added to the existing file</p>
+<pre class="r"><code>if (file.exists(output_file)) file.remove(output_file)</code></pre>
+<pre><code>#&gt; [1] TRUE</code></pre>
+<pre class="r"><code># Get variable ix_blood as text
 ix_blood_texts = patient_data_bld$ix_blood |&gt; sapply(paste, collapse = &quot;, &quot;)</code></pre>
 </div>
 <div id="automated-extraction-via-gemini-api" class="section level1" number="5">
@@ -4623,37 +4606,37 @@ with patient demographics, and replace our sentinel numeric placeholder
 <pre class="r"><code># Read the file and combine
 patient_data_bld_sub &lt;- stream_in(file(output_file))</code></pre>
 <pre><code>#&gt; opening file input connection.</code></pre>
-<pre><code>#&gt;  Found 10 records... Imported 10 records. Simplifying...</code></pre>
+<pre><code>#&gt;  Found 5 records... Imported 5 records. Simplifying...</code></pre>
 <pre><code>#&gt; closing file input connection.</code></pre>
-<pre class="r"><code>patient_data_bld1 &lt;- data.frame(patient_data_bld[,1:3], patient_data_bld_sub)</code></pre>
-<pre><code>#&gt; Warning in data.frame(patient_data_bld[, 1:3], patient_data_bld_sub): row names
-#&gt; were found from a short variable and have been discarded</code></pre>
-<pre class="r"><code>str(patient_data_bld1)</code></pre>
-<pre><code>#&gt; &#39;data.frame&#39;:    10 obs. of  9 variables:
+<pre class="r"><code>patient_data_bld1 &lt;- data.frame(patient_data_bld[,1:3], patient_data_bld_sub)
+str(patient_data_bld1)</code></pre>
+<pre><code>#&gt; &#39;data.frame&#39;:    5 obs. of  9 variables:
 #&gt;  $ patient_name: chr  &quot;Ryan&quot; &quot;Suhaimi&quot; &quot;Fatimah&quot; &quot;Ahmed&quot; ...
-#&gt;  $ age         : num  8 45 27 70 60 8 45 27 70 60
+#&gt;  $ age         : num  8 45 27 70 60
 #&gt;  $ gender      : chr  &quot;male&quot; &quot;male&quot; &quot;female&quot; &quot;male&quot; ...
-#&gt;  $ Hb          : num  7.8 10.4 11.9 12 15 7.8 10.4 11.9 12 15
-#&gt;  $ WBC         : num  80 21.3 17.8 7 99999 ...
-#&gt;  $ Sodium      : num  99999 136 139 136 140 ...
-#&gt;  $ Potassium   : num  99999 5.7 4.5 5.6 4.9 ...
-#&gt;  $ Urea        : num  99999 27 6.5 23 20 ...
-#&gt;  $ Creatinine  : num  99999 213 80 200 110 ...</code></pre>
+#&gt;  $ Hb          : num  7.8 10.4 11.9 12 15
+#&gt;  $ WBC         : num  80 21.3 17.8 7 99999
+#&gt;  $ Sodium      : num  99999 136 139 136 140
+#&gt;  $ Potassium   : num  99999 5.7 4.5 5.6 4.9
+#&gt;  $ Urea        : num  99999 27 6.5 23 20
+#&gt;  $ Creatinine  : num  99999 213 80 200 110</code></pre>
+<pre class="r"><code>patient_data_bld1</code></pre>
+<pre><code>#&gt;   patient_name age gender   Hb     WBC Sodium Potassium    Urea Creatinine
+#&gt; 5         Ryan   8   male  7.8    80.0  99999   99999.0 99999.0      99999
+#&gt; 6      Suhaimi  45   male 10.4    21.3    136       5.7    27.0        213
+#&gt; 7      Fatimah  27 female 11.9    17.8    139       4.5     6.5         80
+#&gt; 8        Ahmed  70   male 12.0     7.0    136       5.6    23.0        200
+#&gt; 9       Najeeb  60   male 15.0 99999.0    140       4.9    20.0        110</code></pre>
 <pre class="r"><code># Replace -999 with true NA
 patient_data_bld1 &lt;- patient_data_bld1 |&gt; 
   mutate(across(c(Hb, WBC, Sodium, Potassium, Urea, Creatinine), ~na_if(.x, 99999)))
 patient_data_bld1</code></pre>
-<pre><code>#&gt;    patient_name age gender   Hb  WBC Sodium Potassium Urea Creatinine
-#&gt; 1          Ryan   8   male  7.8 80.0     NA        NA   NA         NA
-#&gt; 2       Suhaimi  45   male 10.4 21.3    136       5.7 27.0        213
-#&gt; 3       Fatimah  27 female 11.9 17.8    139       4.5  6.5         80
-#&gt; 4         Ahmed  70   male 12.0  7.0    136       5.6 23.0        200
-#&gt; 5        Najeeb  60   male 15.0   NA    140       4.9 20.0        110
-#&gt; 6          Ryan   8   male  7.8 80.0     NA        NA   NA         NA
-#&gt; 7       Suhaimi  45   male 10.4 21.3    136       5.7 27.0        213
-#&gt; 8       Fatimah  27 female 11.9 17.8    139       4.5  6.5         80
-#&gt; 9         Ahmed  70   male 12.0  7.0    136       5.6 23.0        200
-#&gt; 10       Najeeb  60   male 15.0   NA    140       4.9 20.0        110</code></pre>
+<pre><code>#&gt;   patient_name age gender   Hb  WBC Sodium Potassium Urea Creatinine
+#&gt; 5         Ryan   8   male  7.8 80.0     NA        NA   NA         NA
+#&gt; 6      Suhaimi  45   male 10.4 21.3    136       5.7 27.0        213
+#&gt; 7      Fatimah  27 female 11.9 17.8    139       4.5  6.5         80
+#&gt; 8        Ahmed  70   male 12.0  7.0    136       5.6 23.0        200
+#&gt; 9       Najeeb  60   male 15.0   NA    140       4.9 20.0        110</code></pre>
 <p>of which we can do other statistical analyses</p>
 </div>
 
