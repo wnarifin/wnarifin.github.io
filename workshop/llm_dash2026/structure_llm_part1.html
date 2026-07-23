@@ -1489,7 +1489,7 @@ Data with R and LLMs – Part 1</h1>
 <h4 class="author">Dr. Wan Nor Arifin and my PA (En. Gemini 3.1 Pro)<br>
 Biostatistics &amp; Research Methodology Unit, Universiti Sains
 Malaysia</h4>
-<h4 class="date">Updated: 21 July 2026</h4>
+<h4 class="date">Updated: 23 July 2026</h4>
 
 </div>
 
@@ -1526,6 +1526,25 @@ simple structured schema where <code>symptoms</code> is defined as a
 standard character array (<code>character[]</code>), feed an
 unstructured text string to the LLM, and examine the minified JSON
 layout returned.</p>
+<p>Define the schema</p>
+<pre class="r"><code>patient_schema &lt;- tidyllm_schema(
+  name = &quot;PatientHistory&quot;,
+  age = &quot;numeric&quot;,
+  gender = &quot;character&quot;,
+  symptoms = &quot;character[]&quot;
+)</code></pre>
+<p>Raw unstructured text</p>
+<pre class="r"><code>raw_text &lt;- &quot;Mrs. Amy, a 35-year-old lady came to the outpatient 
+             clinic with the complaint of fever for three days and cough.&quot;</code></pre>
+<p>Process using a tidy pipeline</p>
+<pre class="r"><code>full_prompt &lt;- paste(&quot;Extract patient note according to the schema.&quot;, raw_text)
+result &lt;- llm_message(full_prompt) |&gt; 
+  chat(
+    .provider = gemini(), # Gemini as LLM provider
+    .model = &quot;gemini-3.1-flash-lite&quot;, # Gemini model
+    .json_schema = patient_schema # Schema
+  )
+result</code></pre>
 <pre><code>#&gt; Message History:
 #&gt; system:
 #&gt; You are a helpful assistant
@@ -1536,15 +1555,12 @@ layout returned.</p>
 #&gt; clinic with the complaint of fever for three days and cough.
 #&gt; --------------------------------------------------------------
 #&gt; assistant:
-#&gt; {
-#&gt; &quot;age&quot;: 35,
-#&gt; &quot;gender&quot;: &quot;female&quot;,
-#&gt; &quot;symptoms&quot;: [
-#&gt; &quot;fever&quot;,
-#&gt; &quot;cough&quot;
-#&gt; ]
-#&gt; }
+#&gt; {&quot;age&quot;: 35, &quot;gender&quot;: &quot;female&quot;, &quot;symptoms&quot;: [&quot;fever&quot;,
+#&gt; &quot;cough&quot;]}
 #&gt; --------------------------------------------------------------</code></pre>
+<p>Structure as JSON</p>
+<pre class="r"><code>json_result &lt;- get_reply(result) |&gt; minify()
+json_result</code></pre>
 <pre><code>#&gt; {&quot;age&quot;:35,&quot;gender&quot;:&quot;female&quot;,&quot;symptoms&quot;:[&quot;fever&quot;,&quot;cough&quot;]}</code></pre>
 </div>
 <div id="refining-the-extraction-setup" class="section level1" number="4">
@@ -1557,6 +1573,50 @@ for <code>gender</code> and structural guidelines for extracting
 variables like <code>patient_name</code>). The outcomes are streamed and
 saved on disk as a single-line JSON Lines (<code>.jsonl</code>) file,
 before being read into a relational data frame.</p>
+<p>Refine the schema</p>
+<pre class="r"><code>patient_schema &lt;- tidyllm_schema(
+  name = &quot;Patient History&quot;,
+  patient_name = field_chr(
+    &quot;Patient&#39;s name&quot;
+  ),
+  age = field_dbl(
+    &quot;Patient&#39;s age in years old.&quot;
+  ),
+  gender = field_fct(
+    &quot;Gender of the patient.&quot;,
+    .levels = c(&quot;male&quot;,&quot;female&quot;)
+  ),
+  symptoms = field_chr(
+    &quot;List of current clinical symptoms reported by the patient.&quot;, 
+    .vector = TRUE
+  )
+)</code></pre>
+<p>Raw unstructured texts</p>
+<pre class="r"><code>raw_notes &lt;- c(&quot;Mrs. Amy, a 35-year-old lady came to the outpatient clinic with the complaint of fever for three days and cough.&quot;,
+               &quot;Danial, a 6-month-old boy was brought to his paediatrician by his mother. His mother noted that he looked pale and 
+               was not active like a baby of his age.&quot;)</code></pre>
+<p>Set output file in JSON Lite format</p>
+<pre class="r"><code>output_file = &quot;pt_data2.jsonl&quot;</code></pre>
+<p>Process using a tidy pipeline</p>
+<pre class="r"><code># Need to iterate as now we have two notes
+for(note in raw_notes) {
+  
+  full_prompt &lt;- paste(&quot;Extract patient&#39;s note according to the schema.&quot;, note)
+  
+  result &lt;- llm_message(full_prompt) |&gt; 
+    chat(
+      .provider = gemini(), # Gemini as LLM provider
+      .model = &quot;gemini-3.1-flash-lite&quot;, # Gemini model
+      .json_schema = patient_schema # Schema
+    )
+  
+  # Extract the textual JSON reply from the LLM message object
+  json_string &lt;- get_reply(result)
+  
+  # Minify and append to .jsonl
+  compact_json &lt;- minify(json_string)
+  cat(compact_json, &quot;\n&quot;, file = output_file, append = TRUE, sep = &quot;&quot;)
+}</code></pre>
 </div>
 <div id="final-dataset-inspection" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Final Dataset
@@ -1567,21 +1627,46 @@ Tidy columns.</p>
 <pre class="r"><code># Read the jsonl file into a data frame
 patient_data &lt;- stream_in(file(&quot;pt_data2.jsonl&quot;))</code></pre>
 <pre><code>#&gt; opening file input connection.</code></pre>
-<pre><code>#&gt;  Found 4 records... Imported 4 records. Simplifying...</code></pre>
+<pre><code>#&gt;  Found 11 records... Imported 11 records. Simplifying...</code></pre>
 <pre><code>#&gt; closing file input connection.</code></pre>
 <pre class="r"><code>glimpse(patient_data)</code></pre>
-<pre><code>#&gt; Rows: 4
-#&gt; Columns: 4
-#&gt; $ patient_name &lt;chr&gt; &quot;Amy&quot;, &quot;Danial&quot;, &quot;Amy&quot;, &quot;Danial&quot;
-#&gt; $ age          &lt;dbl&gt; 35.0, 0.5, 35.0, 0.5
-#&gt; $ gender       &lt;chr&gt; &quot;female&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;
-#&gt; $ symptoms     &lt;list&gt; &lt;&quot;fever&quot;, &quot;cough&quot;&gt;, &lt;&quot;pale&quot;, &quot;not active&quot;&gt;, &lt;&quot;fever&quot;, &quot;co…</code></pre>
+<pre><code>#&gt; Rows: 11
+#&gt; Columns: 10
+#&gt; $ patient_name &lt;chr&gt; &quot;Amy&quot;, &quot;Danial&quot;, &quot;Amy&quot;, &quot;Danial&quot;, NA, NA, NA, NA, NA, &quot;Am…
+#&gt; $ age          &lt;dbl&gt; 35.0, 0.5, 35.0, 0.5, NA, NA, NA, NA, NA, 35.0, 0.5
+#&gt; $ gender       &lt;chr&gt; &quot;female&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;, NA, NA, NA, NA, NA, &quot;…
+#&gt; $ symptoms     &lt;list&gt; &lt;&quot;fever&quot;, &quot;cough&quot;&gt;, &lt;&quot;pale&quot;, &quot;not active&quot;&gt;, &lt;&quot;fever&quot;, &quot;co…
+#&gt; $ Hb           &lt;dbl&gt; NA, NA, NA, NA, 7.8, 10.4, 11.9, 12.0, 15.0, NA, NA
+#&gt; $ WBC          &lt;dbl&gt; NA, NA, NA, NA, 80.0, 21.3, 17.8, 7.0, 0.0, NA, NA
+#&gt; $ Sodium       &lt;int&gt; NA, NA, NA, NA, 0, 136, 139, 136, 140, NA, NA
+#&gt; $ Potassium    &lt;dbl&gt; NA, NA, NA, NA, 0.0, 5.7, 4.5, 5.6, 4.9, NA, NA
+#&gt; $ Urea         &lt;dbl&gt; NA, NA, NA, NA, 0.0, 27.0, 6.5, 23.0, 20.0, NA, NA
+#&gt; $ Creatinine   &lt;int&gt; NA, NA, NA, NA, 0, 213, 80, 200, 110, NA, NA</code></pre>
 <pre class="r"><code>patient_data</code></pre>
-<pre><code>#&gt;   patient_name  age gender         symptoms
-#&gt; 1          Amy 35.0 female     fever, cough
-#&gt; 2       Danial  0.5   male pale, not active
-#&gt; 3          Amy 35.0 female     fever, cough
-#&gt; 4       Danial  0.5   male pale, not active</code></pre>
+<pre><code>#&gt;    patient_name  age gender         symptoms   Hb  WBC Sodium Potassium Urea
+#&gt; 1           Amy 35.0 female     fever, cough   NA   NA     NA        NA   NA
+#&gt; 2        Danial  0.5   male pale, not active   NA   NA     NA        NA   NA
+#&gt; 3           Amy 35.0 female     fever, cough   NA   NA     NA        NA   NA
+#&gt; 4        Danial  0.5   male pale, not active   NA   NA     NA        NA   NA
+#&gt; 5          &lt;NA&gt;   NA   &lt;NA&gt;             NULL  7.8 80.0      0       0.0  0.0
+#&gt; 6          &lt;NA&gt;   NA   &lt;NA&gt;             NULL 10.4 21.3    136       5.7 27.0
+#&gt; 7          &lt;NA&gt;   NA   &lt;NA&gt;             NULL 11.9 17.8    139       4.5  6.5
+#&gt; 8          &lt;NA&gt;   NA   &lt;NA&gt;             NULL 12.0  7.0    136       5.6 23.0
+#&gt; 9          &lt;NA&gt;   NA   &lt;NA&gt;             NULL 15.0  0.0    140       4.9 20.0
+#&gt; 10          Amy 35.0 female     fever, cough   NA   NA     NA        NA   NA
+#&gt; 11       Danial  0.5   male pale, not active   NA   NA     NA        NA   NA
+#&gt;    Creatinine
+#&gt; 1          NA
+#&gt; 2          NA
+#&gt; 3          NA
+#&gt; 4          NA
+#&gt; 5           0
+#&gt; 6         213
+#&gt; 7          80
+#&gt; 8         200
+#&gt; 9         110
+#&gt; 10         NA
+#&gt; 11         NA</code></pre>
 </div>
 
 
