@@ -24,15 +24,16 @@ options(
 options(
   gander.chat = ellmer::chat_ollama(
     base_url = Sys.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
+    # models:
     # model = "gemma4:12b",
-    model = "qwen3.8",
     # model = "gpt-oss:20b",
-    api_args = list(
-      generationConfig = list(
-        thinkingConfig = list(thinkingLevel = "minimal")
-      ),
-      num_ctx = 64000 # must increase ctx window for code
-    )
+    model = "qwen-64k", # qwen3.8 with 64k ctx_window
+    # echo = "none", # gander SHOULD not output thinking, but not working right now
+    params = params(reasoning_effort = "none"), # only works with qwen
+    # must be "minimal", "low", "medium", "high", "xhigh", "ultra", "max", or "none"
+    # api_args = list(
+    #   num_ctx = 8000 # must increase ctx window for code, usually 64k
+    # ) # does not seem to work too, must create specific ctx_window using Modelfile
   )
 )
 
