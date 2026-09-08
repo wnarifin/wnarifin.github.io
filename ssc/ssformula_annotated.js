@@ -3,11 +3,15 @@
 ssformula_annotated.js
 Author: Wan Nor Arifin
 github: github.com/wnarifin/
-updated date: 2026-08-04
+updated date: 2026-08-26
 
 Core sample size calculation formulas
 Annotated for LLM agent use.
 https://wnarifin.github.io/ssc_web.html
+
+Dependencies:
+- https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js
+- https://cdn.jsdelivr.net/npm/decimal.js-light@2.5.1/decimal.min.js (Decimal for high precision math)
 ======================================= 
 */
 
@@ -356,7 +360,8 @@ Inputs:
 - alpha: Significance level.
 - power: Statistical power (e.g., 0.8, 0.9).
 - drop: Dropout rate in percentage.
-- Decimal: Decimal.js constructor for high precision math.
+Dependencies:
+- Decimal: From <https://cdn.jsdelivr.net/npm/decimal.js-light@2.5.1/decimal.min.js> for high precision math.
 Outputs an object with:
 - n: Total required sample size.
 - n_drop: Total required sample size accounting for dropout.
@@ -364,7 +369,7 @@ Outputs an object with:
 References:
 1. Zhou, X. H., Obuchowski, N. A., & McClish, D. K. (2011). Statistical methods in diagnostic medicine (2nd ed.). Hoboken, New Jersey: John Wiley & Sons. [Equation 6.6, 6.8]
 */
-function calc_hx_ssauroc(A0, A, p, alpha, power, drop, Decimal) {
+function calc_hx_ssauroc(A0, A, p, alpha, power, drop) {
     var one = new Decimal(1);
     var z_alpha = jStat.normal.inv(1 - alpha / 2, 0, 1);
     var z_beta = jStat.normal.inv(power, 0, 1);
@@ -385,7 +390,8 @@ Inputs:
 - precision: Desired precision (margin of error).
 - ci: Confidence level in percentage.
 - drop: Dropout rate in percentage.
-- Decimal: Decimal.js constructor for high precision math.
+Dependencies:
+- Decimal: From <https://cdn.jsdelivr.net/npm/decimal.js-light@2.5.1/decimal.min.js> for high precision math.
 Outputs an object with:
 - n: Total required sample size.
 - n_drop: Total required sample size accounting for dropout.
@@ -393,7 +399,7 @@ Outputs an object with:
 References:
 1. Zhou, X. H., Obuchowski, N. A., & McClish, D. K. (2011). Statistical methods in diagnostic medicine (2nd ed.). Hoboken, New Jersey: John Wiley & Sons. [Equation 6.2, 6.6]
 */
-function calc_est_ssauroc(A, p, precision, ci, drop, Decimal) {
+function calc_est_ssauroc(A, p, precision, ci, drop) {
     var one = new Decimal(1);
     var z = jStat.normal.inv(ci + (1 - ci) / 2, 0, 1)
     var R = ((1 - p) / p >= 1) ? (1 - p) / p : p / (one.minus(p));

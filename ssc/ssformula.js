@@ -3,7 +3,7 @@
 ssformula.js
 Author: Wan Nor Arifin
 github: github.com/wnarifin/
-updated date: 2026-08-04
+updated date: 2026-08-26
 
 Core sample size calculation formulas
 https://wnarifin.github.io/ssc_web.html
@@ -171,7 +171,7 @@ function calc_ssanimal(k, r, sacrifice) {
 }
 
 // SSAUROC_Hx
-function calc_hx_ssauroc(A0, A, p, alpha, power, drop, Decimal) {
+function calc_hx_ssauroc(A0, A, p, alpha, power, drop) {
     var one = new Decimal(1);
     var z_alpha = jStat.normal.inv(1 - alpha / 2, 0, 1);
     var z_beta = jStat.normal.inv(power, 0, 1);
@@ -185,7 +185,7 @@ function calc_hx_ssauroc(A0, A, p, alpha, power, drop, Decimal) {
 }
 
 // SSAUROC_Est
-function calc_est_ssauroc(A, p, precision, ci, drop, Decimal) {
+function calc_est_ssauroc(A, p, precision, ci, drop) {
     var one = new Decimal(1);
     var z = jStat.normal.inv(ci + (1 - ci) / 2, 0, 1)
     var R = ((1 - p) / p >= 1) ? (1 - p) / p : p / (one.minus(p));

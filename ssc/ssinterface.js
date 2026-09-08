@@ -3,7 +3,7 @@
 ssinterface.js
 Author: Wan Nor Arifin
 github: github.com/wnarifin/
-updated date: 2026-08-04
+updated date: 2026-09-08
 
 Interface code for html display control
 ===================================== 
@@ -211,7 +211,7 @@ function doCalculate_hx_ssauroc() {
     var power = document.SSAUROC_Hx.power.value / 100;
     var drop = document.SSAUROC_Hx.drop.value;
 
-    var res = calc_hx_ssauroc(A0, A, p, alpha, power, drop, typeof Decimal !== 'undefined' ? Decimal : null);
+    var res = calc_hx_ssauroc(A0, A, p, alpha, power, drop);
 
     document.SSAUROC_Hx.n.value = res.n;
     document.SSAUROC_Hx.n_drop.value = res.n_drop;
@@ -316,11 +316,11 @@ function doCalculate_est_sskappa() {
     document.getElementById("drop_").innerHTML = drop;
 }
 
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("varTbody")) {
         addVariableRow();
     }
-};
+});
 
 function addVariableRow() {
     var tbody = document.getElementById("varTbody");

@@ -6,7 +6,8 @@
 <style type="text/css">@import url("../wnarifin.css");</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
-<script type="text/javascript" src="ssanimal.js"></script>
+<script type="text/javascript" src="ssformula.js"></script>
+<script type="text/javascript" src="ssinterface.js"></script>
 </head>
 
 <body>
@@ -27,8 +28,8 @@
 <input name="sacrifice" type="radio" value="1">Yes
 <input name="sacrifice" type="radio" value="0" checked>No<br />
 <!-- buttons -->
-<label><input type="button" value="Calculate" onClick="doCalculate()">
-<input type="button" value="Reset" onClick="doReset()"></label><br />
+<label><input type="button" value="Calculate" onClick="doCalculate_ssanimal()">
+<input type="button" value="Reset" onClick="doReset_ssanimal()"></label><br />
 <!-- results -->
 <label style="width: 95%"><b><span id="design"></span></b>The sample sizes for <b><span id="k_">2</span></b> group(s), <b><span id="r_">1</span></b> measurement(s) are:</label><br />
 <label>Minimum sample size, n per group = </label><input name="n_min" value="" type="number" readonly><br />

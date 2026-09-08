@@ -6,7 +6,8 @@
 <style type="text/css">@import url("../wnarifin.css");</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
-<script type="text/javascript" src="ss2mean_paired.js"></script>
+<script type="text/javascript" src="ssformula.js"></script>
+<script type="text/javascript" src="ssinterface.js"></script>
 </head>
 
 <body>
@@ -28,7 +29,7 @@
 <label>Power (1 - &beta;): </label><input name="power" type="number" value="80" min="0" max="100" step="5"> %<br />
 <label>Expected dropout rate: </label><input name="drop" type="number" value="10" min="0" max="100" step="5"> %<br />
 <!-- buttons -->
-<label><input type="button" value="Calculate" onClick="doCalculate_hx()">
+<label><input type="button" value="Calculate" onClick="doCalculate_hx_ss2mean_paired()">
 <input type="reset"></label><br />
 <!-- results -->
 <label>Sample size, n = </label><input name="n" value="" type="number" readonly><br />
@@ -44,7 +45,7 @@
 <label>Standard deviation at Post intervention (&sigma;<sub>post</sub>):<br /></label><input name="sd_post" type="number" min="0.0" step="any"><br />
 <label>Correlation between pre and post: </label><input name="r_pre_post" type="number" value="0.5" min="0.0" max="1.0"><br />
 <!-- buttons -->
-<label><input type="button" value="Calculate" onClick="doCalculate_sd()">
+<label><input type="button" value="Calculate" onClick="doCalculate_sd_ss2mean_paired()">
 <input type="reset"></label><br />
 <!-- results -->
 <label>Standard deviation of difference (&sigma;<sub>d</sub>) = </label><input name="sd_d" value="" type="number" readonly>
