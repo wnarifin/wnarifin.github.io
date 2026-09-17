@@ -20,8 +20,8 @@ Calculates sample size for one mean estimation.
 Inputs:
 - sd: Expected standard deviation.
 - precision: Desired precision (margin of error).
-- ci: Confidence level in percentage (e.g., 95 for 95%).
-- drop: Expected dropout rate in percentage (e.g., 10 for 10%).
+- ci: Confidence level as a proportion (e.g., 0.95 for 95%).
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Required sample size.
 - n_drop: Required sample size accounting for dropout.
@@ -42,8 +42,8 @@ Calculates sample size for one proportion estimation.
 Inputs:
 - p: Expected proportion.
 - precision: Desired precision (margin of error) as a proportion.
-- ci: Confidence level in percentage (e.g., 95 for 95%).
-- drop: Expected dropout rate in percentage.
+- ci: Confidence level as a proportion (e.g., 0.95 for 95%).
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Required sample size.
 - n_drop: Required sample size accounting for dropout.
@@ -68,7 +68,7 @@ Inputs:
 - m: Ratio of sample size (Group 0 to Group 1).
 - alpha: Significance level (e.g., 0.05).
 - power: Statistical power (e.g., 0.8, 0.9).
-- drop: Expected dropout rate in percentage.
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n1: Sample size for Group 1.
 - n0: Sample size for Group 0.
@@ -98,7 +98,7 @@ Inputs:
 - diff: Expected mean difference.
 - alpha: Significance level (e.g., 0.05).
 - power: Statistical power (e.g., 0.8, 0.9).
-- drop: Expected dropout rate in percentage.
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Required sample size (pairs).
 - n_drop: Required sample size accounting for dropout.
@@ -140,7 +140,7 @@ Inputs:
 - diff: Expected difference in means.
 - alpha: Significance level (e.g., 0.05).
 - power: Statistical power (e.g., 0.8, 0.9).
-- drop: Expected dropout rate in percentage.
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Sample size per group.
 - n_drop: Sample size per group accounting for dropout.
@@ -256,7 +256,7 @@ Inputs:
 - alpha_hx: Significance level.
 - power_hx: Statistical power (e.g., 0.8, 0.9).
 - item_hx: Number of items in the scale.
-- drop_hx: Expected dropout rate in percentage.
+- drop_hx: Dropout rate in percentage.
 Outputs an object with:
 - n_hx: Required sample size.
 - n_drop_hx: Required sample size accounting for dropout.
@@ -278,7 +278,7 @@ Calculates sample size for estimating Cronbach's alpha with desired precision.
 Inputs:
 - cronbach_est: Expected Cronbach's alpha.
 - precision_est: Desired precision (margin of error).
-- ci_est: Confidence level in percentage.
+- ci_est: Confidence level as a proportion (e.g., 0.95 for 95%).
 - item_est: Number of items in the scale.
 - drop_est: Dropout rate in percentage.
 Outputs an object with:
@@ -388,7 +388,7 @@ Inputs:
 - A: Expected AUROC.
 - p: Prevalence (proportion of disease).
 - precision: Desired precision (margin of error).
-- ci: Confidence level in percentage.
+- ci: Confidence level as a proportion (e.g., 0.95 for 95%).
 - drop: Dropout rate in percentage.
 Dependencies:
 - Decimal: From <https://cdn.jsdelivr.net/npm/decimal.js-light@2.5.1/decimal.min.js> for high precision math.
@@ -440,8 +440,8 @@ Calculates sample size for estimating a correlation coefficient with desired pre
 Inputs:
 - corr: Expected correlation coefficient (r).
 - precision: Desired precision (margin of error).
-- ci: Confidence level in percentage.
-- drop: Expected dropout rate in percentage.
+- ci: Confidence level as a proportion (e.g., 0.95 for 95%).
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Required sample size.
 - n_drop: Required sample size accounting for dropout.
@@ -464,7 +464,7 @@ Inputs:
 - alpha: Significance level.
 - power: Statistical power (e.g., 0.8, 0.9).
 - rater: Number of raters or replicates per subject.
-- drop: Expected dropout rate in percentage.
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Required number of subjects.
 - n_drop: Required number of subjects accounting for dropout.
@@ -488,9 +488,9 @@ Calculates sample size for estimating the intraclass correlation coefficient (IC
 Inputs:
 - icc: Expected ICC.
 - precision: Desired precision (margin of error).
-- ci: Confidence level in percentage.
+- ci: Confidence level as a proportion (e.g., 0.95 for 95%).
 - rater: Number of raters or replicates.
-- drop: Expected dropout rate in percentage.
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Required number of subjects.
 - n_drop: Required number of subjects accounting for dropout.
@@ -514,7 +514,7 @@ Inputs:
 - p: Prevalence of the trait.
 - alpha: Significance level.
 - power: Statistical power (e.g., 0.8, 0.9).
-- drop: Expected dropout rate in percentage.
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Required sample size.
 - n_drop: Required sample size accounting for dropout.
@@ -541,8 +541,8 @@ Inputs:
 - k: Expected Kappa value.
 - precision: Desired precision (margin of error).
 - p: Prevalence of the trait.
-- ci: Confidence level in percentage.
-- drop: Expected dropout rate in percentage.
+- ci: Confidence level as a proportion (e.g., 0.95 for 95%).
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Required sample size.
 - n_drop: Required sample size accounting for dropout.
@@ -568,8 +568,9 @@ Calculates sample size for Logistic Regression based on the rule-of-thumb Events
 Inputs:
 - k: Total independent variables count.
 - epv: Events (outcomes) per variable (EPV).
-- p: Proportion of subjects with the outcome.
-- drop: Expected dropout rate in percentage.
+- p: Proportion of subjects with the outcome (0–1). The formula uses min(p, 1-p)
+  internally to identify the rarer event class (i.e., if p > 0.5, it uses 1-p).
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n1: Number of subjects with outcome.
 - n: Total sample size required.
@@ -594,7 +595,7 @@ Inputs:
 - k: Total independent variables count.
 - epv: Events per variable (EPV).
 - p: Proportion of subjects with the event.
-- drop: Expected dropout rate in percentage.
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n1: Number of subjects with outcome.
 - n: Total sample size required.
@@ -620,7 +621,7 @@ Inputs:
 - p1: Proportion in group 1.
 - alpha: Significance level.
 - power: Statistical power (e.g., 0.8, 0.9).
-- drop: Expected dropout rate in percentage.
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n: Required sample size (pairs).
 - n_drop: Required sample size accounting for dropout.
@@ -646,7 +647,7 @@ Inputs:
 - alpha: Significance level.
 - power: Statistical power (e.g., 0.8, 0.9).
 - df: Degrees of freedom.
-- drop: Expected dropout rate in percentage.
+- drop: Dropout rate in percentage.
 - delta: Noncentrality parameter (computed via ncp() function).
 Outputs an object with:
 - n: Required sample size.
@@ -669,8 +670,8 @@ Inputs:
 - sp: Expected specificity.
 - p: Prevalence of the disease.
 - precision: Desired precision (margin of error).
-- ci: Confidence level in percentage.
-- drop: Expected dropout rate in percentage.
+- ci: Confidence level as a proportion (e.g., 0.95 for 95%).
+- drop: Dropout rate in percentage.
 Outputs an object with:
 - n1: Sample size based on sensitivity.
 - n2: Sample size based on specificity.
