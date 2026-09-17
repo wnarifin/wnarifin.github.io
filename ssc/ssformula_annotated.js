@@ -567,7 +567,7 @@ function calc_est_sskappa(k, precision, p, ci, drop) {
 Calculates sample size for Logistic Regression based on the rule-of-thumb Events Per Variable (EPV).
 Inputs:
 - k: Total independent variables count.
-- epp: Events (outcomes) per variable (EPV).
+- epv: Events (outcomes) per variable (EPV).
 - p: Proportion of subjects with the outcome.
 - drop: Expected dropout rate in percentage.
 Outputs an object with:
@@ -580,9 +580,34 @@ References:
 2. Peduzzi, P., Concato, J., Kemper, E., Holford, T. R., & Feinstein, A. R. (1996). A simulation study of the number of events per variable in logistic regression analysis. Journal of clinical epidemiology, 49(12), 1373-1379.
 3. Vittinghoff, E., & McCulloch, C. E. (2007). Relaxing the rule of ten events per variable in logistic and Cox regression. American journal of epidemiology, 165(6), 710-718.
 */
-function calc_sslogistic(k, epp, p, drop) {
-    var n1 = (k + 1) * epp;
+function calc_sslogistic(k, epv, p, drop) {
+    var n1 = (k + 1) * epv;
     var p_event = p > 0.5 ? 1 - p : p;
+    var n = Math.ceil(n1 / p_event);
+    var n_drop = Math.ceil(n / ((100 - drop) / 100));
+    return { n1: n1, n: n, n_drop: n_drop };
+}
+
+/* SSCox
+Calculates sample size for Cox Proportional Hazards Regression based on the rule-of-thumb Events Per Variable (EPV).
+Inputs:
+- k: Total independent variables count.
+- epv: Events per variable (EPV).
+- p: Proportion of subjects with the event.
+- drop: Expected dropout rate in percentage.
+Outputs an object with:
+- n1: Number of subjects with outcome.
+- n: Total sample size required.
+- n_drop: Total sample size accounting for dropout.
+
+References:
+1. Concato, J., Peduzzi, P., Holford, T. R., & Feinstein, A. R. (1995). Importance of events per independent variable in proportional hazards analysis I. Background, goals, and general strategy. Journal of Clinical Epidemiology, 48(12), 1495–1501.
+2. Peduzzi, P., Concato, J., Feinstein, A. R., & Holford, T. R. (1995). Importance of events per independent variable in proportional hazards regression analysis II. Accuracy and precision of regression estimates. Journal of Clinical Epidemiology, 48(12), 1503–1510.
+3. Vittinghoff, E., & McCulloch, C. E. (2007). Relaxing the rule of ten events per variable in logistic and Cox regression. American journal of epidemiology, 165(6), 710-718.
+*/
+function calc_sscox(k, epv, p, drop) {
+    var n1 = (k + 1) * epv;
+    var p_event = p;
     var n = Math.ceil(n1 / p_event);
     var n_drop = Math.ceil(n / ((100 - drop) / 100));
     return { n1: n1, n: n, n_drop: n_drop };

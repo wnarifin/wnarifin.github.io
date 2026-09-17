@@ -264,9 +264,18 @@ function calc_est_sskappa(k, precision, p, ci, drop) {
 }
 
 // SSLogistic
-function calc_sslogistic(k, epp, p, drop) {
-    var n1 = (k + 1) * epp;
+function calc_sslogistic(k, epv, p, drop) {
+    var n1 = (k + 1) * epv;
     var p_event = p > 0.5 ? 1 - p : p;
+    var n = Math.ceil(n1 / p_event);
+    var n_drop = Math.ceil(n / ((100 - drop) / 100));
+    return { n1: n1, n: n, n_drop: n_drop };
+}
+
+// SSCox
+function calc_sscox(k, epv, p, drop) {
+    var n1 = (k + 1) * epv;
+    var p_event = p;
     var n = Math.ceil(n1 / p_event);
     var n_drop = Math.ceil(n / ((100 - drop) / 100));
     return { n1: n1, n: n, n_drop: n_drop };
